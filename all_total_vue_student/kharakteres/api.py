@@ -35,6 +35,13 @@ from .speech import SpeechService, SpeechRequest, MAX_AUDIO_BYTES, MIME_EXT
 from .safety import ContentGuard, ContentBlocked, SafetyUnavailable, spell_content
 from .retrieval import SpellRetrieval
 from .streaming import event_sink, emit, STAGES, trace_event
+from .workspace import Workspace, active_workspace
+from .auth import (
+    AuthManager, AuthMiddleware, LoginBody, RegisterBody, FindIDBody,
+    ResetPasswordBody, auth_session, login, register, check_id, find_id,
+    reset_password, enter_secret_mode, exit_secret_mode, logout,
+)
+from .accounts import AccountStore
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -47,26 +54,33 @@ async def lifespan(app):
     # An instance-local budget leaves incident/baseline settings unchanged.
     quality.num_predict = int(os.getenv("SPELL_MAX_TOKENS", "1536"))
     store = SpellStore(prepare_spell_storage())
-    app.state.store = store
     app.state.guard = ContentGuard(backend, quality if backend == "ollama" else fast)
-    app.state.retrieval = SpellRetrieval(
+    retrieval = SpellRetrieval(
         store,
         enabled=os.getenv("SPELL_VECTOR_ENABLED", "0" if backend == "fake" else "1")
         == "1",
     )
-    app.state.generator = SpellGenerator(
-        backend, quality, store, guard=app.state.guard, retrieval=app.state.retrieval
-    )
+    generator = SpellGenerator(backend, quality, store, guard=app.state.guard, retrieval=retrieval)
+    app.state.workspace = Workspace(store, retrieval, generator)
+    app.state.store = store
+    app.state.retrieval = retrieval
+    app.state.generator = generator
     app.state.backend = backend
     app.state.fast = fast
     app.state.quality = quality
     app.state.write_lock = asyncio.Lock()
+    app.state.accounts = AccountStore(store.path.parent / "accounts.sqlite")
+    app.state.auth = AuthManager(app, app.state.accounts)
     app.state.speech = SpeechService(
         os.getenv("SPEECH_BACKEND", "disabled" if backend == "fake" else "openai")
     )
     try:
         yield
     finally:
+        for sid, session in list(app.state.auth.sessions.items()):
+            app.state.auth.remove(sid, session)
+        for user_workspace in app.state.auth.workspaces.values():
+            user_workspace.close()
         store.close()
         from langsmith.run_trees import get_cached_client
 
@@ -74,6 +88,56 @@ async def lifespan(app):
 
 
 app = FastAPI(title="Kharakteres · 나만의 마법 주문사전", lifespan=lifespan)
+app.add_middleware(AuthMiddleware)
+
+
+def workspace():
+    return active_workspace.get() or app.state.workspace
+
+
+@app.get("/api/auth/session")
+async def get_auth_session(request: Request):
+    return await auth_session(request)
+
+
+@app.post("/api/auth/login")
+async def post_login(request: Request, data: LoginBody):
+    return await login(request, data)
+
+
+@app.post("/api/auth/register")
+async def post_register(request: Request, data: RegisterBody):
+    return await register(request, data)
+
+
+@app.get("/api/auth/check-id")
+async def get_check_id(request: Request, username: str = Query(min_length=1, max_length=32)):
+    return await check_id(request, username)
+
+
+@app.post("/api/auth/find-id")
+async def post_find_id(request: Request, data: FindIDBody):
+    return await find_id(request, data)
+
+
+@app.post("/api/auth/reset-password")
+async def post_reset_password(request: Request, data: ResetPasswordBody):
+    return await reset_password(request, data)
+
+
+@app.post("/api/auth/secret/enter")
+async def post_secret_enter(request: Request):
+    return await enter_secret_mode(request)
+
+
+@app.post("/api/auth/secret/exit")
+async def post_secret_exit(request: Request):
+    return await exit_secret_mode(request)
+
+
+@app.post("/api/auth/logout")
+async def post_logout(request: Request):
+    return await logout(request)
 
 
 @app.exception_handler(GenerationError)
@@ -128,7 +192,7 @@ async def index():
 
 
 @app.get("/health")
-async def health():
+async def health(request: Request):
     return {
         "status": "ok",
         "service": "kharakteres",
@@ -136,7 +200,9 @@ async def health():
         "llm_backend": app.state.backend,
         "fast_llm": app.state.fast.name,
         "quality_llm": app.state.quality.name,
-        "total_spells": len(app.state.store.all()),
+        "total_spells": (len(workspace().store.all())
+                         if not app.state.auth.required or getattr(request.state, "auth_session", None)
+                         else None),
     }
 
 
@@ -152,15 +218,15 @@ async def catalog():
         "audio": app.state.speech.configuration(),
         "safety": app.state.guard.configuration(),
         "retrieval": {
-            "enabled": app.state.retrieval.enabled,
-            "model": app.state.retrieval.index.model_name,
+            "enabled": workspace().retrieval.enabled,
+            "model": workspace().retrieval.index.model_name,
         },
     }
 
 
 @app.get("/api/spells/export")
 async def export():
-    data = {"format": "kharakteres-lexicon-v1", "spells": app.state.store.all()}
+    data = {"format": "kharakteres-lexicon-v1", "spells": workspace().store.all()}
     return Response(
         json.dumps(data, ensure_ascii=False, indent=2),
         media_type="application/json",
@@ -180,13 +246,14 @@ async def list_spells(
     search_mode: Literal["text", "semantic"] = "text",
 ):
     await app.state.guard.check(q, "search_query")
-    all_spells = app.state.store.all()
+    current = workspace()
+    all_spells = current.store.all()
     items = search(all_spells, q, language, element, school, world)
     retrieval = {"mode": "text", "reason": None}
     actual_mode = "text"
     if search_mode == "semantic" and q.strip():
         eligible = search(all_spells, "", language, element, school, world)
-        items, retrieval = await app.state.retrieval.search(q, eligible, limit=30)
+        items, retrieval = await current.retrieval.search(q, eligible, limit=30)
         actual_mode = "semantic"
         if retrieval["mode"] == "metadata_fallback":
             items = search(eligible, q)
@@ -204,7 +271,7 @@ async def list_spells(
 
 @app.get("/api/spells/{spell_id}")
 async def get_spell(spell_id: str):
-    result = app.state.store.get(spell_id)
+    result = workspace().store.get(spell_id)
     if not result:
         raise HTTPException(404, "주문을 찾을 수 없습니다.")
     return result
@@ -219,8 +286,9 @@ async def create_spell(data: SaveSpell):
     invalidate_changed_evidence(payload)
     if payload.get("language_kind") == "constructed":
         payload["verification"] = await verify_language(payload)
+    current = workspace()
     async with app.state.write_lock:
-        conflicts = review(payload, app.state.store.all())
+        conflicts = review(payload, current.store.all())
         if conflicts["has_high"] and not data.acknowledge_conflicts:
             raise HTTPException(
                 409,
@@ -230,7 +298,7 @@ async def create_spell(data: SaveSpell):
                     "conflicts": conflicts,
                 },
             )
-        return {"spell": app.state.store.create(payload), "conflicts": conflicts}
+        return {"spell": current.store.create(payload), "conflicts": conflicts}
 
 
 @app.put("/api/spells/{spell_id}")
@@ -242,8 +310,9 @@ async def update_spell(spell_id: str, data: UpdateSpell):
     invalidate_changed_evidence(payload)
     if payload.get("language_kind") == "constructed":
         payload["verification"] = await verify_language(payload)
+    current = workspace()
     async with app.state.write_lock:
-        existing = app.state.store.get(spell_id)
+        existing = current.store.get(spell_id)
         if not existing:
             raise HTTPException(404, "주문을 찾을 수 없습니다.")
         if existing["version"] != data.version:
@@ -254,7 +323,7 @@ async def update_spell(spell_id: str, data: UpdateSpell):
                     "message": "다른 화면에서 수정된 주문입니다. 새로 불러온 후 수정하세요.",
                 },
             )
-        conflicts = review(payload, app.state.store.all(), spell_id)
+        conflicts = review(payload, current.store.all(), spell_id)
         if conflicts["has_high"] and not data.acknowledge_conflicts:
             raise HTTPException(
                 409,
@@ -265,25 +334,26 @@ async def update_spell(spell_id: str, data: UpdateSpell):
                 },
             )
         try:
-            result = app.state.store.update(spell_id, payload, data.version)
+            result = current.store.update(spell_id, payload, data.version)
         except StaleVersion:
             raise HTTPException(409, "더 최신 수정본이 있습니다.") from None
-        await asyncio.to_thread(app.state.retrieval.index.forget, spell_id)
+        await asyncio.to_thread(current.retrieval.index.forget, spell_id)
         return {"spell": result, "conflicts": conflicts}
 
 
 @app.delete("/api/spells/{spell_id}", status_code=204)
 async def delete_spell(spell_id: str, version: int = Query(ge=1)):
+    current = workspace()
     async with app.state.write_lock:
         try:
-            deleted = app.state.store.delete(spell_id, version)
+            deleted = current.store.delete(spell_id, version)
         except StaleVersion:
             raise HTTPException(
                 409, "더 최신 수정본이 있습니다. 다시 불러오세요."
             ) from None
         if not deleted:
             raise HTTPException(404, "이미 삭제되었거나 존재하지 않는 주문입니다.")
-    await asyncio.to_thread(app.state.retrieval.index.forget, spell_id)
+    await asyncio.to_thread(current.retrieval.index.forget, spell_id)
     return Response(status_code=204)
 
 
@@ -302,7 +372,7 @@ async def run_generation(data):
     await app.state.guard.check(data.model_dump(), "generation_input")
     await emit("stage", stage="input_safety", label=STAGES["input_safety"], status="completed")
     trace_event("stage_completed", stage="input_safety")
-    result = await app.state.generator.generate(data)
+    result = await workspace().generator.generate(data)
     run = get_current_run_tree()
     return {
         "draft": result["draft"],
@@ -378,9 +448,10 @@ async def generate_stream(data: GenerateRequest, request: Request):
 async def review_spell(data: ReviewRequest):
     await app.state.guard.check(spell_content(data.model_dump()), "review_input")
     payload = data.model_dump(exclude={"exclude_id", "use_ai"})
-    result = review(payload, app.state.store.all(), data.exclude_id)
+    current = workspace()
+    result = review(payload, current.store.all(), data.exclude_id)
     if data.use_ai:
-        ai = await app.state.generator.ai_review(payload, data.exclude_id)
+        ai = await current.generator.ai_review(payload, data.exclude_id)
         result["issues"] += ai["findings"]
         result["ai_review"] = {k: v for k, v in ai.items() if k != "findings"}
     return result
@@ -389,7 +460,7 @@ async def review_spell(data: ReviewRequest):
 @app.post("/api/language")
 async def choose_language(data: LanguageRequest):
     await app.state.guard.check(data.model_dump(), "language_input")
-    result = await app.state.generator.resolve_language(
+    result = await workspace().generator.resolve_language(
         data.message, [m.model_dump() for m in data.history]
     )
     await app.state.guard.check(result.reply, "language_output")

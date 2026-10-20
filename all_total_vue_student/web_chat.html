@@ -1231,12 +1231,22 @@
       .stream-preview { margin: 18px 0; padding: 16px; border: 1px dashed var(--line); border-radius: 12px; }
       .stream-field { white-space: pre-wrap; overflow-wrap: anywhere; margin: 7px 0 16px; }
       .trace-id { overflow-wrap: anywhere; user-select: all; }
+      .login-screen { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: radial-gradient(ellipse at 50% 10%, #213329, #101915 64%); }
+      .login-card { width: min(100%, 440px); padding: 36px; display: flex; flex-direction: column; gap: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; box-shadow: 0 24px 80px #0005; }
+      .login-card h1 { margin: 4px 0; }
+      .login-card .field { margin: 0; }
+      .login-card .input { width: 100%; min-width: 0; }
+      .login-card .form-grid { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+      .login-card .hint, .login-card .review-ok { margin: 0; }
+      .secret-pill { color: var(--gold); border-color: var(--gold); }
+      .secret-banner { border: 1px solid var(--gold); border-radius: 10px; background: #d8b67512; padding: 12px 16px; margin-bottom: 18px; }
+      .auth-links { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 4px; }
     </style>
   </head>
   <body>
     <!-- prettier-ignore: preserve inline Vue expressions for runtime compilation -->
     <div id="app" v-cloak>
-      <div class="app-shell">
+      <div class="app-shell" v-show="authReady && authenticated">
         <aside class="sidebar">
           <button
             class="brand"
@@ -1275,12 +1285,18 @@
               <span>/ {{ view==='library'?'주문사전':'새 주문 만들기' }}</span>
             </div>
             <div class="top-actions">
+              <span v-if="currentUsername" class="pill">{{ currentUsername }}</span>
+              <span v-if="secretMode" class="pill secret-pill">시크릿 모드 · 임시 서고</span>
+              <button v-if="secretMode" class="btn quiet small" @click="toggleSecretMode" :disabled="secretBusy || generating || saving">시크릿 종료 · 기록 폐기</button>
+              <button v-else class="btn quiet small" @click="toggleSecretMode" :disabled="secretBusy || generating || saving">시크릿 모드 시작</button>
+              <button v-if="authRequired" class="text-button" @click="logout">로그아웃</button>
               <button class="text-button" @click="showAbout=true">
                 이 서고에 대하여 ↗</button
               ><span class="pill">{{ backendLabel }}</span>
             </div>
           </header>
           <div class="page">
+            <div v-if="secretMode" class="secret-banner" role="status"><strong>시크릿 서고</strong> · 빈 임시 보관소를 사용 중입니다. 종료하거나 로그아웃하면 여기 저장한 주문과 검색 기록을 폐기합니다.</div>
             <div v-if="globalError" class="error" role="alert">
               {{ globalError }}
               <button class="text-button" @click="refresh">다시 연결</button>
@@ -2059,7 +2075,54 @@
           </p>
         </section>
       </div>
-      <div v-if="toast" class="toast" role="status">{{ toast }}</div>
+      <section v-if="authReady && !authenticated" class="login-screen">
+        <form class="login-card" @submit.prevent="login">
+          <div class="brand-mark" aria-hidden="true">✧</div>
+          <div class="eyebrow">KHARAKTERES · PRIVATE GRIMOIRE</div>
+          <h1>{{ authMode==='register' ? '새 계정 만들기' : authMode==='login' ? '서고에 로그인' : authMode==='find-id' ? '아이디 찾기' : '비밀번호 재설정' }}</h1>
+          <p class="muted">계정마다 독립된 주문사전을 사용합니다.</p>
+          <template v-if="authMode==='login'">
+            <label class="field" for="login-username">아이디</label>
+            <input id="login-username" class="input" v-model="authUsername" autocomplete="username" required maxlength="32" />
+            <label class="field" for="login-password">비밀번호</label>
+            <input id="login-password" class="input" type="password" v-model="authPassword" autocomplete="current-password" required maxlength="256" />
+          </template>
+          <template v-else-if="authMode==='register'">
+            <label class="field" for="register-username">아이디</label>
+            <div class="form-grid"><input id="register-username" class="input" v-model="authUsername" autocomplete="username" required minlength="3" maxlength="32" pattern="[A-Za-z0-9_.-]+" @input="idAvailability=''" /><button class="btn quiet small" type="button" @click="checkUsername" :disabled="authBusy">중복 확인</button></div>
+            <p v-if="idAvailability" class="hint" role="status">{{ idAvailability }}</p>
+            <label class="field" for="register-email">이메일 · 아이디 찾기와 비밀번호 재설정에 사용</label>
+            <input id="register-email" class="input" type="email" v-model="authEmail" autocomplete="email" required maxlength="254" />
+            <label class="field" for="register-password">비밀번호 · 12자 이상</label>
+            <input id="register-password" class="input" type="password" v-model="authPassword" autocomplete="new-password" required minlength="12" maxlength="256" />
+          </template>
+          <template v-else-if="authMode==='find-id'">
+            <label class="field" for="recovery-email-id">가입 이메일</label>
+            <input id="recovery-email-id" class="input" type="email" v-model="authEmail" autocomplete="email" required maxlength="254" />
+          </template>
+          <template v-else>
+            <label class="field" for="recovery-username">아이디</label>
+            <input id="recovery-username" class="input" v-model="authUsername" required maxlength="32" />
+            <label class="field" for="recovery-email-password">가입 이메일</label>
+            <input id="recovery-email-password" class="input" type="email" v-model="authEmail" autocomplete="email" required maxlength="254" />
+            <label class="field" for="new-password">새 비밀번호 · 12자 이상</label>
+            <input id="new-password" class="input" type="password" v-model="authPassword" autocomplete="new-password" required minlength="12" maxlength="256" />
+            <label class="field" for="new-password-confirm">새 비밀번호 확인</label>
+            <input id="new-password-confirm" class="input" type="password" v-model="authPasswordConfirm" autocomplete="new-password" required minlength="12" maxlength="256" />
+          </template>
+          <div v-if="loginError" class="error" role="alert">{{ loginError }}</div>
+          <div v-if="authInfo" class="review-ok" role="status">{{ authInfo }}</div>
+          <button class="btn primary" type="submit" :disabled="authBusy || (authMode==='register' && idAvailability!=='사용할 수 있는 아이디입니다.')">{{ authBusy ? '처리 중…' : authMode==='login' ? '로그인' : authMode==='register' ? '가입하고 서고 열기' : authMode==='find-id' ? '아이디 찾기' : '비밀번호 변경' }}</button>
+          <div class="auth-links">
+            <button v-if="authMode!=='login' && authHasAccounts" class="text-button" type="button" @click="setAuthMode('login')">로그인</button>
+            <button v-if="authMode!=='register'" class="text-button" type="button" @click="setAuthMode('register')">회원가입</button>
+            <button v-if="authMode!=='find-id' && authMode!=='register'" class="text-button" type="button" @click="setAuthMode('find-id')">아이디 찾기</button>
+            <button v-if="authMode!=='reset-password' && authMode!=='register'" class="text-button" type="button" @click="setAuthMode('reset-password')">비밀번호 재설정</button>
+          </div>
+          <p v-if="authMode==='reset-password' || authMode==='find-id'" class="hint">등록된 이메일과 아이디 정보로 확인합니다. 이메일 인증 코드는 발송하지 않는 개인용 복구 기능입니다.</p>
+        </form>
+      </section>
+      <div v-if="toast && authenticated" class="toast" role="status">{{ toast }}</div>
     </div>
     <script src="/assets/vue.global.prod.js"></script>
     <script src="/assets/speech.js"></script>
@@ -2101,7 +2164,23 @@
             toast = ref(""),
             showAbout = ref(false),
             searchInput = ref(null),
-            librarySection = ref(null);
+            librarySection = ref(null),
+            authReady = ref(false),
+            authRequired = ref(true),
+            authenticated = ref(false),
+            currentUsername = ref(''),
+            authMode = ref('login'),
+            authHasAccounts = ref(true),
+            authUsername = ref(''),
+            authEmail = ref(''),
+            authPassword = ref(''),
+            authPasswordConfirm = ref(''),
+            authInfo = ref(''),
+            idAvailability = ref(''),
+            loginError = ref(""),
+            authBusy = ref(false),
+            secretMode = ref(false),
+            secretBusy = ref(false);
           const filters = reactive({
             q: "",
             search_mode: "text",
@@ -2333,6 +2412,87 @@
             } catch (err) {
               globalError.value = err.message;
             }
+          }
+          async function bootstrapAuth() {
+            loginError.value = '';
+            try {
+              const state = await api('/api/auth/session');
+              authRequired.value = state.auth_required;
+              authenticated.value = state.authenticated;
+              currentUsername.value = state.username || '';
+              secretMode.value = state.secret_mode;
+              authHasAccounts.value = state.has_accounts;
+              if (!authenticated.value && !authHasAccounts.value) authMode.value = 'register';
+              if (authenticated.value) await refresh();
+              else authPassword.value = '';
+            } catch (err) {
+              loginError.value = err.message;
+            } finally {
+              authReady.value = true;
+            }
+          }
+          async function login() {
+            if (authBusy.value) return;
+            authBusy.value = true;
+            loginError.value = '';
+            authInfo.value = '';
+            try {
+              if (authMode.value === 'login') {
+                await api('/api/auth/login', {method:'POST', body:JSON.stringify({username:authUsername.value, password:authPassword.value})});
+                window.location.reload();
+              } else if (authMode.value === 'register') {
+                await api('/api/auth/register', {method:'POST', body:JSON.stringify({username:authUsername.value, email:authEmail.value, password:authPassword.value})});
+                window.location.reload();
+              } else if (authMode.value === 'find-id') {
+                const result = await api('/api/auth/find-id', {method:'POST', body:JSON.stringify({email:authEmail.value})});
+                authInfo.value = '가입된 아이디: ' + result.username;
+              } else {
+                if (authPassword.value !== authPasswordConfirm.value) throw {message:'새 비밀번호가 서로 다릅니다.'};
+                await api('/api/auth/reset-password', {method:'POST', body:JSON.stringify({username:authUsername.value, email:authEmail.value, new_password:authPassword.value})});
+                authInfo.value = '비밀번호를 변경했습니다. 새 비밀번호로 로그인해 주세요.';
+                authPassword.value = '';
+                authPasswordConfirm.value = '';
+                authMode.value = 'login';
+              }
+            } catch (err) {
+              loginError.value = err.message;
+            } finally { authBusy.value = false; }
+          }
+          function setAuthMode(mode) {
+            authMode.value = mode;
+            authInfo.value = '';
+            loginError.value = '';
+            authPassword.value = '';
+            authPasswordConfirm.value = '';
+            idAvailability.value = '';
+          }
+          async function checkUsername() {
+            idAvailability.value = '';
+            loginError.value = '';
+            try {
+              const result = await api('/api/auth/check-id?' + new URLSearchParams({username:authUsername.value}));
+              idAvailability.value = result.available ? '사용할 수 있는 아이디입니다.' : '이미 사용 중인 아이디입니다.';
+            } catch (err) { loginError.value = err.message; }
+          }
+          async function toggleSecretMode() {
+            if (secretBusy.value) return;
+            if (secretMode.value && !window.confirm('시크릿 모드에서 작성한 주문과 기록을 모두 폐기할까요?')) return;
+            secretBusy.value = true;
+            loginError.value = '';
+            try {
+              await api(secretMode.value ? '/api/auth/secret/exit' : '/api/auth/secret/enter', {method:'POST'});
+              // Discard in-memory drafts from the previous workspace as well.
+              window.location.reload();
+            } catch (err) {
+              globalError.value = err.message;
+            } finally { secretBusy.value = false; }
+          }
+          async function logout() {
+            if (secretMode.value && !window.confirm('로그아웃하면 시크릿 서고의 주문도 함께 폐기됩니다. 계속할까요?')) return;
+            try {
+              await api('/api/auth/logout', {method:'POST'});
+              window.location.reload();
+            } catch (err) { globalError.value = err.message; }
           }
           watch(
             filters,
@@ -2762,7 +2922,7 @@
             }
           }
           onMounted(() => {
-            refresh();
+            bootstrapAuth();
             window.addEventListener("keydown", onKey);
           });
           onUnmounted(() => {
@@ -2782,6 +2942,10 @@
             total,
             loading,
             globalError,
+            authReady, authRequired, authenticated, currentUsername, authMode, authHasAccounts, authUsername,
+            authEmail, authPassword, authPasswordConfirm, authInfo, idAvailability,
+            loginError, authBusy, secretMode, secretBusy, bootstrapAuth, login,
+            setAuthMode, checkUsername, toggleSecretMode, logout,
             toast,
             showAbout,
             searchInput,

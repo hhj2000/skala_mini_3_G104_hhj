@@ -1,0 +1,38 @@
+services:
+  kharakteres:
+    build: .
+    image: kharakteres:local
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    environment:
+      SERVICE_MODE: spells
+      HOST: 0.0.0.0
+      PORT: 8100
+      SPELL_DB_PATH: /app/data/kharakteres.sqlite
+      FASTEMBED_CACHE_PATH: /models/fastembed
+      LLM_BACKEND: ${LLM_BACKEND:-openai}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      REQUIRE_SESSION_SECRET: "1"
+      KHARAKTERES_SESSION_SECRET: ${KHARAKTERES_SESSION_SECRET:?Set KHARAKTERES_SESSION_SECRET in .env}
+    ports:
+      - "127.0.0.1:${DOCKER_PORT:-8100}:8100"
+    volumes:
+      - kharakteres_data:/app/data
+      - fastembed_models:/models/fastembed
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:size=256m,mode=1777
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8100/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      start_period: 45s
+      retries: 3
+
+volumes:
+  kharakteres_data:
+  fastembed_models:

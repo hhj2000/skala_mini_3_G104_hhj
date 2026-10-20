@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1430" viewBox="0 0 1600 1430" role="img" aria-labelledby="title desc"><title id="title">Kharakteres 현재 서비스 아키텍처</title><desc id="desc">LangGraph 순차 워크플로, SQLite 기반 제한적 RAG, 작가 정의 인공어, 생성 후 웹 어휘 검증, 음성 API와 선택적 AI 검토. 콘텐츠 필터와 다국어 벡터 주문 RAG 적용. 독립 멀티 에이전트는 미도입이며 MCP는 보존된 Base에만 사용.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#52647a"/></marker></defs><style>text{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;fill:#1c2f45} .title{font-size:34px;font-weight:700}.heading{font-size:22px;font-weight:700}.body{font-size:19px}.small{font-size:17px;fill:#52647a}.edge{fill:none;stroke:#52647a;stroke-width:2.3;marker-end:url(#arrow)}</style><rect width="1600" height="1430" fill="#f4f7fa"/><text x="45" y="58" class="title">Kharakteres · 현재 구현 구조</text><text x="45" y="93" class="body">기준: 기본 SERVICE_MODE=spells · 2026-10-20 코드 · 보존된 장애 진단 서비스와 구분</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1430" viewBox="0 0 1600 1430" role="img" aria-labelledby="title desc"><title id="title">Kharakteres 현재 서비스 아키텍처</title><desc id="desc">회원가입·로그인 이후 계정별 주문사전을 사용하는 Kharakteres 구조. FastAPI 인증 미들웨어, 사용자별 SQLite와 벡터 인덱스, 임시 시크릿 서고, LangGraph 순차 생성·검토, STT/TTS, LangSmith 추적, Docker 영구 볼륨을 표시. 시크릿 모드에서는 LangSmith tracing을 끄며 독립 멀티 에이전트와 MCP는 사용하지 않음.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#52647a"/></marker></defs><style>text{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;fill:#1c2f45} .title{font-size:34px;font-weight:700}.heading{font-size:22px;font-weight:700}.body{font-size:19px}.small{font-size:17px;fill:#52647a}.edge{fill:none;stroke:#52647a;stroke-width:2.3;marker-end:url(#arrow)}</style><rect width="1600" height="1430" fill="#f4f7fa"/><text x="45" y="58" class="title">Kharakteres · 현재 구현 구조</text><text x="45" y="93" class="body">현재 기본 경로: SERVICE_MODE=spells · 2026-10-20 · 과거 장애 진단 서비스는 별도 보존</text>
 <rect x="365" y="395" width="790" height="670" rx="22" fill="#eaf1f9" stroke="#8baac8" stroke-dasharray="8 6"/><text x="385" y="385" class="heading">LangGraph · 순차 실행</text>
 <rect x="480" y="140" width="560" height="80" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
 <text x="500" y="173" class="heading">사용자 · Vue 웹 화면</text>
-<text x="500" y="205" class="body">효과·언어·속성·세계관 입력</text>
+<text x="500" y="205" class="body">회원가입·로그인 · 계정별 주문사전</text>
 <rect x="480" y="270" width="560" height="80" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
-<text x="500" y="303" class="heading">FastAPI · 콘텐츠 검사·언어 해석</text>
-<text x="500" y="335" class="body">욕설·혐오·현실 정치 검사 → 요청 검증</text>
+<text x="500" y="303" class="heading">FastAPI · 인증 미들웨어·요청 처리</text>
+<text x="500" y="335" class="body">쿠키 인증 · 계정 격리 · 콘텐츠 필터 · SSE</text>
 <path d="M760 220 V270" class="edge"/>
 <path d="M760 350 V420" class="edge"/>
 <rect x="480" y="420" width="560" height="105" rx="14" fill="#e7f5ee" stroke="#74a78c" stroke-width="2"/>
@@ -13,10 +13,10 @@
 <text x="500" y="485" class="body">같은 세계관에서 코사인 점수 기준 최대 12개</text>
 <text x="500" y="513" class="body">다국어 ONNX 임베딩 · 생성 프롬프트에 맥락 제공</text>
 <rect x="45" y="420" width="290" height="140" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
-<text x="65" y="453" class="heading">SQLite · 영구 주문사전</text>
-<text x="65" y="485" class="body">저장된 주문 + 수정 버전</text>
-<text x="65" y="513" class="body">별도 SQLite 벡터 캐시</text>
-<text x="65" y="541" class="body">키워드 / 의미 검색 선택</text>
+<text x="65" y="453" class="heading">SQLite · 계정별 저장</text>
+<text x="65" y="485" class="body">accounts.sqlite · 계정 해시</text>
+<text x="65" y="513" class="body">users/&lt;id&gt;/spells.sqlite · 주문</text>
+<text x="65" y="541" class="body">계정별 벡터 인덱스</text>
 <path d="M335 480 H480" class="edge"/>
 <text x="375" y="468" class="small">조회</text>
 <path d="M760 525 V550 H560 V580" class="edge"/>
@@ -61,35 +61,35 @@
 <text x="65" y="773" class="body">코사인 유사도 → 생성 맥락</text>
 <text x="65" y="801" class="body">수정 재임베딩·삭제 반영</text>
 <text x="65" y="829" class="body">준비 실패는 대체 조회 고지</text>
-<text x="65" y="857" class="body">웹 어휘 조회는 생성 이후의</text>
-<text x="65" y="885" class="body">근거 확인 단계로 분리</text>
+<text x="65" y="857" class="body">시크릿 모드는 임시 SQLite를 쓰고</text>
+<text x="65" y="885" class="body">종료 시 주문·벡터 데이터 폐기</text>
 <rect x="1190" y="140" width="360" height="150" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
 <text x="1210" y="173" class="heading">음성 입력 · STT</text>
-<text x="1210" y="205" class="body">마이크 / 파일 → whisper-1</text>
-<text x="1210" y="233" class="body">전사 결과 확인·수정</text>
-<text x="1210" y="261" class="body">사용자가 고른 입력 칸에 적용</text>
+<text x="1210" y="205" class="body">마이크·파일 → Whisper</text>
+<text x="1210" y="233" class="body">전사 내용 확인·수정</text>
+<text x="1210" y="261" class="body">선택한 입력 칸에 적용</text>
 <path d="M1190 185 H1040" class="edge"/>
 <text x="1070" y="170" class="small">선택 입력</text>
 <rect x="1190" y="420" width="360" height="160" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
 <text x="1210" y="453" class="heading">음성 출력 · TTS</text>
-<text x="1210" y="485" class="body">선택 구절 / 전체 기록 읽기</text>
-<text x="1210" y="513" class="body">gpt-4o-mini-tts · 음색·속도</text>
-<text x="1210" y="541" class="body">인공어는 작가의 발음 표기 사용</text>
-<text x="1210" y="569" class="body">재생 및 WAV 다운로드</text>
+<text x="1210" y="485" class="body">구절·항목·전체 읽기</text>
+<text x="1210" y="513" class="body">음색·속도 선택 · WAV 저장</text>
+<text x="1210" y="541" class="body">인공어는 지정 발음 사용</text>
+<text x="1210" y="569" class="body">미리 듣기·파일 저장</text>
 <path d="M1040 1160 H1168 V500 H1190" class="edge"/>
 <rect x="1190" y="675" width="360" height="180" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2" stroke-dasharray="7 5"/>
 <text x="1210" y="708" class="heading">선택적 AI 설정 검토</text>
-<text x="1210" y="740" class="body">사용자가 검토 버튼을 눌러 실행</text>
-<text x="1210" y="768" class="body">같은 세계관의 관련 주문 최대 30개</text>
-<text x="1210" y="796" class="body">설정 충돌 후보와 이유 제시</text>
-<text x="1210" y="824" class="body">생성 때와 동일한 LLM 사용</text>
+<text x="1210" y="740" class="body">사용자 선택 후 실행</text>
+<text x="1210" y="768" class="body">같은 세계관 주문 비교</text>
+<text x="1210" y="796" class="body">충돌 후보와 근거 제시</text>
+<text x="1210" y="824" class="body">생성 모델과 동일한 LLM</text>
 <path d="M1168 760 H1190" class="edge" stroke-dasharray="7 6"/>
 <rect x="1190" y="970" width="360" height="165" rx="14" fill="#eef0fa" stroke="#a3a6c8" stroke-width="2"/>
 <text x="1210" y="1003" class="heading">LangSmith · 실행 관측</text>
-<text x="1210" y="1035" class="body">언어 해석·생성·웹 조회 추적</text>
-<text x="1210" y="1063" class="body">STT/TTS 실행 메타데이터 추적</text>
-<text x="1210" y="1091" class="body">콘텐츠 차단 기능은 수행하지 않음</text>
-<rect x="45" y="1300" width="1510" height="90" rx="14" fill="#fff0ef" stroke="#d69691" stroke-width="2"/>
-<text x="65" y="1333" class="heading">운영 정책과 보류 항목</text>
-<text x="65" y="1365" class="body">Multi-Agent 미도입 · MCP는 Base에만 사용 · 생성·직접 저장·STT 결과·TTS 입력 콘텐츠 검사 · 완전한 탐지 보장은 아님</text>
+<text x="1210" y="1035" class="body">생성·검색·검사 추적</text>
+<text x="1210" y="1063" class="body">STT/TTS 메타데이터 추적</text>
+<text x="1210" y="1091" class="body">시크릿 모드 요청은 추적 제외</text>
+<rect x="45" y="1285" width="1510" height="115" rx="14" fill="#fff0ef" stroke="#d69691" stroke-width="2"/>
+<text x="65" y="1318" class="heading">로컬·Docker 배포와 운영 경계</text>
+<text x="65" y="1350" class="body">로컬·Docker 공통 회원가입/로그인 · 계정과 사용자별 SQLite는 영구 저장 볼륨에 보존</text><text x="65" y="1378" class="body">시크릿 종료 시 임시 DB 폐기 · Multi-Agent/MCP 미도입 · 이메일 인증 없는 복구는 개인용</text>
 </svg>

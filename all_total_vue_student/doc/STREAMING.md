@@ -72,6 +72,8 @@ fake와 인공 언어 경로에는 생성 모델 토큰이 없으므로 단계�
 
 LangSmith 추적을 활성화하면 `kharakteres.generate_stream_request` 아래의 그래프·모델·검사를 확인할 수 있습니다. 화면의 Run ID로 찾고 `spell.language_model`의 `new_token` 이벤트를 확인합니다. 이벤트는 SDK의 전송·반영 지연이 있을 수 있으며 LangSmith 화면이 브라우저와 동시에 갱신된다고 보장하지 않습니다. 추적 비활성 시 Run ID가 없고 SSE 자체는 정상 동작합니다.
 
+시크릿 모드 요청은 LangSmith tracing을 비활성화하므로 Run ID가 생성되지 않습니다. 시크릿 서고의 내용이 LangSmith 실행 기록에 남지 않게 하기 위한 동작이며, 요청에 사용된 외부 모델 제공자에는 별도 전송될 수 있습니다.
+
 ## 검증
 
 ```bash
