@@ -1,0 +1,20 @@
+[
+  {
+    "backend": "ollama",
+    "startup_seconds": 3.07,
+    "diagnostic_seconds": 25.72,
+    "validation_ok": true,
+    "evidence_count": 3,
+    "warnings": [],
+    "reply": "[확인된 사실 · 시뮬레이션 모니터링]\n[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow\n\n[참고 문서 · 관측 사실과 구분]\n[E2] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)\n[E3] payments-service → docs://services/payments-service\n\n[AI 해석·권장 점검 · 원인 미확정]\n1) 미확정 원인 가설: payments-service의 CPU 급증은 최근 배포 또는 특정 요청 패턴(예: 반복 호출, 배치 작업 중복 실행) 때문일 수 있으며, 또는 인스턴스의 부하 분산 문제로 인한 것으로 추정된다.  \n\n2) 권장 점검 절차:  \n1) 최근 배포/트래픽 변화 시점을 확인하고, 로그에서 반복 요청 패턴을 분석한다.  \n2) CPU 90% 이상 지속 시 오토스케일링 그룹에서 인스턴스를 1대 추가해 부하를 분산한다.  \n3) 급증이 특정 배포 직후 발생했다면 해당 배포를 롤백하고, 원인 분석을 별도로 진행한다.  \n4) 정상화 후 프로파일링을 통해 핫스팟 코드를 식별하고, 최적화 작업을 등록한다.  \n\n3) 수치 참고: CPU 91.0%, 메모리 55.0%, 알림 2건.\n\n[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다."
+  },
+  {
+    "backend": "openai",
+    "startup_seconds": 5.33,
+    "diagnostic_seconds": 6.07,
+    "validation_ok": true,
+    "evidence_count": 3,
+    "warnings": [],
+    "reply": "[확인된 사실 · 시뮬레이션 모니터링]\n[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow\n\n[참고 문서 · 관측 사실과 구분]\n[E2] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)\n[E3] payments-service → docs://services/payments-service\n\n[AI 해석·권장 점검 · 원인 미확정]\n1) 현재 payments-service의 CPU 사용률이 91.0%로 급증하여 상태가 저하되었습니다. 이는 설정된 임계치인 80%를 초과한 상태입니다. 메모리 사용률은 55.0%로 상대적으로 안정적입니다. 알림으로는 CPU 사용률 초과와 특정 인스턴스의 응답 지연이 보고되었습니다.\n\n2) 미확정 원인 가설로는 최근 배포나 트래픽 변화, 반복 호출 또는 배치 작업 중복 실행과 같은 특정 요청 패턴이 있을 수 있습니다. 이를 확인하기 위해 최근 로그를 분석하여 이러한 패턴이 있는지 점검해야 합니다.\n\n3) 권장 점검 절차는 다음과 같습니다:\n   - get_monitoring_status를 사용하여 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인합니다.\n   - 최근 로그를 분석하여 반복 호출이나 배치 작업 중복 실행 같은 특정 요청 패턴이 있는지 확인합니다.\n   - CPU 사용률이 90%를 넘고 지속된다면, 오토스케일링 그룹에서 인스턴스를 추가하여 부하를 분산합니다.\n   - 급증이 특정 배포 직후 시작되었다면, 직전 배포를 롤백하고 원인 분석을 별도로 진행합니다.\n   - 서비스가 정상화된 후, 프로파일링 결과를 바탕으로 핫스팟 코드를 식별하고 최적화 작업을 등록합니다.\n\n[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다."
+  }
+]

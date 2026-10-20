@@ -1,0 +1,43 @@
+{
+  "status": 200,
+  "seconds": 19.03,
+  "response": {
+    "draft": {
+      "name": "불꽃의 보호",
+      "incantation": "불꽃이 그를 감싸고, 그의 몸을 지켜라.",
+      "language": "ko",
+      "elements": [
+        "fire"
+      ],
+      "school": "defense",
+      "romanization": "",
+      "literal_meaning": "불꽃이 그를 감싸고, 그의 몸을 지켜라",
+      "effect": "주문이 발동되면, 목표에 불꽃의 막을 생성하여 물리적 공격을 방어한다.",
+      "target": "",
+      "limitations": "물에 닿으면 해제된다.\n이 주문은 물에 닿으면 즉시 해제된다.",
+      "world": "나의 세계관",
+      "notes": "서정적인 어조로 불꽃의 따뜻함과 보호의 의미를 강조한다.",
+      "tags": [
+        "fire",
+        "defense",
+        "protection"
+      ],
+      "language_status": "ai_unverified",
+      "origin": "ai"
+    },
+    "conflicts": {
+      "issues": [],
+      "has_high": false,
+      "scope": "같은 세계관의 저장된 주문만 비교",
+      "note": "중복·유사성은 오류 확정이 아닙니다. 의도한 변형은 검토 후 저장할 수 있습니다."
+    },
+    "steps": [
+      "세계관과 기존 주문 확인",
+      "언어·속성·효과에 맞춘 창작 초안 생성",
+      "저장된 주문과 이름·주문문·효과 비교"
+    ],
+    "model": "ollama:qwen3:8b",
+    "langsmith_run_id": null,
+    "warning": "AI 창작 주문입니다. 특히 고전 언어의 문법·발음·의미는 별도 검수가 필요합니다. 웹 출처를 확인한 번역이 아닙니다."
+  }
+}

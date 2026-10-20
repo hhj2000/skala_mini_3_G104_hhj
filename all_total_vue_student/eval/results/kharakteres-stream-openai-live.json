@@ -1,0 +1,80 @@
+{
+  "backend": "openai",
+  "model": "openai:gpt-4o",
+  "token_chunks": 251,
+  "first_token_seconds": 1.798,
+  "done_seconds": 7.296,
+  "langsmith_run_id": "01a15901-a12e-7583-8546-f05020cbd106",
+  "events": [
+    {
+      "event": "accepted",
+      "time": 0.053
+    },
+    {
+      "event": "stage",
+      "time": 0.056,
+      "stage": "input_safety",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 0.925,
+      "stage": "input_safety",
+      "status": "completed"
+    },
+    {
+      "event": "stage",
+      "time": 0.928,
+      "stage": "retrieve_lexicon",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 0.93,
+      "stage": "retrieve_lexicon",
+      "status": "completed"
+    },
+    {
+      "event": "stage",
+      "time": 0.931,
+      "stage": "compose_spell",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 4.926,
+      "stage": "compose_spell",
+      "status": "completed"
+    },
+    {
+      "event": "stage",
+      "time": 4.935,
+      "stage": "verify_language_sources",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 7.289,
+      "stage": "verify_language_sources",
+      "status": "completed"
+    },
+    {
+      "event": "stage",
+      "time": 7.291,
+      "stage": "review_consistency",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 7.294,
+      "stage": "review_consistency",
+      "status": "completed"
+    },
+    {
+      "event": "done",
+      "time": 7.296
+    }
+  ],
+  "verification_status": "references_found",
+  "langsmith_token_events": 251
+}

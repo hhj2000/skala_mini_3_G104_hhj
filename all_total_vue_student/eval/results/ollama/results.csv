@@ -1,0 +1,11 @@
+backend,case_id,clarified,cost_usd_estimate,error,langsmith_run_id,latency_s,mode,repeat,retry_count,runbook_precision,runbook_recall,runbooks,target_correct,targets,validation_attempts
+ollama,cpu,False,0.004637,,1499a80a-c99d-4e2f-a0f2-813e6fa9dfab,50.4312,baseline,0,0,1.0,1.0,['cpu-spike'],1,['payments-service'],1
+ollama,cpu,False,0.01078,,c71d9cb7-709c-4644-9541-d3f22f4f682d,124.0059,improved,0,0,1.0,1.0,['cpu-spike'],1,['payments-service'],1
+ollama,multi-cpu-memory,False,0.006948,,027712d0-37e6-4b35-bcb9-bcf5f6f2e278,76.3485,baseline,0,0,1.0,0.5,['cpu-spike'],0,['payments-service'],1
+ollama,multi-cpu-memory,False,0.009739,,03bdd0af-01a8-4749-adc3-72ad77660b94,76.5704,improved,0,0,1.0,1.0,"['cpu-spike', 'memory-leak']",1,"['cache-service', 'payments-service']",1
+ollama,missing,False,0.005686,,a44a8d5a-95ee-40e4-adae-8a4f1bf904fd,54.743,baseline,0,0,0.0,0.0,['high-latency'],0,['auth-service'],1
+ollama,missing,True,0.0,,55fea90f-b32f-4382-a2c3-e49c22bf7a66,0.008,improved,0,0,1.0,1.0,[],1,[],0
+ollama,unknown,False,0.005598,,c02863ff-796f-4f78-8de2-be7c07ea8e32,50.4272,baseline,0,0,0.0,0.0,['high-latency'],0,['auth-service'],1
+ollama,unknown,True,0.0,,67fa3ed6-d733-4646-b1d3-c74a81e12fe0,0.0043,improved,0,0,1.0,1.0,[],1,[],0
+ollama,greeting,False,6.6e-05,,3608a5f1-f250-44d5-87af-a768f13c360e,2.6766,baseline,0,0,1.0,1.0,[],1,[],0
+ollama,greeting,False,2.9e-05,,3ad6cada-7ac2-4532-a4a7-46f49ef5aefe,0.954,improved,0,0,1.0,1.0,[],1,[],0

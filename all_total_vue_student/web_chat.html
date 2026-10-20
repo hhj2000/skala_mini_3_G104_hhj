@@ -1,0 +1,2865 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101918" />
+    <title>Kharakteres — 나만의 마법 주문사전</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23101918'/%3E%3Ctext y='.9em' x='12' font-size='85' fill='%23d8b675'%3E✧%3C/text%3E%3C/svg%3E"
+    />
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+      fieldset {
+        border: 0;
+        padding: 0;
+        margin: 0;
+        min-width: 0;
+      }
+      :root {
+        color-scheme: dark;
+        --bg: #101918;
+        --panel: #16201e;
+        --line: #34413b;
+        --text: #eee9dc;
+        --muted: #9daaa0;
+        --gold: #d8b675;
+        --green: #b5c9b6;
+        --red: #edaaa2;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+          "Malgun Gothic", sans-serif;
+        font-size: 14px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:disabled {
+        cursor: wait;
+        opacity: 0.5;
+      }
+      a {
+        color: inherit;
+      }
+      button,
+      a,
+      input,
+      select,
+      textarea {
+        outline-offset: 4px;
+      }
+      button:focus-visible,
+      a:focus-visible {
+        outline: 2px solid var(--gold);
+      }
+      button {
+        color: inherit;
+      }
+      button svg {
+        width: 17px;
+        height: 17px;
+      }
+      button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .serif {
+        font-family: Georgia, "Times New Roman", serif;
+      }
+      .app-shell {
+        display: grid;
+        grid-template-columns: 244px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+      .sidebar {
+        padding: 35px 22px 24px;
+        border-right: 1px solid var(--line);
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: #111b18;
+      }
+      .brand {
+        border: none;
+        background: none;
+        text-align: left;
+        justify-content: flex-start;
+        padding: 0 8px;
+      }
+      .brand-mark {
+        font-size: 42px;
+        color: var(--gold);
+        font-weight: normal;
+      }
+      .brand-name {
+        font:
+          24px Georgia,
+          serif;
+        letter-spacing: 0.5px;
+      }
+      .brand-sub {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 3px;
+        color: var(--muted);
+        margin-top: 5px;
+      }
+      .nav {
+        margin-top: 48px;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+      }
+      .nav button {
+        justify-content: flex-start;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 13px 14px;
+        color: var(--muted);
+        text-align: left;
+      }
+      .nav button.active {
+        color: var(--gold);
+        background: #243028;
+        border-color: #42503c;
+      }
+      .nav .icon {
+        font-size: 20px;
+        width: 24px;
+      }
+      .side-label {
+        font-size: 10px;
+        color: #849386;
+        letter-spacing: 2px;
+        margin: 32px 14px 14px;
+      }
+      .side-note {
+        font:
+          italic 16px/1.7 Georgia,
+          serif;
+        color: #aeb8a5;
+        margin: 0 14px;
+      }
+      .side-bottom {
+        margin-top: auto;
+        padding: 20px 12px 0;
+      }
+      .status-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #99bb97;
+        border-radius: 50%;
+        margin-right: 7px;
+      }
+      .side-bottom p {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+      .workspace {
+        min-width: 0;
+      }
+      .topbar {
+        height: 81px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 48px;
+        border-bottom: 1px solid var(--line);
+        gap: 14px;
+      }
+      .breadcrumb {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .breadcrumb span {
+        color: var(--text);
+        margin-left: 8px;
+      }
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .pill {
+        border: 1px solid #4b5847;
+        color: var(--green);
+        border-radius: 30px;
+        padding: 6px 10px;
+        font-size: 10px;
+        letter-spacing: 0.7px;
+        white-space: nowrap;
+      }
+      .text-button {
+        border: none;
+        background: none;
+        padding: 5px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .page {
+        max-width: 1440px;
+        margin: auto;
+        padding: 43px 48px 52px;
+      }
+      .eyebrow {
+        font-size: 10px;
+        letter-spacing: 2.7px;
+        color: var(--gold);
+        text-transform: uppercase;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 220px;
+        align-items: center;
+        gap: 20px;
+        border-bottom: 1px solid var(--line);
+        padding: 14px 0 37px;
+      }
+      .hero h1 {
+        font-family: Georgia, "AppleMyungjo", serif;
+        font-weight: 400;
+        font-size: clamp(30px, 3.5vw, 49px);
+        letter-spacing: -1.8px;
+        line-height: 1.35;
+        margin: 17px 0;
+        color: #f0e9d8;
+      }
+      .hero h1 em {
+        font-style: normal;
+        color: var(--gold);
+      }
+      .hero p {
+        color: var(--muted);
+        line-height: 1.9;
+        max-width: 590px;
+        font-size: 13px;
+        margin: 0;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 11px;
+        margin-top: 25px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #202c26;
+        color: var(--text);
+        padding: 11px 17px;
+        font-size: 12px;
+        min-height: 40px;
+      }
+      .btn.primary {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #172019;
+        font-weight: 650;
+      }
+      .btn.quiet {
+        background: transparent;
+      }
+      .btn.danger {
+        color: #efb2a9;
+        border-color: #77524a;
+        background: #352722;
+      }
+      .btn.small {
+        padding: 7px 12px;
+        min-height: 32px;
+        font-size: 11px;
+      }
+      .seal {
+        position: relative;
+        width: 190px;
+        height: 190px;
+        display: grid;
+        place-items: center;
+        justify-self: center;
+        color: var(--gold);
+      }
+      .seal::before,
+      .seal::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border: 1px solid #6d6747;
+        border-radius: 50%;
+      }
+      .seal::after {
+        inset: 14px;
+        border-color: #414c3c;
+      }
+      .seal-diamond {
+        width: 112px;
+        height: 112px;
+        position: absolute;
+        border: 1px solid #7b704b;
+        transform: rotate(45deg);
+      }
+      .seal-core {
+        font:
+          80px Georgia,
+          serif;
+        opacity: 0.85;
+        z-index: 1;
+      }
+      .seal-text {
+        position: absolute;
+        bottom: 26px;
+        font:
+          8px Georgia,
+          serif;
+        letter-spacing: 3px;
+        color: #9e9c76;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        padding: 24px 0 29px;
+      }
+      .stat {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+      .stat-icon {
+        color: var(--gold);
+        font-size: 23px;
+        opacity: 0.75;
+      }
+      .stat strong {
+        display: block;
+        font:
+          25px Georgia,
+          serif;
+        font-weight: 400;
+      }
+      .stat small {
+        font-size: 11px;
+        color: var(--muted);
+        display: block;
+        margin-top: 4px;
+      }
+      .section-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin: 19px 0 19px;
+        gap: 12px;
+      }
+      .section-head h2 {
+        font-size: 18px;
+        font-weight: 500;
+        margin: 0 0 7px;
+        letter-spacing: -0.5px;
+      }
+      .section-head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .search-toolbar {
+        display: grid;
+        grid-template-columns: minmax(210px, 1fr) 135px 135px 135px;
+        gap: 9px;
+        margin-bottom: 22px;
+      }
+      .field-shell {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding-left: 13px;
+        color: var(--muted);
+        background: #141f1a;
+      }
+      .field-shell input {
+        border: 0;
+        background: transparent;
+      }
+      .input,
+      select,
+      textarea {
+        width: 100%;
+        background: #121d18;
+        border: 1px solid #415045;
+        color: var(--text);
+        padding: 11px 12px;
+        border-radius: 6px;
+        min-height: 42px;
+        font-size: 12px;
+      }
+      textarea {
+        resize: vertical;
+        line-height: 1.8;
+        min-height: 105px;
+      }
+      .input::placeholder,
+      textarea::placeholder {
+        color: #748276;
+      }
+      select {
+        cursor: pointer;
+      }
+      .spell-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .spell-card {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: linear-gradient(150deg, #1c2820, #15201c);
+        padding: 22px;
+        min-height: 275px;
+        text-align: left;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+      .spell-card:hover {
+        border-color: #9a8758;
+        transform: translateY(-3px);
+      }
+      .card-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 19px;
+      }
+      .card-sigil {
+        width: 45px;
+        height: 45px;
+        display: grid;
+        place-items: center;
+        border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+        border-radius: 50%;
+        font:
+          27px Georgia,
+          serif;
+        color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 8%, transparent);
+      }
+      .lang-badge {
+        color: #b9c6b5;
+        font-size: 10px;
+        border: 1px solid #445044;
+        padding: 4px 8px;
+        border-radius: 4px;
+      }
+      .spell-card h3 {
+        font-size: 17px;
+        font-weight: 500;
+        margin: 0 0 10px;
+        align-self: flex-start;
+      }
+      .card-incantation {
+        font:
+          italic 15px/1.6 Georgia,
+          "AppleMyungjo",
+          serif;
+        color: #d8c49a;
+        margin: 0 0 15px;
+        width: 100%;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .card-effect {
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.8;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin: 0 0 20px;
+        width: 100%;
+      }
+      .card-bottom {
+        margin-top: auto;
+        border-top: 1px solid #354235;
+        width: 100%;
+        padding-top: 13px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-size: 10px;
+        color: #9eac9c;
+      }
+      .tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .tag {
+        display: inline-block;
+        border-radius: 4px;
+        padding: 4px 7px;
+        font-size: 10px;
+        background: #28362a;
+        color: #c4cbb5;
+        border: 1px solid #3c4a39;
+      }
+      .tag.element {
+        color: var(--accent, var(--gold));
+        border-color: color-mix(
+          in srgb,
+          var(--accent, var(--gold)) 35%,
+          transparent
+        );
+        background: color-mix(
+          in srgb,
+          var(--accent, var(--gold)) 7%,
+          transparent
+        );
+      }
+      .empty {
+        padding: 40px 22px;
+        border: 1px dashed #47543f;
+        border-radius: 9px;
+        text-align: center;
+        background: radial-gradient(
+          ellipse at 50% 0,
+          #29342455,
+          transparent 70%
+        );
+      }
+      .empty-glyph {
+        font-size: 39px;
+        color: var(--gold);
+      }
+      .empty h3 {
+        font-weight: 500;
+        font-size: 18px;
+        margin: 12px 0;
+      }
+      .empty p {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.9;
+        max-width: 480px;
+        margin: 0 auto 20px;
+      }
+      .examples {
+        margin-top: 32px;
+      }
+      .example-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .example {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 16px;
+        background: #17221c;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        gap: 14px;
+      }
+      .example:hover {
+        border-color: #8c8159;
+      }
+      .example b {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 6px;
+      }
+      .example small {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .example .symbol {
+        font-size: 25px;
+        color: var(--gold);
+      }
+      .footnote {
+        margin-top: 32px;
+        border-top: 1px solid var(--line);
+        padding-top: 19px;
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        color: #7e8e7e;
+        font-size: 10px;
+        line-height: 1.8;
+      }
+      .create-title {
+        margin-bottom: 28px;
+      }
+      .create-title h1 {
+        font-family: Georgia, "AppleMyungjo", serif;
+        font-size: 34px;
+        font-weight: 400;
+        margin: 13px 0;
+      }
+      .create-title p {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+      .create-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.85fr);
+        gap: 25px;
+        align-items: start;
+      }
+      .panel {
+        background: #17221c;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 25px;
+      }
+      .panel h2 {
+        margin: 0 0 23px;
+        font-size: 15px;
+        font-weight: 500;
+      }
+      .step-num {
+        font:
+          11px Georgia,
+          serif;
+        color: var(--gold);
+        border: 1px solid #655f40;
+        padding: 4px 7px;
+        border-radius: 50%;
+        margin-right: 9px;
+      }
+      .field {
+        margin-bottom: 21px;
+      }
+      .field label {
+        font-size: 12px;
+        display: block;
+        margin-bottom: 9px;
+        color: #d4dacb;
+      }
+      .hint {
+        font-size: 10px;
+        line-height: 1.8;
+        color: #91a08e;
+        margin-top: 7px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 15px;
+      }
+      .element-picker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .element-picker button {
+        border: 1px solid #40503e;
+        background: #162119;
+        color: #9eae98;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 11px;
+      }
+      .element-picker button.selected {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 8%, transparent);
+      }
+      .panel-divider {
+        border: 0;
+        border-top: 1px solid var(--line);
+        margin: 27px 0;
+      }
+      .generate-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+      }
+      .notice {
+        font-size: 11px;
+        line-height: 1.8;
+        border-left: 2px solid #8b7c4e;
+        background: #302d1d66;
+        color: #cabd95;
+        padding: 12px 14px;
+        border-radius: 0 6px 6px 0;
+      }
+      .preview-panel {
+        position: sticky;
+        top: 24px;
+        min-height: 410px;
+      }
+      .preview-empty {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 310px;
+      }
+      .preview-empty .big {
+        font:
+          63px Georgia,
+          serif;
+        color: #7b7956;
+      }
+      .preview-empty h3 {
+        font-size: 17px;
+        font-weight: 400;
+      }
+      .preview-empty p {
+        font-size: 12px;
+        line-height: 1.9;
+        color: var(--muted);
+        max-width: 250px;
+      }
+      .preview-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 19px;
+      }
+      .preview-name {
+        font-family: Georgia, "AppleMyungjo", serif;
+        font-size: 26px;
+        font-weight: 400;
+        margin: 17px 0;
+      }
+      .incantation-display {
+        font:
+          24px/1.8 Georgia,
+          "AppleMyungjo",
+          serif;
+        color: #e0ca96;
+        padding: 18px 0;
+        border-top: 1px solid #46523d;
+        border-bottom: 1px solid #46523d;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      .romanization {
+        font:
+          italic 12px/1.8 Georgia,
+          serif;
+        color: #aab59d;
+        margin-top: 9px;
+      }
+      .detail-label {
+        font-size: 10px;
+        letter-spacing: 1px;
+        color: var(--gold);
+        margin-top: 23px;
+        margin-bottom: 9px;
+      }
+      .detail-text {
+        font-size: 12px;
+        line-height: 1.9;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        color: #c8d0c0;
+        margin: 0;
+      }
+      .preview-actions {
+        display: flex;
+        gap: 9px;
+        flex-wrap: wrap;
+        margin-top: 25px;
+      }
+      .spinner {
+        width: 15px;
+        height: 15px;
+        border: 1px solid #8e9b7d;
+        border-top-color: var(--gold);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .progress {
+        color: var(--gold);
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        line-height: 1.7;
+        padding: 15px 0;
+      }
+      .error {
+        color: #f2b9ac;
+        background: #482e27;
+        border: 1px solid #8b5b47;
+        border-radius: 7px;
+        padding: 12px 15px;
+        font-size: 12px;
+        line-height: 1.8;
+        margin-bottom: 18px;
+      }
+      .review {
+        margin-top: 20px;
+        background: #18241a;
+        border: 1px solid #40503c;
+        border-radius: 7px;
+        padding: 15px;
+      }
+      .review h4 {
+        font-size: 12px;
+        margin: 0 0 12px;
+        font-weight: 500;
+      }
+      .issue {
+        font-size: 11px;
+        line-height: 1.8;
+        padding: 9px 0;
+        border-top: 1px solid #3b4936;
+      }
+      .issue:first-of-type {
+        border-top: 0;
+      }
+      .issue.high {
+        color: #efb89e;
+      }
+      .issue.medium {
+        color: #c9c098;
+      }
+      .review-ok {
+        color: #b3cba5;
+        font-size: 11px;
+        line-height: 1.8;
+      }
+      .checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        color: #cfc39f;
+        font-size: 11px;
+        line-height: 1.8;
+        margin-top: 15px;
+      }
+      .checkbox input {
+        width: 15px;
+        height: 15px;
+        flex-shrink: 0;
+        margin-top: 3px;
+        accent-color: var(--gold);
+      }
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: #070d0bd6;
+        backdrop-filter: blur(5px);
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 25px;
+      }
+      .modal {
+        width: min(770px, 100%);
+        max-height: calc(100dvh - 50px);
+        overflow: auto;
+        background: #17221c;
+        border: 1px solid #687050;
+        border-radius: 12px;
+        padding: 28px;
+        box-shadow: 0 30px 120px #0008;
+      }
+      .modal-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .modal-top h2 {
+        font-weight: 400;
+        font-family: Georgia, "AppleMyungjo", serif;
+        margin: 0;
+        font-size: 24px;
+      }
+      .close {
+        border: 1px solid #42513e;
+        background: none;
+        border-radius: 50%;
+        height: 30px;
+        width: 30px;
+        font-size: 20px;
+        color: #bac3ad;
+      }
+      .modal-actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 26px;
+        border-top: 1px solid var(--line);
+        padding-top: 22px;
+        flex-wrap: wrap;
+      }
+      .modal-actions .right {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .toast {
+        position: fixed;
+        bottom: 28px;
+        left: calc(50% + 100px);
+        transform: translateX(-50%);
+        background: #d8b675;
+        color: #1a251b;
+        padding: 13px 22px;
+        border-radius: 7px;
+        z-index: 40;
+        font-size: 12px;
+        box-shadow: 0 8px 30px #0005;
+      }
+      .delete-modal {
+        max-width: 440px;
+      }
+      .mobile-brand {
+        display: none;
+      }
+      .loading {
+        text-align: center;
+        color: var(--muted);
+        padding: 40px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .count {
+        font:
+          11px Georgia,
+          serif;
+        color: var(--gold);
+      }
+      .arabic {
+        direction: rtl;
+      }
+      .screen-reader {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+      }
+      .world-row {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        margin-bottom: 17px;
+      }
+      .world-row select {
+        width: auto;
+        max-width: 210px;
+        min-height: 32px;
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+      .world-row label {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      @media (min-width: 1500px) {
+        .page {
+          padding-top: 53px;
+        }
+        .hero {
+          padding-bottom: 45px;
+        }
+        .spell-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 1150px) {
+        .app-shell {
+          grid-template-columns: 205px minmax(0, 1fr);
+        }
+        .sidebar {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+        .brand-name {
+          font-size: 21px;
+        }
+        .topbar {
+          padding: 0 28px;
+        }
+        .page {
+          padding: 30px 28px;
+        }
+        .spell-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .create-layout {
+          grid-template-columns: 1fr;
+        }
+        .preview-panel {
+          position: static;
+        }
+        .search-toolbar {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+        .field-shell {
+          grid-column: 1/-1;
+        }
+        .hero {
+          grid-template-columns: 1fr 160px;
+        }
+        .seal {
+          transform: scale(0.8);
+          transform-origin: center;
+        }
+        .example-grid {
+          grid-template-columns: 1fr;
+        }
+        .toast {
+          left: calc(50% + 90px);
+        }
+      }
+      @media (max-width: 720px) {
+        .app-shell {
+          display: block;
+        }
+        .sidebar {
+          height: auto;
+          position: static;
+          padding: 17px 20px;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          display: block;
+        }
+        .brand-mark {
+          font-size: 32px;
+        }
+        .brand-name {
+          font-size: 22px;
+        }
+        .brand-sub {
+          font-size: 8px;
+        }
+        .nav {
+          margin-top: 19px;
+          flex-direction: row;
+          gap: 7px;
+        }
+        .nav button {
+          padding: 10px 12px;
+          flex: 1;
+          justify-content: center;
+          font-size: 12px;
+        }
+        .side-label,
+        .side-note,
+        .side-bottom {
+          display: none;
+        }
+        .topbar {
+          height: 55px;
+          padding: 0 20px;
+        }
+        .top-actions {
+          gap: 10px;
+        }
+        .top-actions .text-button {
+          display: none;
+        }
+        .page {
+          padding: 26px 20px 35px;
+        }
+        .hero {
+          display: block;
+          padding-top: 7px;
+          padding-bottom: 28px;
+        }
+        .hero h1 {
+          font-size: 33px;
+          letter-spacing: -1.4px;
+        }
+        .seal {
+          display: none;
+        }
+        .stats {
+          gap: 8px;
+          padding: 23px 0;
+        }
+        .stat {
+          gap: 8px;
+        }
+        .stat-icon {
+          display: none;
+        }
+        .stat strong {
+          font-size: 24px;
+        }
+        .stat small {
+          font-size: 10px;
+        }
+        .spell-grid {
+          grid-template-columns: 1fr;
+        }
+        .search-toolbar {
+          grid-template-columns: 1fr 1fr;
+        }
+        .search-toolbar select:last-child {
+          grid-column: 1/-1;
+        }
+        .section-head {
+          align-items: flex-start;
+        }
+        .section-head h2 {
+          font-size: 17px;
+        }
+        .section-head p {
+          max-width: 210px;
+          line-height: 1.8;
+        }
+        .panel {
+          padding: 19px;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .create-title h1 {
+          font-size: 28px;
+        }
+        .overlay {
+          padding: 10px;
+        }
+        .modal {
+          padding: 20px;
+          max-height: calc(100dvh - 20px);
+        }
+        .toast {
+          left: 50%;
+          width: max-content;
+          max-width: 90%;
+          text-align: center;
+        }
+        .footnote {
+          flex-direction: column;
+          gap: 4px;
+        }
+        .generate-actions {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .generate-actions button {
+          width: 100%;
+        }
+        .incantation-display {
+          font-size: 22px;
+        }
+        .modal-actions .right {
+          margin-left: auto;
+        }
+        .empty {
+          padding: 28px 18px;
+        }
+        .example-grid {
+          gap: 9px;
+        }
+        .world-row select {
+          max-width: 160px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+      .language-chat { margin: 16px 0 24px; padding: 16px; border: 1px solid var(--border); border-radius: 12px; }
+      .chat-bubble { padding: 12px 14px; margin-bottom: 12px; background: rgba(150,180,140,.07); border-radius: 10px; line-height: 1.7; overflow-wrap: anywhere; }
+      .chat-bubble.user { margin-left: 28px; background: rgba(200,170,90,.12); }
+      .source-item { margin-top: 14px; overflow-wrap: anywhere; font-size: 13px; }
+      .source-item a { color: var(--gold, #d0b779); }
+      .source-item p { margin: 4px 0; }
+      .audio-tools { margin: 18px 0; padding: 14px; border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+      .audio-tools summary { cursor: pointer; font-size: 14px; color: var(--gold, #d0b779); }
+      .audio-tools .field { margin-top: 14px; }
+      .audio-tools audio { display: block; width: 100%; max-width: 100%; margin: 14px 0; }
+      .audio-tools textarea { min-height: 100px; width: 100%; }
+      .audio-buttons { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+      .audio-upload { display: grid; gap: 4px; font-size: 12px; min-width: 0; }
+      .audio-upload input { max-width: 100%; width: 220px; font-size: 12px; }
+      .audio-download { color: var(--gold, #d0b779); font-size: 13px; }
+      .author-language { margin: 16px 0; }
+      .generation-stages { padding: 0; list-style: none; margin: 12px 0; }
+      .generation-stages li { padding: 9px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+      .generation-stages li.running { color: var(--gold); }
+      .generation-stages small { display: block; margin-left: 24px; }
+      .stream-preview { margin: 18px 0; padding: 16px; border: 1px dashed var(--line); border-radius: 12px; }
+      .stream-field { white-space: pre-wrap; overflow-wrap: anywhere; margin: 7px 0 16px; }
+      .trace-id { overflow-wrap: anywhere; user-select: all; }
+    </style>
+  </head>
+  <body>
+    <!-- prettier-ignore: preserve inline Vue expressions for runtime compilation -->
+    <div id="app" v-cloak>
+      <div class="app-shell">
+        <aside class="sidebar">
+          <button
+            class="brand"
+            @click="view='library'"
+            aria-label="Kharakteres 홈"
+          >
+            <span class="brand-mark">✧</span
+            ><span
+              ><span class="brand-name">Kharakteres</span
+              ><span class="brand-sub">YOUR PERSONAL GRIMOIRE</span></span
+            >
+          </button>
+          <nav class="nav" aria-label="주 메뉴">
+            <button :class="{active:view==='library'}" @click="view='library'">
+              <span class="icon">▤</span> 나의 주문사전</button
+            ><button :class="{active:view==='create'}" @click="view='create'">
+              <span class="icon">✦</span> 새 주문 만들기
+            </button>
+          </nav>
+          <div class="side-label">WORDS BECOME WONDERS</div>
+          <p class="side-note">“Every spell begins<br />with a word.”</p>
+          <div class="side-bottom">
+            <div class="pill">
+              <span class="status-dot"></span>{{ backendLabel }}
+            </div>
+            <p>
+              당신의 언어, 당신의 세계.<br />한 문장에서 시작되는 마법의 기록.
+            </p>
+            <p style="color: #6e806e">χαρακτῆρες · Kharakteres</p>
+          </div>
+        </aside>
+        <main class="workspace">
+          <header class="topbar">
+            <div class="breadcrumb">
+              나의 서고
+              <span>/ {{ view==='library'?'주문사전':'새 주문 만들기' }}</span>
+            </div>
+            <div class="top-actions">
+              <button class="text-button" @click="showAbout=true">
+                이 서고에 대하여 ↗</button
+              ><span class="pill">{{ backendLabel }}</span>
+            </div>
+          </header>
+          <div class="page">
+            <div v-if="globalError" class="error" role="alert">
+              {{ globalError }}
+              <button class="text-button" @click="refresh">다시 연결</button>
+            </div>
+            <template v-if="view==='library'">
+              <section class="hero">
+                <div>
+                  <div class="eyebrow">A LEXICON OF YOUR OWN MAGIC</div>
+                  <h1>한 문장의 상상,<br /><em>당신만의 마법이 되다.</em></h1>
+                  <p>
+                    언어와 속성을 골라 새로운 주문을 만들고, 당신의 세계관에
+                    기록하세요.<br />흩어진 영감을 하나의 주문사전으로
+                    엮어갑니다.
+                  </p>
+                  <div class="hero-actions">
+                    <button class="btn primary" @click="view='create'">
+                      ✦ 새 주문 만들기</button
+                    ><button class="btn quiet" @click="focusSearch">
+                      ⌕ 주문 찾아보기
+                    </button>
+                  </div>
+                </div>
+                <div class="seal" aria-hidden="true">
+                  <div class="seal-diamond"></div>
+                  <span class="seal-core">✧</span
+                  ><span class="seal-text">KHARAKTERES</span>
+                </div>
+              </section>
+              <section class="stats" aria-label="주문사전 통계">
+                <div
+                  class="stat"
+                  v-for="(stat,i) in statItems"
+                  :key="stat.label"
+                >
+                  <span class="stat-icon">{{ ['▤','文','✧','◈'][i] }}</span>
+                  <div>
+                    <strong>{{ stat.value.toString().padStart(2,'0') }}</strong
+                    ><small>{{ stat.label }}</small>
+                  </div>
+                </div>
+              </section>
+              <section ref="librarySection">
+                <div class="section-head">
+                  <div>
+                    <h2>
+                      나의 주문사전 <span class="count">{{ total }}</span>
+                    </h2>
+                    <p>이름, 주문문, 효과로 기록을 찾아보세요.</p>
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 12px">
+                    <button class="btn quiet small" @click="newManual">
+                      ＋ 직접 기록</button
+                    ><a class="text-button" href="/api/spells/export" download
+                      >↓ JSON 내보내기</a
+                    >
+                  </div>
+                </div>
+                <div class="search-toolbar">
+                  <div class="field-shell">
+                    <span aria-hidden="true">⌕</span
+                    ><input
+                      ref="searchInput"
+                      class="input"
+                      v-model="filters.q"
+                      aria-label="주문 검색"
+                      placeholder="어떤 마법을 찾고 있나요?"
+                    />
+                  </div>
+                  <select v-model="filters.search_mode" aria-label="검색 방식"><option value="text">키워드 검색</option><option value="semantic">의미 검색 · 벡터</option></select>
+                  <select v-model="filters.language" aria-label="언어 필터">
+                    <option value="">모든 언어</option>
+                    <option v-for="l in usedLanguages" :value="l.code">
+                      {{ l.name }}
+                    </option></select
+                  ><select v-model="filters.element" aria-label="속성 필터">
+                    <option value="">모든 속성</option>
+                    <option
+                      v-for="(label,code) in catalog.elements"
+                      :value="code"
+                    >
+                      {{ label }}
+                    </option></select
+                  ><select v-model="filters.school" aria-label="계열 필터">
+                    <option value="">모든 계열</option>
+                    <option
+                      v-for="(label,code) in catalog.schools"
+                      :value="code"
+                    >
+                      {{ label }}
+                    </option>
+                  </select>
+                </div>
+                <p class="hint" role="status">{{ searchNotice }}</p>
+                <div class="world-row" v-if="worlds.length">
+                  <label for="world-filter">세계관</label
+                  ><select id="world-filter" v-model="filters.world">
+                    <option value="">모든 세계관</option>
+                    <option v-for="world in worlds">{{ world }}</option></select
+                  ><button
+                    v-if="hasFilters"
+                    class="text-button"
+                    @click="resetFilters"
+                  >
+                    필터 초기화
+                  </button>
+                </div>
+                <div v-if="loading" class="loading">
+                  서고의 기록을 불러오는 중…
+                </div>
+                <div v-else-if="spells.length" class="spell-grid">
+                  <button
+                    class="spell-card"
+                    v-for="spell in spells"
+                    :key="spell.id"
+                    @click="openSpell(spell)"
+                    :style="{'--accent':color(spell.elements[0])}"
+                  >
+                    <div class="card-head">
+                      <span class="card-sigil"
+                        >{{ glyph(spell.elements[0]) }}</span
+                      ><span class="lang-badge"
+                        >{{ langName(spell.language) }}</span
+                      >
+                    </div>
+                    <h3>{{ spell.name }}</h3>
+                    <p
+                      class="card-incantation"
+                      :class="{arabic:spell.language==='ar'}"
+                      :dir="spell.language==='ar'?'rtl':'auto'"
+                    >
+                      {{ spell.incantation }}
+                    </p>
+                    <p class="card-effect">{{ spell.effect }}</p>
+                    <div class="tags">
+                      <span
+                        class="tag element"
+                        v-for="element in spell.elements"
+                        >{{ catalog.elements[element] }}</span
+                      ><span class="tag"
+                        >{{ catalog.schools[spell.school] }}</span
+                      >
+                    </div>
+                    <div class="card-bottom">
+                      <span>{{ spell.world }}</span
+                      ><span>{{ dateLabel(spell.updated_at) }} ↗</span>
+                    </div>
+                  </button>
+                </div>
+                <div v-else class="empty">
+                  <div class="empty-glyph">{{ hasFilters?'⌕':'✧' }}</div>
+                  <h3>
+                    {{ hasFilters?'아직 그 마법을 찾지 못했어요.':'당신의 첫 번째 주문을 기다립니다.' }}
+                  </h3>
+                  <p>
+                    {{ hasFilters?'다른 검색어나 분류로 찾아보세요. 새로운 주문을 직접 만들어도 좋아요.':'작은 불꽃 하나, 조용한 치유의 한마디. 상상 속 마법을 당신만의 언어로 기록해 보세요.' }}
+                  </p>
+                  <button
+                    class="btn primary"
+                    @click="hasFilters?resetFilters():view='create'"
+                  >
+                    {{ hasFilters?'검색 조건 초기화':'✦ 첫 주문 만들기' }}
+                  </button>
+                </div>
+              </section>
+              <section class="examples">
+                <div class="section-head">
+                  <div>
+                    <h2>아직 영감이 떠오르지 않는다면</h2>
+                    <p>하나의 상상을 골라, 당신만의 주문으로 바꿔보세요.</p>
+                  </div>
+                </div>
+                <div class="example-grid">
+                  <button
+                    class="example"
+                    v-for="sample in examples"
+                    @click="useExample(sample)"
+                  >
+                    <span class="symbol">{{ sample.symbol }}</span
+                    ><span
+                      ><b>{{ sample.name }}</b
+                      ><small>{{ sample.prompt }}</small></span
+                    >
+                  </button>
+                </div>
+              </section>
+            </template>
+            <template v-else>
+              <div class="create-title">
+                <div class="eyebrow">THE ART OF SPELLCRAFT</div>
+                <h1>어떤 마법을 상상하고 있나요?</h1>
+                <p>
+                  효과를 적고 채팅으로 주문의 언어를 알려주세요. AI가 만든 초안은 저장 전에
+                  자유롭게 다듬을 수 있습니다.
+                </p>
+              </div>
+              <div class="create-layout">
+                <form class="panel" @submit.prevent="generate">
+                  <fieldset :disabled="generating">
+                    <h2><span class="step-num">01</span> 마법의 의도</h2>
+                    <div class="field">
+                      <label for="prompt">어떤 효과를 가진 주문인가요? *</label
+                      ><textarea
+                        id="prompt"
+                        v-model="form.prompt"
+                        required
+                        minlength="4"
+                        maxlength="2000"
+                        placeholder="예: 달빛을 모아 작은 상처를 치유하지만, 밤에만 사용할 수 있는 주문"
+                      ></textarea>
+                      <div class="hint">
+                        대상, 효과, 분위기를 구체적으로 적으면 더 개성 있는
+                        주문이 만들어집니다.
+                      </div>
+                    </div>
+                    <div class="form-grid">
+                      <div class="field">
+                        <label for="world">어느 세계관에 기록할까요?</label
+                        ><input
+                          id="world"
+                          class="input"
+                          v-model="form.world"
+                          required
+                          maxlength="100"
+                          list="known-worlds"
+                        /><datalist id="known-worlds">
+                          <option v-for="world in worlds">{{ world }}</option>
+                        </datalist>
+                      </div>
+                      <div class="field">
+                        <label for="target">마법의 대상</label
+                        ><input
+                          id="target"
+                          class="input"
+                          v-model="form.target"
+                          maxlength="200"
+                          placeholder="예: 시전자, 한 사람, 일정 영역"
+                        />
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label for="limitations">반드시 지켜야 할 제약</label
+                      ><textarea
+                        id="limitations"
+                        v-model="form.limitations"
+                        maxlength="1000"
+                        style="min-height: 75px"
+                        placeholder="예: 밤에만 사용 가능 · 대가는 시전자의 체력"
+                      ></textarea>
+                    </div>
+                    <voice-input :config="catalog.audio" :targets="creationVoiceTargets" @apply="applyCreationVoice"></voice-input>
+                    <hr class="panel-divider" />
+                    <h2><span class="step-num">02</span> 언어와 마법의 성질</h2>
+                    <div class="field"><label for="language-kind">주문 언어 종류</label><select id="language-kind" v-model="form.language_kind"><option value="natural">실제 언어 · 현대어 / 고전어</option><option value="constructed">나의 인공 언어 · 세계관 속 언어</option></select></div>
+                    <div v-if="form.language_kind==='constructed'" class="author-language">
+                      <p class="notice">이 언어의 기준은 작가가 정합니다. 원문·발음·의미를 직접 입력해 주세요. IPA는 선택 사항이며 AI가 임의로 번역하거나 발음을 채우지 않습니다.</p>
+                      <div class="field"><label for="constructed-language">인공 언어 이름 *</label><input id="constructed-language" class="input" v-model="constructedLanguage" minlength="2" maxlength="80" :required="form.language_kind==='constructed'" placeholder="예: 나의 세계관 속 별의 언어" /></div>
+                      <div class="field"><label for="author-incantation">작가가 정한 주문문 *</label><textarea id="author-incantation" v-model="form.author_incantation" maxlength="1200" required></textarea></div>
+                      <div class="field"><label for="author-pronunciation">작가가 정한 발음 * · 한글 또는 읽을 수 있는 표기</label><input id="author-pronunciation" class="input" v-model="form.author_pronunciation" maxlength="1200" required placeholder="예: 아엘 루미나" /></div>
+                      <div class="field"><label for="author-meaning">작가가 정한 의미 *</label><textarea id="author-meaning" v-model="form.author_meaning" maxlength="1200" required></textarea></div>
+                      <div class="field"><label for="author-ipa">IPA 전사 · 선택</label><input id="author-ipa" class="input" v-model="form.author_ipa" maxlength="1200" placeholder="원할 때만 입력하세요" /></div>
+                    </div>
+                    <div v-else class="language-chat" aria-label="주문 언어 대화">
+                      <div class="chat-bubble">어떤 언어로 주문을 만들까요? 현대 언어와 고전어 모두 입력할 수 있어요. 예: 영어, 고전 그리스어, 산스크리트어.</div>
+                      <div v-for="(message,index) in languageMessages" :key="index" class="chat-bubble" :class="message.role" style="white-space:pre-wrap">{{ message.text }}</div>
+                      <div class="field">
+                        <label for="language-message">언어 답장</label>
+                        <input id="language-message" class="input" v-model="languageMessage" maxlength="300" placeholder="예: 고전 라틴어로 만들어 줘" :disabled="resolvingLanguage" @keydown.enter.prevent="chooseLanguage" />
+                      </div>
+                      <button type="button" class="btn quiet small" @click="chooseLanguage" :disabled="resolvingLanguage || languageMessage.trim().length<2">{{ resolvingLanguage ? '언어 확인 중…' : '언어 답장 보내기' }}</button>
+                      <p class="hint" role="status">{{ languageReady ? '선택된 언어 · '+langName(form.language) : '언어 답장을 보낸 뒤 주문을 생성해 주세요.' }}</p>
+                      <p v-if="languageError" class="error" role="alert">{{ languageError }}</p>
+                    </div>
+                    <div class="field">
+                      <label for="tone">주문의 문체</label>
+                      <select id="tone" v-model="form.tone"><option v-for="(label,code) in catalog.tones" :value="code">{{ label }}</option></select>
+                    </div>
+                    <div class="field">
+                      <label>속성 <span class="muted">· 최대 4개</span></label>
+                      <div class="element-picker">
+                        <button
+                          type="button"
+                          v-for="(label,code) in catalog.elements"
+                          :style="{'--accent':color(code)}"
+                          :class="{selected:form.elements.includes(code)}"
+                          @click="toggleElement(form.elements,code)"
+                          :aria-pressed="form.elements.includes(code)"
+                        >
+                          {{ glyph(code) }} {{ label }}
+                        </button>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label for="school">주문 계열</label
+                      ><select id="school" v-model="form.school">
+                        <option value="auto">AI가 효과에 맞게 분류</option>
+                        <option
+                          v-for="(label,code) in catalog.schools"
+                          :value="code"
+                        >
+                          {{ label }}
+                        </option>
+                      </select>
+                    </div>
+                    <p class="notice">
+                      {{ catalog.backend==='fake'?'현재는 데모 모드입니다. 실제 AI 생성·외국어 변환 없이 동작을 확인할 수 있습니다.':'주문은 AI가 창작합니다. 고전 언어의 문법·발음·직역은 검수가 필요하며, 검증된 역사적 주문으로 제공하지 않습니다.' }}
+                    </p>
+                    <div v-if="generationError" class="error" role="alert">
+                      {{ generationError }}
+                    </div>
+                    <div v-if="generating" class="progress" aria-live="polite">
+                      <span class="spinner"></span
+                      ><span
+                        >진행 상황을 실시간으로 받고 있어요 · {{ elapsed }}초<br /><small
+                          class="muted"
+                          >오른쪽에서 단계별 결과를 확인할 수 있어요. 첫 모델 로딩은 더 걸릴 수 있어요.</small
+                        ></span
+                      >
+                    </div>
+                    <div class="generate-actions">
+                      <span class="hint">생성 후 편집 → 충돌 검토 → 저장</span
+                      ><button
+                        class="btn primary"
+                        :disabled="generating || resolvingLanguage || !canGenerateLanguage || !form.elements.length"
+                        type="submit"
+                      >
+                        <span v-if="generating" class="spinner"></span>{{ generating?'주문 생성 중':'✦ 주문 생성하기' }}
+                      </button>
+                    </div>
+                  </fieldset>
+                </form>
+                <aside class="panel preview-panel">
+                  <h2><span class="step-num">03</span> 당신의 새로운 주문</h2>
+                  <section v-if="generationStages.length" aria-label="주문 생성 진행 상황">
+                    <ol class="generation-stages" aria-live="polite">
+                      <li v-for="stage in generationStages" :key="stage.stage" :class="stage.status">
+                        <span>{{ stage.status==='completed'?'✓':stage.status==='running'?'◌':stage.status==='stopped'?'—':'○' }}</span>
+                        {{ stage.label }} · {{ stage.status==='completed'?'완료':stage.status==='running'?'진행 중':stage.status==='stopped'?'중단':'대기' }}
+                        <small v-if="stage.detail" class="muted">{{ stage.detail }}</small>
+                      </li>
+                    </ol>
+                    <button v-if="generating" class="btn quiet" type="button" @click="cancelGeneration">생성 중단</button>
+                    <p v-if="generationRunId" class="hint trace-id">LangSmith Run ID · {{ generationRunId }}</p>
+                    <p v-if="generationStatus" class="hint" role="status">{{ generationStatus }}</p>
+                  </section>
+                  <section v-if="generating && !draft" class="stream-preview" aria-label="실시간 주문 미리보기">
+                    <h3>작성 중인 주문</h3>
+                    <p class="hint">검토 전 미리보기 · 확인이 끝나면 최종 초안으로 바뀝니다.</p>
+                    <template v-for="field in streamingFields" :key="field.key">
+                      <div class="detail-label">{{ field.label }}</div>
+                      <p class="stream-field" dir="auto">{{ field.value }}</p>
+                    </template>
+                    <p v-if="!streamingFields.length" class="muted">{{ tokenStreamExpected?'모델의 첫 문장을 기다리고 있어요.':'이 요청은 토큰 생성 없이 단계별로 처리합니다.' }}</p>
+                  </section>
+                  <div v-if="!draft && !generating" class="preview-empty">
+                    <span class="big">✧</span>
+                    <h3>아직 쓰이지 않은 한 문장</h3>
+                    <p>
+                      왼쪽에 상상한 마법을 적어주세요.<br />이곳에서 새로운
+                      주문이 모습을 드러냅니다.
+                    </p>
+                  </div>
+                  <template v-if="draft"
+                    ><div class="preview-top">
+                      <div class="tags">
+                        <span
+                          class="tag element"
+                          v-for="e in draft.elements"
+                          :style="{'--accent':color(e)}"
+                          >{{ catalog.elements[e] }}</span
+                        ><span class="tag"
+                          >{{ catalog.schools[draft.school] }}</span
+                        >
+                      </div>
+                      <span class="lang-badge"
+                        >{{ langName(draft.language) }}</span
+                      >
+                    </div>
+                    <h3 class="preview-name">{{ draft.name }}</h3>
+                    <div class="incantation-display" dir="auto">
+                      {{ draft.incantation }}
+                    </div>
+                    <p v-if="draft.romanization" class="romanization">로마자 · {{ draft.romanization }}</p>
+                    <p v-if="draft.hangul_pronunciation" class="detail-text">{{ draft.language_kind==='constructed'?'지정 발음':'한글 전사' }} · {{ draft.hangul_pronunciation }}</p>
+                    <p v-if="draft.ipa" class="detail-text" style="overflow-wrap:anywhere">IPA · {{ draft.ipa }}</p>
+                    <p v-if="draft.pronunciation_note" class="hint">발음 관례 · {{ draft.pronunciation_note }}</p>
+                    <p v-if="draft.ipa || draft.hangul_pronunciation" class="hint">{{ draft.language_kind==='constructed'?'작가가 직접 지정한 발음':'AI 생성 또는 작가 편집 발음 · 출처 대조 전' }}</p>
+                    <source-evidence :evidence="draft.verification"></source-evidence>
+                    <spell-audio v-if="!generating" :spell="draft" :config="catalog.audio"></spell-audio>
+                    <div class="detail-label">의미</div>
+                    <p class="detail-text">{{ draft.literal_meaning }}</p>
+                    <div class="detail-label">마법의 효과</div>
+                    <p class="detail-text">{{ draft.effect }}</p>
+                    <div class="detail-label">제약과 대가</div>
+                    <p class="detail-text">
+                      {{ draft.limitations || '아직 기록되지 않았습니다.' }}
+                    </p>
+                    <div class="review" v-if="draftConflicts">
+                      <h4>◈ 기존 주문과의 검토</h4>
+                      <template v-if="draftConflicts.issues.length"
+                        ><div
+                          v-for="issue in draftConflicts.issues"
+                          class="issue"
+                          :class="issue.severity"
+                        >
+                          <strong>{{ issue.spell_name }}</strong> · {{ issue.message }}
+                        </div></template
+                      >
+                      <p v-else class="review-ok">
+                        이름·주문문·효과 비교에서 검토 항목이 발견되지
+                        않았습니다. 모든 설정의 일관성을 보장하는 것은 아닙니다.
+                      </p>
+                    </div>
+                    <div class="preview-actions">
+                      <button
+                        class="btn primary"
+                        @click="editDraft"
+                        :disabled="generating"
+                      >
+                        편집하고 저장하기 →</button
+                      ><button
+                        class="btn quiet"
+                        @click="draft=null;draftConflicts=null"
+                        :disabled="generating"
+                      >
+                        초안 비우기
+                      </button>
+                    </div>
+                    <p v-if="generationRetrieval" class="hint">{{ generationRetrieval }}</p>
+                    <p class="hint">
+                      {{ draft.language_kind==='constructed'?'작가가 직접 정의한 언어':draft.language_status==='demo_untranslated'?'데모 초안 · 실제 언어 변환 없음':'AI 창작 · 언어 검수 전' }} · {{ generationModel }}
+                    </p></template
+                  >
+                </aside>
+              </div>
+            </template>
+            <footer class="footnote">
+              <span>KHARAKTERES · 당신의 상상으로 채워지는 마법의 서고</span
+              ><span
+                >창작을 위한 AI 도구 · 언어 검수와 설정의 최종 판단은
+                작가에게</span
+              >
+            </footer>
+          </div>
+        </main>
+      </div>
+      <div class="overlay" v-if="selected" @click.self="closeModal">
+        <section
+          class="modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="spell-modal-title"
+        >
+          <div class="modal-top">
+            <h2 id="spell-modal-title">
+              {{ editing?'주문 다듬기':selected.name }}
+            </h2>
+            <button
+              class="close"
+              @click="closeModal"
+              aria-label="닫기"
+              :disabled="saving"
+            >
+              ×
+            </button>
+          </div>
+          <div v-if="modalError" class="error" role="alert">
+            {{ modalError }}
+          </div>
+          <template v-if="editing"
+            ><fieldset :disabled="reviewing || saving">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="edit-name">주문 이름 *</label
+                  ><input
+                    id="edit-name"
+                    class="input"
+                    v-model="edit.name"
+                    maxlength="100"
+                  />
+                </div>
+                <div class="field">
+                  <label for="edit-world">세계관 *</label
+                  ><input
+                    id="edit-world"
+                    class="input"
+                    v-model="edit.world"
+                    maxlength="100"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label for="edit-incantation">주문문 *</label
+                ><textarea
+                  id="edit-incantation"
+                  v-model="edit.incantation" @input="invalidateEvidence"
+                  maxlength="1200"
+                  dir="auto"
+                ></textarea>
+              </div>
+              <div class="field"><label for="edit-language-kind">언어 종류</label><select id="edit-language-kind" v-model="edit.language_kind" @change="invalidateEvidence"><option value="natural">실제 언어</option><option value="constructed">나의 인공 언어 · 발음과 의미 직접 정의</option></select></div>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="edit-language">언어</label
+                  ><input v-if="edit.language_kind==='constructed'" id="edit-constructed-language" class="input" v-model="edit.language" @input="invalidateEvidence" maxlength="80" required /><select v-else id="edit-language" v-model="edit.language" @change="invalidateEvidence">
+                    <option v-for="l in editLanguages" :value="l.code">
+                      {{ l.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="edit-school">계열</label
+                  ><select id="edit-school" v-model="edit.school">
+                    <option
+                      v-for="(label,code) in catalog.schools"
+                      :value="code"
+                    >
+                      {{ label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="edit-roman">읽기용 표기</label
+                ><input
+                  id="edit-roman"
+                  class="input"
+                  v-model="edit.romanization" @input="invalidateEvidence"
+                  maxlength="1200"
+                />
+              </div>
+              <div class="field"><label for="edit-hangul">{{ edit.language_kind==='constructed' ? '작가가 정한 발음 *' : '한글 발음 전사' }}</label><input id="edit-hangul" class="input" v-model="edit.hangul_pronunciation" @input="invalidateEvidence" maxlength="1200" /></div>
+              <div class="field"><label for="edit-ipa">IPA 발음 · 선택</label><input id="edit-ipa" class="input" v-model="edit.ipa" @input="invalidateEvidence" maxlength="1200" /></div>
+              <div class="field"><label for="edit-pronunciation-note">발음의 시대·방언·관례</label><input id="edit-pronunciation-note" class="input" v-model="edit.pronunciation_note" @input="invalidateEvidence" maxlength="600" /></div>
+              <source-evidence :evidence="edit.verification"></source-evidence>
+              <voice-input :config="catalog.audio" :targets="editVoiceTargets" @apply="applyEditVoice"></voice-input>
+              <spell-audio :spell="edit" :config="catalog.audio"></spell-audio>
+              <button type="button" class="btn quiet small" @click="verifyCurrent" :disabled="reviewing || saving">{{ reviewing ? '검토 중…' : '웹 출처 다시 확인' }}</button>
+              <p class="hint">다시 확인한 출처도 ‘서고에 저장’을 눌러야 기록됩니다. 한글 전사·IPA는 단어 출처가 있어도 검수 전입니다.</p>
+              <div class="field">
+                <label for="edit-meaning">주문의 의미</label
+                ><textarea
+                  id="edit-meaning"
+                  v-model="edit.literal_meaning"
+                  maxlength="1200"
+                  style="min-height: 70px"
+                ></textarea>
+              </div>
+              <div class="field">
+                <label>속성 · 최소 1개, 최대 4개</label>
+                <div class="element-picker">
+                  <button
+                    v-for="(label,code) in catalog.elements"
+                    :style="{'--accent':color(code)}"
+                    :class="{selected:edit.elements.includes(code)}"
+                    :aria-pressed="edit.elements.includes(code)"
+                    @click="toggleElement(edit.elements,code)"
+                  >
+                    {{ glyph(code) }} {{ label }}
+                  </button>
+                </div>
+              </div>
+              <div class="field">
+                <label for="edit-effect">마법의 효과 *</label
+                ><textarea
+                  id="edit-effect"
+                  v-model="edit.effect"
+                  maxlength="2000"
+                ></textarea>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="edit-target">대상</label
+                  ><input
+                    id="edit-target"
+                    class="input"
+                    v-model="edit.target"
+                    maxlength="200"
+                  />
+                </div>
+                <div class="field">
+                  <label for="edit-tags">태그 · 쉼표로 구분</label
+                  ><input
+                    id="edit-tags"
+                    class="input"
+                    v-model="tagInput"
+                    placeholder="달빛, 회복, 의식"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label for="edit-limit">제약과 대가</label
+                ><textarea
+                  id="edit-limit"
+                  v-model="edit.limitations"
+                  maxlength="2000"
+                ></textarea>
+              </div>
+              <div class="field">
+                <label for="edit-notes">창작 메모</label
+                ><textarea
+                  id="edit-notes"
+                  v-model="edit.notes"
+                  maxlength="2000"
+                  style="min-height: 70px"
+                ></textarea>
+              </div></fieldset
+          ></template>
+          <template v-else
+            ><div class="preview-top">
+              <div class="tags">
+                <span
+                  class="tag element"
+                  v-for="e in selected.elements"
+                  :style="{'--accent':color(e)}"
+                  >{{ catalog.elements[e] }}</span
+                ><span class="tag">{{ catalog.schools[selected.school] }}</span>
+              </div>
+              <span class="lang-badge">{{ langName(selected.language) }}</span>
+            </div>
+            <div class="incantation-display" dir="auto">
+              {{ selected.incantation }}
+            </div>
+            <p v-if="selected.romanization" class="romanization">로마자 · {{ selected.romanization }}</p>
+                    <p v-if="selected.hangul_pronunciation" class="detail-text">{{ selected.language_kind==='constructed'?'지정 발음':'한글 전사' }} · {{ selected.hangul_pronunciation }}</p>
+                    <p v-if="selected.ipa" class="detail-text" style="overflow-wrap:anywhere">IPA · {{ selected.ipa }}</p>
+                    <p v-if="selected.pronunciation_note" class="hint">발음 관례 · {{ selected.pronunciation_note }}</p>
+                    <p v-if="selected.ipa || selected.hangul_pronunciation" class="hint">{{ selected.language_kind==='constructed'?'작가가 직접 지정한 발음':'AI 생성 또는 작가 편집 발음 · 출처 대조 전' }}</p>
+                    <source-evidence :evidence="selected.verification"></source-evidence>
+                    <spell-audio :spell="selected" :config="catalog.audio"></spell-audio>
+            <div class="detail-label">의미</div>
+            <p class="detail-text">
+              {{ selected.literal_meaning || '기록되지 않았습니다.' }}
+            </p>
+            <div class="detail-label">효과와 대상</div>
+            <p class="detail-text">
+              {{ selected.effect }}<br v-if="selected.target" />{{ selected.target ? '대상 · '+selected.target : '' }}
+            </p>
+            <div class="detail-label">제약과 대가</div>
+            <p class="detail-text">
+              {{ selected.limitations || '기록되지 않았습니다.' }}
+            </p>
+            <div v-if="selected.notes" class="detail-label">창작 메모</div>
+            <p class="detail-text">{{ selected.notes }}</p>
+            <p class="hint">
+              {{ selected.world }} · {{ selected.language_kind==='constructed'?'작가가 직접 정의한 언어':langStatus(selected.language_status) }}<br />마지막 수정 {{ dateLabel(selected.updated_at) }} · 버전 {{ selected.version }}
+            </p>
+            <div class="tags">
+              <span class="tag" v-for="tag in selected.tags">{{ tag }}</span>
+            </div></template
+          >
+          <div class="review" v-if="modalReview">
+            <h4>
+              ◈ 주문 설정 검토
+              <span v-if="reviewing" class="muted"
+                >· 검토 중… {{ reviewElapsed }}초</span
+              >
+            </h4>
+            <div
+              v-for="issue in modalReview.issues"
+              class="issue"
+              :class="issue.severity"
+            >
+              <strong>{{ issue.spell_name }}</strong> · {{ issue.source==='ai'?'AI 검토 후보 · ':'' }}{{ issue.message }}
+            </div>
+            <p v-if="!modalReview.issues.length" class="review-ok">
+              현재 비교 범위에서 검토 항목을 찾지 못했습니다. 충돌이 없다는
+              보증은 아닙니다.
+            </p>
+            <p class="hint">
+              {{ modalReview.ai_review?.note || modalReview.note }}<template
+                v-if="modalReview.ai_review?.reviewed_count!==undefined"
+                ><br />AI 비교 {{ modalReview.ai_review.reviewed_count }} / {{ modalReview.ai_review.total_candidates }}개</template
+              >
+            </p>
+          </div>
+          <label v-if="editing && modalReview?.has_high" class="checkbox"
+            ><input type="checkbox" v-model="acknowledge" />검토 내용을
+            확인했습니다. 의도한 변형 또는 중복 주문으로 저장합니다.</label
+          >
+          <div class="modal-actions">
+            <div>
+              <button
+                v-if="selected.id && !editing"
+                class="btn danger small"
+                @click="deleteTarget=selected"
+                :disabled="saving || reviewing"
+              >
+                삭제</button
+              ><button
+                v-if="!selected.id"
+                class="btn quiet small"
+                @click="closeModal"
+                :disabled="saving"
+              >
+                나중에 기록하기
+              </button>
+            </div>
+            <div class="right">
+              <button
+                class="btn quiet small"
+                @click="reviewCurrent(false)"
+                :disabled="reviewing || saving"
+              >
+                {{ reviewing?'검토 중…':'중복 검토' }}</button
+              ><button
+                class="btn quiet small"
+                @click="reviewCurrent(true)"
+                :disabled="reviewing || saving"
+              >
+                AI 설정 검토</button
+              ><button
+                v-if="editing"
+                class="btn primary"
+                @click="save"
+                :disabled="saving || reviewing || (modalReview?.has_high && !acknowledge)"
+              >
+                {{ saving?'저장 중…':'서고에 저장' }}</button
+              ><button v-else class="btn primary" @click="startEditing">
+                편집하기
+              </button>
+            </div>
+          </div>
+          <p class="hint" v-if="reviewing">
+            AI 검토를 기다리고 있습니다. 초안은 아직 변경되지 않았습니다.
+          </p>
+        </section>
+      </div>
+      <div class="overlay" v-if="deleteTarget" @click.self="deleteTarget=null">
+        <section
+          class="modal delete-modal"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="delete-title"
+        >
+          <h2 id="delete-title" style="font-size: 20px; font-weight: 400">
+            이 주문을 서고에서 지울까요?
+          </h2>
+          <p class="detail-text">
+            ‘{{ deleteTarget.name }}’을 삭제합니다.<br />이 작업은 되돌릴 수
+            없습니다.
+          </p>
+          <div class="modal-actions">
+            <button
+              class="btn quiet"
+              @click="deleteTarget=null"
+              :disabled="saving"
+            >
+              취소</button
+            ><button class="btn danger" @click="removeSpell" :disabled="saving">
+              {{ saving?'삭제 중…':'주문 삭제' }}
+            </button>
+          </div>
+        </section>
+      </div>
+      <div class="overlay" v-if="showAbout" @click.self="showAbout=false">
+        <section
+          class="modal delete-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="about-title"
+        >
+          <div class="modal-top">
+            <h2 id="about-title">Kharakteres</h2>
+            <button class="close" @click="showAbout=false" aria-label="닫기">
+              ×
+            </button>
+          </div>
+          <p class="detail-text">
+            나만의 마법 주문 웹 서비스.<br /><br />χαρακτῆρες에서 이름을 가져온,
+            창작자를 위한 개인 주문사전입니다. 생성한 주문은 먼저 초안으로
+            제공되며 직접 저장한 기록만 서고에 남습니다.<br /><br />현재는 한
+            서버의 개인용 서고입니다. 언어 분류는 창작에 사용한 언어 기준이며
+            AI가 검증된 번역을 보장하지 않습니다. 현대어와 고전어 모두 웹 사전에서
+            단어 출처를 검색합니다. 출처 발견은 문장 전체나 발음의 정확성 인증이 아닙니다.<br /><br />서버가 재시작되어도 SQLite에 저장한 주문은
+            유지됩니다. 중요한 기록은 JSON으로 내보내 보관하세요.
+          </p>
+        </section>
+      </div>
+      <div v-if="toast" class="toast" role="status">{{ toast }}</div>
+    </div>
+    <script src="/assets/vue.global.prod.js"></script>
+    <script src="/assets/speech.js"></script>
+    <script src="/assets/generation-stream.js"></script>
+    <script>
+      const {
+        createApp,
+        ref,
+        reactive,
+        computed,
+        watch,
+        nextTick,
+        onMounted,
+        onUnmounted,
+      } = Vue;
+      const clone = (value) => JSON.parse(JSON.stringify(value));
+      const app = createApp({
+        setup() {
+          const view = ref("library"),
+            catalog = reactive({
+              languages: [],
+              elements: {},
+              schools: {},
+              tones: {},
+              backend: "연결 중",
+            }),
+            spells = ref([]),
+            worlds = ref([]),
+            availableLanguages = ref([]),
+            statistics = reactive({
+              total: 0,
+              languages: 0,
+              elements: 0,
+              worlds: 0,
+            }),
+            total = ref(0),
+            loading = ref(false),
+            globalError = ref(""),
+            toast = ref(""),
+            showAbout = ref(false),
+            searchInput = ref(null),
+            librarySection = ref(null);
+          const filters = reactive({
+            q: "",
+            search_mode: "text",
+            language: "",
+            element: "",
+            school: "",
+            world: "",
+          });
+          const form = reactive({
+              prompt: "",
+              language_kind: "natural",
+              language: "",
+              author_incantation: "",
+              author_pronunciation: "",
+              author_meaning: "",
+              author_ipa: "",
+              elements: ["light"],
+              school: "auto",
+              tone: "lyrical",
+              world: "나의 세계관",
+              target: "",
+              limitations: "",
+            }),
+            constructedLanguage = ref(""),
+            languageMessage = ref(""),
+            languageMessages = ref([]),
+            languageReady = ref(false),
+            resolvingLanguage = ref(false),
+            languageError = ref(""),
+            draft = ref(null),
+            draftConflicts = ref(null),
+            generationModel = ref(""),
+            generationRetrieval = ref(""),
+            generationStages = ref([]),
+            generationRunId = ref(""),
+            generationStatus = ref(""),
+            streamingText = ref(""),
+            tokenStreamExpected = ref(false),
+            searchNotice = ref("키워드 검색"),
+            generationError = ref(""),
+            generating = ref(false),
+            elapsed = ref(0);
+          const streamingFields = computed(() => KharakteresStream.fields(streamingText.value));
+          let generationAbort = null;
+          const selected = ref(null),
+            editing = ref(false),
+            edit = reactive({}),
+            tagInput = ref(""),
+            modalReview = ref(null),
+            modalError = ref(""),
+            acknowledge = ref(false),
+            saving = ref(false),
+            reviewing = ref(false),
+            reviewElapsed = ref(0),
+            deleteTarget = ref(null);
+          let filterTimer,
+            toastTimer,
+            generationTimer,
+            reviewTimer,
+            listSequence = 0;
+          const palette = {
+            fire: "#e2a07e",
+            water: "#91bdc6",
+            earth: "#c4af87",
+            air: "#b5c9bb",
+            ice: "#b0d6de",
+            lightning: "#cbb6e4",
+            light: "#e0c880",
+            shadow: "#b6a8cc",
+            nature: "#a9c290",
+            mind: "#d0b6ca",
+            time: "#cbb68b",
+            space: "#9aafda",
+          };
+          const symbols = {
+            fire: "♨",
+            water: "≋",
+            earth: "◇",
+            air: "≋",
+            ice: "❅",
+            lightning: "ϟ",
+            light: "☼",
+            shadow: "☾",
+            nature: "❧",
+            mind: "◉",
+            time: "◷",
+            space: "✧",
+          };
+          const examples = [
+            {
+              name: "달빛으로 잇는 작은 치유",
+              symbol: "☾",
+              prompt:
+                "달빛을 모아 작은 상처를 치유하지만, 밤에만 사용할 수 있는 주문",
+              elements: ["light"],
+              school: "healing",
+            },
+            {
+              name: "한 사람을 위한 유리빛 방벽",
+              symbol: "◇",
+              prompt:
+                "바람으로 만든 투명한 방벽이 한 사람을 보호한다. 시전자가 움직이면 방벽이 사라진다.",
+              elements: ["air"],
+              school: "defense",
+            },
+            {
+              name: "그림자 너머로 보내는 편지",
+              symbol: "✧",
+              prompt:
+                "짧은 편지를 그림자에 접어 같은 도시의 친구에게 전한다. 받는 사람의 동의가 있어야 전달된다.",
+              elements: ["shadow", "space"],
+              school: "utility",
+            },
+          ];
+          const color = (code) => palette[code] || "#d8b675",
+            glyph = (code) => symbols[code] || "✧",
+            langName = (code) =>
+              catalog.languages.find((l) => l.code === code)?.name || code;
+          const langStatus = (code) =>
+            ({
+              ai_unverified: "AI 창작 · 언어 검수 전",
+              author_edited: "작가 편집 · 언어 검수 여부 미확인",
+              demo_untranslated: "데모 초안 · 실제 언어 변환 없음",
+            })[code] || code;
+          const backendLabel = computed(
+            () =>
+              ({
+                openai: "OpenAI 연결",
+                ollama: "Ollama 로컬",
+                fake: "데모 모드",
+              })[catalog.backend] || catalog.backend,
+          );
+          const statItems = computed(() => [
+            { label: "기록된 주문", value: statistics.total },
+            { label: "주문의 언어", value: statistics.languages },
+            { label: "마법의 속성", value: statistics.elements },
+            { label: "세계관", value: statistics.worlds },
+          ]);
+          const hasFilters = computed(() =>
+            Object.entries(filters).filter(([key])=>key!=="search_mode").map(([,value])=>value).some(Boolean),
+          );
+          const usedLanguages = computed(() => {
+            const all = [...catalog.languages];
+            for (const code of availableLanguages.value)
+              if (!all.some((l) => l.code === code))
+                all.push({ code, name: code });
+            return all;
+          });
+          const editLanguages = computed(() => {
+            const all = [...catalog.languages];
+            if (edit.language && !all.some((l) => l.code === edit.language))
+              all.push({ code: edit.language, name: edit.language });
+            return all;
+          });
+          function dateLabel(iso) {
+            if (!iso) return "저장 전";
+            return new Intl.DateTimeFormat("ko-KR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            }).format(new Date(iso));
+          }
+          async function api(path, options = {}) {
+            let response;
+            try {
+              response = await fetch(path, {
+                ...options,
+                headers: {
+                  "Content-Type": "application/json",
+                  ...options.headers,
+                },
+              });
+            } catch {
+              throw {
+                message:
+                  "서버에 연결할 수 없습니다. 실행 터미널과 네트워크를 확인해 주세요.",
+              };
+            }
+            const body =
+              response.status === 204
+                ? null
+                : await response.json().catch(() => null);
+            if (!response.ok) {
+              const detail = body?.detail;
+              let message =
+                typeof detail === "string" ? detail : detail?.message;
+              if (Array.isArray(detail))
+                message = detail
+                  .map((x) => `${x.loc.at(-1)}: ${x.msg}`)
+                  .join(" / ");
+              throw {
+                status: response.status,
+                message: message || "요청을 처리하지 못했습니다.",
+                detail,
+              };
+            }
+            return body;
+          }
+          function notify(text) {
+            toast.value = text;
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => (toast.value = ""), 4000);
+          }
+          async function loadList() {
+            const sequence = ++listSequence;
+            loading.value = true;
+            try {
+              const data = await api(
+                "/api/spells?" + new URLSearchParams(filters),
+              );
+              if (sequence !== listSequence) return;
+              searchNotice.value = data.search_mode==='semantic' ? '의미 검색 · '+(data.retrieval?.model || '벡터') : data.search_mode==='text_fallback' ? '의미 검색을 준비하지 못해 키워드 검색으로 대체했습니다. '+(data.retrieval?.reason || '') : '키워드 검색';
+              spells.value = data.items;
+              total.value = data.total;
+              worlds.value = data.worlds;
+              availableLanguages.value = data.available_languages || [];
+              Object.assign(statistics, data.stats);
+              globalError.value = "";
+            } catch (err) {
+              if (sequence === listSequence) globalError.value = err.message;
+            } finally {
+              if (sequence === listSequence) loading.value = false;
+            }
+          }
+          async function refresh() {
+            try {
+              Object.assign(catalog, await api("/api/catalog"));
+              await loadList();
+            } catch (err) {
+              globalError.value = err.message;
+            }
+          }
+          watch(
+            filters,
+            () => {
+              clearTimeout(filterTimer);
+              filterTimer = setTimeout(loadList, 220);
+            },
+            { deep: true },
+          );
+          function resetFilters() {
+            for (const key of Object.keys(filters)) filters[key] = key === "search_mode" ? "text" : "";
+          }
+          async function focusSearch() {
+            view.value = "library";
+            await nextTick();
+            searchInput.value?.focus();
+            librarySection.value?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+          function toggleElement(elements, code) {
+            const at = elements.indexOf(code);
+            if (at >= 0) {
+              if (elements.length > 1) elements.splice(at, 1);
+              else notify("속성은 최소 하나를 선택해 주세요.");
+            } else if (elements.length < 4) elements.push(code);
+            else notify("속성은 최대 4개까지 선택할 수 있어요.");
+          }
+          function useExample(sample) {
+            form.prompt = sample.prompt;
+            form.elements = [...sample.elements];
+            form.school = sample.school;
+            view.value = "create";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+          const canGenerateLanguage = computed(() => form.language_kind === 'constructed'
+            ? constructedLanguage.value.trim().length >= 2 && form.author_incantation.trim() && form.author_pronunciation.trim() && form.author_meaning.trim()
+            : languageReady.value);
+          const creationVoiceTargets = computed(() => form.language_kind === 'constructed' ? [
+            {key:'prompt',label:'마법의 효과'}, {key:'author_incantation',label:'인공어 주문문'}, {key:'author_pronunciation',label:'지정 발음'}, {key:'author_meaning',label:'지정 의미'},
+          ] : [{key:'prompt',label:'마법의 효과'}, {key:'languageMessage',label:'언어 답장'}, {key:'limitations',label:'제약'}]);
+          const editVoiceTargets = [
+            {key:'incantation',label:'주문문'}, {key:'hangul_pronunciation',label:'발음'}, {key:'literal_meaning',label:'의미'}, {key:'effect',label:'효과'}, {key:'notes',label:'메모'},
+          ];
+          function applyCreationVoice({target,text}) {
+            const maximum = {prompt:2000,languageMessage:300,limitations:1000,author_incantation:1200,author_pronunciation:1200,author_meaning:1200}[target];
+            if (!maximum || text.length>maximum) { notify('입력 칸의 글자 수 제한을 넘었습니다. 전사 결과를 줄인 뒤 적용해 주세요.'); return; }
+            if (target==='languageMessage') languageMessage.value=text; else form[target]=text;
+            notify('전사 결과를 입력했습니다. 내용을 확인해 주세요.');
+          }
+          function applyEditVoice({target,text}) {
+            const maximum = {incantation:1200,hangul_pronunciation:1200,literal_meaning:1200,effect:2000,notes:2000}[target];
+            if (!maximum || text.length>maximum) { notify('입력 칸의 글자 수 제한을 넘었습니다. 전사 결과를 줄인 뒤 적용해 주세요.'); return; }
+            edit[target]=text;
+            if (['incantation','hangul_pronunciation'].includes(target)) invalidateEvidence();
+            notify('전사 결과를 입력했습니다. 저장하면 기록에 반영됩니다.');
+          }
+          async function chooseLanguage() {
+            if (resolvingLanguage.value || generating.value || languageMessage.value.trim().length<2) return;
+            const message = languageMessage.value.trim();
+            const history = clone(languageMessages.value.slice(-10));
+            languageMessages.value.push({role:'user',text:message});
+            languageReady.value = false;
+            languageError.value = '';
+            resolvingLanguage.value = true;
+            try {
+              const result = await api('/api/language',{method:'POST',body:JSON.stringify({message,history})});
+              languageMessages.value.push({role:'assistant',text:result.reply});
+              languageMessages.value = languageMessages.value.slice(-10);
+              form.language = result.resolved ? result.language : '';
+              languageMessage.value = '';
+              await nextTick();
+              languageReady.value = result.resolved;
+            } catch(err) { languageError.value = err.message; }
+            finally { resolvingLanguage.value = false; }
+          }
+          watch(languageMessage, () => { languageReady.value = false; });
+          function invalidateEvidence() {
+            if (edit.verification) edit.verification = {...edit.verification,status:'stale',sources:[],note:'언어·주문문·발음이 수정되었습니다. 웹 출처를 다시 확인해 주세요.'};
+          }
+          async function verifyCurrent() {
+            if (reviewing.value || saving.value) return;
+            reviewing.value = true;
+            modalError.value = '';
+            try {
+              edit.verification = await api('/api/verify-language',{method:'POST',body:JSON.stringify(payload())});
+              notify('웹 출처 확인이 끝났습니다. 저장하면 기록에 반영됩니다.');
+            } catch(err) { modalError.value = err.message; }
+            finally { reviewing.value = false; }
+          }
+          function cancelGeneration() {
+            generationAbort?.abort();
+          }
+          async function generate() {
+            if (generating.value) return;
+            generationError.value = "";
+            if (!canGenerateLanguage.value || resolvingLanguage.value) {
+              generationError.value = "먼저 채팅으로 주문의 언어를 알려주세요.";
+              return;
+            }
+            generating.value = true;
+            draft.value = null;
+            draftConflicts.value = null;
+            streamingText.value = "";
+            generationStages.value = [];
+            generationRunId.value = "";
+            generationRetrieval.value = "";
+            tokenStreamExpected.value = false;
+            generationStatus.value = "실시간 연결을 여는 중…";
+            elapsed.value = 0;
+            generationTimer = setInterval(() => elapsed.value++, 1000);
+            generationAbort = new AbortController();
+            try {
+              const result = await KharakteresStream.generate({
+                ...form,
+                language: form.language_kind === "constructed" ? constructedLanguage.value.trim() : form.language,
+              }, generationAbort.signal, (kind, data) => {
+                if (kind === 'accepted') {
+                  generationStages.value = data.stages.map(stage => ({ ...stage, status: 'pending', detail: '' }));
+                  generationRunId.value = data.langsmith_run_id || '';
+                  tokenStreamExpected.value = data.token_stream;
+                  generationStatus.value = '생성 요청을 접수했어요.';
+                } else if (kind === 'token') {
+                  streamingText.value += data.text;
+                } else if (kind === 'stage') {
+                  if (data.status === 'running') generationStatus.value = data.label + ' 진행 중…';
+                  const stage = generationStages.value.find(item => item.stage === data.stage);
+                  if (stage) {
+                    stage.status = data.status;
+                    if (data.status === 'completed') {
+                      stage.detail = data.duration != null ? `${data.duration}초` : '';
+                      if (data.stage === 'retrieve_lexicon') {
+                        const mode = data.retrieval?.mode === 'vector' ? '벡터 RAG' : '기본 조회';
+                        stage.detail += ` · ${mode} · 참고 주문 ${data.count}개`;
+                        if (data.retrieval?.reason) stage.detail += ` · ${data.retrieval.reason}`;
+                      }
+                      if (data.stage === 'verify_language_sources') {
+                        const verification = data.draft?.verification;
+                        const labels = { references_found: '단어 출처 발견', not_found: '일치 출처 없음', unavailable: '출처 조회 불가', demo: '데모 · 외부 검증 없음', author_defined: '작가 정의 언어' };
+                        stage.detail += ' · ' + (labels[verification?.status] || '출처 상태 확인');
+                      }
+                      if (data.stage === 'review_consistency') stage.detail += ` · 검토 항목 ${data.conflicts?.issues?.length || 0}건`;
+                    }
+                  }
+                  if (data.draft) { draft.value = data.draft; streamingText.value = ''; }
+                  if (data.model) generationModel.value = data.model;
+                  if (data.conflicts) draftConflicts.value = data.conflicts;
+                }
+              });
+              draft.value = result.draft;
+              draftConflicts.value = result.conflicts;
+              generationModel.value = result.model;
+              generationRetrieval.value = result.retrieval?.mode==='vector' ? '기존 주문 벡터 RAG 적용' : result.retrieval?.reason ? '기본 조회 사용 · '+result.retrieval.reason : '';
+              generationStatus.value = '모든 단계가 끝났어요. 초안을 편집하고 저장할 수 있습니다.';
+              notify('새 주문의 초안이 완성되었습니다. 아직 저장되지 않았어요.');
+            } catch (err) {
+              draft.value = null;
+              draftConflicts.value = null;
+              streamingText.value = '';
+              for (const stage of generationStages.value) if (stage.status === 'running') stage.status = 'stopped';
+              if (err.name === 'AbortError') generationStatus.value = '생성을 중단했습니다. 주문은 저장되지 않았습니다.';
+              else {
+                generationStatus.value = '생성을 완료하지 못했습니다. 주문은 저장되지 않았습니다.';
+                generationError.value = err.message || '실시간 연결에 실패했습니다. 서버 상태를 확인해 주세요.';
+              }
+            } finally {
+              generating.value = false;
+              generationAbort = null;
+              clearInterval(generationTimer);
+            }
+          }
+
+          function openSpell(spell) {
+            selected.value = clone(spell);
+            editing.value = false;
+            modalReview.value = null;
+            modalError.value = "";
+            acknowledge.value = false;
+          }
+          function editDraft() {
+            selected.value = clone(draft.value);
+            editing.value = true;
+            Object.assign(edit, clone(draft.value));
+            tagInput.value = edit.tags.join(", ");
+            modalReview.value = clone(draftConflicts.value);
+            modalError.value = "";
+            acknowledge.value = false;
+          }
+          function newManual() {
+            selected.value = {
+              name: "",
+              incantation: "",
+              language_kind: "natural",
+              language: "ko",
+              elements: ["light"],
+              school: "utility",
+              romanization: "",
+              hangul_pronunciation: "",
+              ipa: "",
+              pronunciation_note: "",
+              verification: null,
+              literal_meaning: "",
+              effect: "",
+              target: "",
+              limitations: "",
+              world: "나의 세계관",
+              notes: "",
+              tags: [],
+              language_status: "author_edited",
+              origin: "manual",
+            };
+            Object.assign(edit, clone(selected.value));
+            tagInput.value = "";
+            editing.value = true;
+            modalReview.value = null;
+            modalError.value = "";
+            acknowledge.value = false;
+          }
+          function startEditing() {
+            Object.assign(edit, clone(selected.value));
+            tagInput.value = edit.tags.join(", ");
+            editing.value = true;
+            modalError.value = "";
+            acknowledge.value = false;
+          }
+          function closeModal() {
+            if (saving.value || reviewing.value) return;
+            selected.value = null;
+            deleteTarget.value = null;
+            modalError.value = "";
+          }
+          function payload() {
+            const source = editing.value ? edit : selected.value;
+            const keys = [
+              "name",
+              "incantation",
+              "language_kind",
+              "language",
+              "elements",
+              "school",
+              "romanization",
+              "hangul_pronunciation",
+              "ipa",
+              "pronunciation_note",
+              "verification",
+              "literal_meaning",
+              "effect",
+              "target",
+              "limitations",
+              "world",
+              "notes",
+              "tags",
+              "language_status",
+              "origin",
+            ];
+            const out = {};
+            for (const key of keys) out[key] = source[key];
+            if (editing.value)
+              out.tags = tagInput.value
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean);
+            return clone(out);
+          }
+          async function reviewCurrent(useAI) {
+            if (reviewing.value) return;
+            modalError.value = "";
+            reviewing.value = true;
+            reviewElapsed.value = 0;
+            reviewTimer = setInterval(() => reviewElapsed.value++, 1000);
+            try {
+              const result = await api("/api/review", {
+                method: "POST",
+                body: JSON.stringify({
+                  ...payload(),
+                  exclude_id: selected.value.id || null,
+                  use_ai: useAI,
+                }),
+              });
+              modalReview.value = result;
+              acknowledge.value = false;
+            } catch (err) {
+              modalError.value = err.message;
+            } finally {
+              reviewing.value = false;
+              clearInterval(reviewTimer);
+            }
+          }
+          async function save() {
+            if (saving.value) return;
+            modalError.value = "";
+            saving.value = true;
+            try {
+              const body = {
+                ...payload(),
+                acknowledge_conflicts: acknowledge.value,
+              };
+              if (
+                !body.name?.trim() ||
+                !body.incantation?.trim() ||
+                !body.effect?.trim() ||
+                !body.world?.trim()
+              ) {
+                modalError.value =
+                  "이름, 주문문, 효과, 세계관을 모두 적어 주세요.";
+                return;
+              }
+              if (body.language_kind==='constructed' && (!body.hangul_pronunciation?.trim() || !body.literal_meaning?.trim())) {
+                modalError.value='인공 언어의 발음과 의미를 직접 입력해 주세요. IPA는 선택 사항입니다.';
+                return;
+              }
+              if (selected.value.id) body.version = selected.value.version;
+              if (selected.value.id)
+                body.language_status =
+                  body.language_status === "demo_untranslated"
+                    ? "demo_untranslated"
+                    : "author_edited";
+              const result = await api(
+                selected.value.id
+                  ? "/api/spells/" + selected.value.id
+                  : "/api/spells",
+                {
+                  method: selected.value.id ? "PUT" : "POST",
+                  body: JSON.stringify(body),
+                },
+              );
+              if (!selected.value.id && selected.value.origin !== "manual") {
+                draft.value = null;
+                draftConflicts.value = null;
+              }
+              selected.value = null;
+              editing.value = false;
+              view.value = "library";
+              resetFilters();
+              await loadList();
+              notify("주문을 서고에 기록했습니다.");
+            } catch (err) {
+              modalError.value = err.message;
+              if (err.detail?.conflicts) {
+                modalReview.value = err.detail.conflicts;
+                acknowledge.value = false;
+              }
+            } finally {
+              saving.value = false;
+            }
+          }
+          async function removeSpell() {
+            if (saving.value) return;
+            saving.value = true;
+            try {
+              await api(
+                "/api/spells/" +
+                  deleteTarget.value.id +
+                  "?version=" +
+                  deleteTarget.value.version,
+                { method: "DELETE" },
+              );
+              deleteTarget.value = null;
+              selected.value = null;
+              await loadList();
+              notify("주문을 서고에서 삭제했습니다.");
+            } catch (err) {
+              modalError.value = err.message;
+              deleteTarget.value = null;
+            } finally {
+              saving.value = false;
+            }
+          }
+          watch(
+            edit,
+            () => {
+              if (editing.value && !saving.value && !reviewing.value) {
+                modalReview.value = null;
+                acknowledge.value = false;
+              }
+            },
+            { deep: true },
+          );
+          let beforeModal = null;
+          watch([selected, deleteTarget, showAbout], async () => {
+            const open = !!(
+              selected.value ||
+              deleteTarget.value ||
+              showAbout.value
+            );
+            if (open && document.body.style.overflow !== "hidden")
+              beforeModal = document.activeElement;
+            document.body.style.overflow = open ? "hidden" : "";
+            await nextTick();
+            if (open) {
+              const dialogs = document.querySelectorAll(".overlay");
+              dialogs[dialogs.length - 1]
+                ?.querySelector("button:not([disabled]),input:not([disabled])")
+                ?.focus();
+            } else beforeModal?.focus?.();
+          });
+          function onKey(event) {
+            if (
+              event.key === "Tab" &&
+              (selected.value || deleteTarget.value || showAbout.value)
+            ) {
+              const dialogs = document.querySelectorAll(".overlay");
+              const dialog = dialogs[dialogs.length - 1];
+              const controls = [
+                ...dialog.querySelectorAll(
+                  "button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),a[href]",
+                ),
+              ].filter((e) => e.offsetParent !== null);
+              if (controls.length) {
+                const first = controls[0],
+                  last = controls.at(-1);
+                if (event.shiftKey && document.activeElement === first) {
+                  event.preventDefault();
+                  last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                  event.preventDefault();
+                  first.focus();
+                }
+              }
+            }
+            if (event.key === "Escape") {
+              if (deleteTarget.value && !saving.value)
+                deleteTarget.value = null;
+              else if (showAbout.value) showAbout.value = false;
+              else closeModal();
+            }
+          }
+          onMounted(() => {
+            refresh();
+            window.addEventListener("keydown", onKey);
+          });
+          onUnmounted(() => {
+            generationAbort?.abort();
+            clearTimeout(filterTimer);
+            clearTimeout(toastTimer);
+            clearInterval(generationTimer);
+            clearInterval(reviewTimer);
+            window.removeEventListener("keydown", onKey);
+          });
+          return {
+            view,
+            catalog,
+            spells,
+            worlds,
+            statistics,
+            total,
+            loading,
+            globalError,
+            toast,
+            showAbout,
+            searchInput,
+            librarySection,
+            filters,
+            form,
+            constructedLanguage, canGenerateLanguage, creationVoiceTargets, editVoiceTargets, applyCreationVoice, applyEditVoice,
+            languageMessage, languageMessages, languageReady, resolvingLanguage, languageError,
+            chooseLanguage, verifyCurrent, invalidateEvidence,
+            draft,
+            draftConflicts,
+            generationModel,
+            generationRetrieval, generationStages, generationRunId, generationStatus, streamingFields, tokenStreamExpected, cancelGeneration,
+            searchNotice,
+            generationError,
+            generating,
+            elapsed,
+            selected,
+            editing,
+            edit,
+            tagInput,
+            modalReview,
+            modalError,
+            acknowledge,
+            saving,
+            reviewing,
+            reviewElapsed,
+            deleteTarget,
+            examples,
+            color,
+            glyph,
+            langName,
+            langStatus,
+            backendLabel,
+            statItems,
+            hasFilters,
+            usedLanguages,
+            editLanguages,
+            dateLabel,
+            refresh,
+            resetFilters,
+            focusSearch,
+            toggleElement,
+            useExample,
+            generate,
+            openSpell,
+            editDraft,
+            newManual,
+            startEditing,
+            closeModal,
+            reviewCurrent,
+            save,
+            removeSpell,
+          };
+        },
+      });
+      app.component('source-evidence', {
+        props: ['evidence'],
+        computed: {
+          statusLabel() { return ({references_found:'단어 출처 발견 · 문장 전체는 미검증',not_found:'일치하는 단어 출처 없음',unavailable:'웹 검색 연결 실패 또는 일부 실패',demo:'데모 · 웹 검색 없음',stale:'수정됨 · 출처 재확인 필요',author_defined:'작가가 직접 정의한 언어'})[this.evidence?.status] || '웹 출처 확인 전'; }
+        },
+        template: `<section class="review source-evidence" aria-label="언어 웹 출처">
+          <h4>◈ {{ statusLabel }}</h4>
+          <template v-if="evidence">
+            <p class="hint">{{ evidence.note }}</p>
+            <p v-if="evidence.searched_words.length" class="hint">검색 단어 · {{ evidence.searched_words.join(', ') }}</p>
+            <div v-for="source in evidence.sources" :key="source.url" class="source-item">
+              <a :href="source.url" target="_blank" rel="noopener noreferrer">{{ source.title }} · {{ source.language }} ↗</a>
+              <p>{{ source.excerpt }}</p>
+              <p v-if="source.ipa.length" class="hint">출처의 단어 IPA (주문 전체 발음과 별개) · {{ source.ipa.join(', ') }}</p>
+            </div>
+            <p class="hint">확인 시각 · {{ evidence.checked_at }} · {{ evidence.provider==='author' ? '작가 입력' : 'Wiktionary 기여자 / CC BY-SA · 링크는 확인한 판본' }}</p>
+          </template><p v-else class="hint">기존 기록은 편집하기에서 웹 출처를 확인할 수 있습니다.</p>
+        </section>`
+      });
+      app.component('voice-input', KharakteresSpeechComponents.VoiceInput);
+      app.component('spell-audio', KharakteresSpeechComponents.SpellAudio);
+      app.mount('#app');
+    </script>
+  </body>
+</html>

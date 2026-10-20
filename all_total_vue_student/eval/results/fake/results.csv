@@ -1,0 +1,535 @@
+backend,case_id,clarified,cost_usd_estimate,error,evidence,langsmith_run_id,latency_s,mode,repeat,reply,retry_count,runbook_precision,runbook_recall,runbooks,target_correct,targets,validation_attempts,validation_ok,warnings
+fake,cpu,False,0.000597,,[],efb91513-e3ba-4c83-9c74-dcb270a0e459,0.8978,baseline,0,"'payments-service CPU 급증 원인을 진단해줘' 진단 결과: 1) 모니터링: payments-service 상태=degraded, CPU 91.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['cpu-spike'],0,"['payments-service', 'web-01']",2,,[]
+fake,cpu,False,0.0031839999999999998,,"[{'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E1', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E3', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}]",94c9dbd7-41de-470f-ad10-e3a5ef42ef5a,0.2188,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+
+[참고 문서 · 관측 사실과 구분]
+[E2] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E3] payments-service → docs://services/payments-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['cpu-spike'],1,['payments-service'],2,True,[]
+fake,memory,False,0.000597,,[],3d5a68a7-b8fc-4388-ad5a-7926df632ace,0.7602,baseline,0,"'cache-service 메모리 증가 장애를 진단해줘' 진단 결과: 1) 모니터링: cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 메모리 누수(Memory Leak) 대응 절차'에 따라 OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['memory-leak'],0,"['cache-service', 'web-01']",2,,[]
+fake,memory,False,0.0031789999999999995,,"[{'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E1', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E3', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",f90c5861-fff8-4fd9-b4f2-e41335eac46d,0.053,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E2] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E3] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['memory-leak'],1,['cache-service'],2,True,[]
+fake,disk,False,0.000582,,[],915c528d-a681-4eeb-911c-7812d9b4a050,0.7578,baseline,0,"'log-service 디스크 부족 장애를 진단해줘' 진단 결과: 1) 모니터링: log-service 상태=degraded, CPU 20.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 디스크 용량 부족 대응 절차'에 따라 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['disk-full'],0,"['log-service', 'web-01']",2,,[]
+fake,disk,False,0.002944,,"[{'source': 'monitoring', 'target': 'log-service', 'uri': 'monitoring://log-service', 'id': 'E1', 'data': {'system_name': 'log-service', 'status': 'degraded', 'cpu_percent': 20.0, 'memory_percent': 35.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['disk usage 95% on /var/log', 'disk space low']}}, {'source': 'runbook', 'target': 'log-service', 'uri': 'runbook://incident-response/disk-full', 'incident_type': 'disk-full', 'score': 0.707, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 디스크 용량 부족 대응 절차\n\n1. get_monitoring_status와 서버 디스크 사용률을 확인해 임계 수준(90% 이상)인지 판단한다.\n2. 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다.\n3. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다.\n4. 임시 조치로도 부족하면 볼륨을 확장하거나 추가 스토리지를 연결한다.\n5. 정상화 후 로그 보존 정책과 디스크 사용률 알림 임계값을 재검토해 조기에 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'log-service', 'uri': 'docs://services/log-service', 'id': 'E3', 'data': '# log-service 설계 참고 문서 (실습용)\n로그 수집·보관 서비스. 로그 로테이션과 보존기간을 확인한다. 감사 로그를 임의 삭제하지 않고 보관 정책을 따른다.'}]",b7efd6e8-81ae-448d-aa75-438b262d29bb,0.0492,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] log-service: 상태=degraded, CPU=20.0%, 메모리=35.0%, 조회=2026-10-20T09:00:00+09:00; 알림=disk usage 95% on /var/log; disk space low
+
+[참고 문서 · 관측 사실과 구분]
+[E2] log-service → runbook://incident-response/disk-full (유사도=0.707)
+[E3] log-service → docs://services/log-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- log-service: Runbook: 디스크 용량 부족 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['disk-full'],1,['log-service'],2,True,[]
+fake,network,False,0.000582,,[],63d9b9b1-437e-480b-8695-319e50c78d45,0.7528,baseline,0,"'gateway-service 타임아웃 장애를 진단해줘' 진단 결과: 1) 모니터링: gateway-service 상태=degraded, CPU 30.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 네트워크 타임아웃 대응 절차'에 따라 DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['network-timeout'],0,"['gateway-service', 'web-01']",2,,[]
+fake,network,False,0.003274,,"[{'source': 'monitoring', 'target': 'gateway-service', 'uri': 'monitoring://gateway-service', 'id': 'E1', 'data': {'system_name': 'gateway-service', 'status': 'degraded', 'cpu_percent': 30.0, 'memory_percent': 45.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['upstream timeout to payments-service (504)', 'network packet loss 3%']}}, {'source': 'runbook', 'target': 'gateway-service', 'uri': 'runbook://incident-response/network-timeout', 'incident_type': 'network-timeout', 'score': 0.7257, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 네트워크 타임아웃 대응 절차\n\n1. get_monitoring_status로 어떤 시스템 간 호출에서 타임아웃이 발생하는지 확인한다.\n2. DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다.\n3. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다.\n4. 타임아웃 값이 너무 짧아 정상 응답도 실패로 처리되는 경우라면 임계값을 임시 상향해 2차 피해를 줄인다.\n5. 정상화 후 네트워크 경로 기록을 남기고, 재발 방지를 위해 헬스체크 주기와 재시도 정책을 재검토한다.\n'}, {'source': 'docs', 'target': 'gateway-service', 'uri': 'docs://services/gateway-service', 'id': 'E3', 'data': '# gateway-service 설계 참고 문서 (실습용)\n게이트웨이는 payments-service 등 upstream으로 요청을 전달한다. 504 발생 시 upstream 지연, 네트워크, 타임아웃 설정을 구분해 조사한다. 이 관계만으로 원인이 입증되지는 않는다.'}]",15dcd0d5-064c-47b8-9f95-dcb10073e76c,0.0806,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] gateway-service: 상태=degraded, CPU=30.0%, 메모리=45.0%, 조회=2026-10-20T09:00:00+09:00; 알림=upstream timeout to payments-service (504); network packet loss 3%
+
+[참고 문서 · 관측 사실과 구분]
+[E2] gateway-service → runbook://incident-response/network-timeout (유사도=0.7257)
+[E3] gateway-service → docs://services/gateway-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- gateway-service: Runbook: 네트워크 타임아웃 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['network-timeout'],1,['gateway-service'],2,True,[]
+fake,latency,False,0.000582,,[],e7369aa0-42c6-44d5-8203-79be74b7cd43,0.7622,baseline,0,"'auth-service 로그인 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,latency,False,0.003129,,"[{'source': 'monitoring', 'target': 'auth-service', 'uri': 'monitoring://auth-service', 'id': 'E1', 'data': {'system_name': 'auth-service', 'status': 'degraded', 'cpu_percent': 78.0, 'memory_percent': 61.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['p95 latency 2.4s (threshold 1.0s)', 'connection pool 92% used']}}, {'source': 'runbook', 'target': 'auth-service', 'uri': 'runbook://incident-response/high-latency', 'incident_type': 'high-latency', 'score': 0.7565, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 응답 지연(High Latency) 대응 절차\n\n1. get_monitoring_status로 p95 지연시간과 커넥션 풀 사용률을 확인한다.\n2. 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다.\n3. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다.\n4. 5분 내 p95가 임계치(1.0s) 아래로 내려오지 않으면 캐시 계층 또는 읽기 복제본으로 트래픽을 분산한다.\n5. 정상화 후 느린 쿼리 로그를 분석해 근본 원인을 문서화하고 후속 최적화 티켓을 등록한다.\n'}, {'source': 'docs', 'target': 'auth-service', 'uri': 'docs://services/auth-service', 'id': 'E3', 'data': '# auth-service 설계 참고 문서 (실습용)\nPOST /auth/token, POST /auth/refresh. 인증 저장소의 커넥션 풀과 느린 질의를 점검한다. 토큰과 개인정보는 진단 출력에 포함하지 않는다.'}]",06b0a6e0-151e-40dc-89e4-32efd42e4f85,0.0453,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] auth-service: 상태=degraded, CPU=78.0%, 메모리=61.0%, 조회=2026-10-20T09:00:00+09:00; 알림=p95 latency 2.4s (threshold 1.0s); connection pool 92% used
+
+[참고 문서 · 관측 사실과 구분]
+[E2] auth-service → runbook://incident-response/high-latency (유사도=0.7565)
+[E3] auth-service → docs://services/auth-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- auth-service: Runbook: 응답 지연(High Latency) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['high-latency'],1,['auth-service'],2,True,[]
+fake,multi-cpu-memory,False,0.000697,,[],fc1cbb5f-5a03-4ec5-8f42-900b483a1dc8,0.763,baseline,0,"'payments-service랑 cache-service 공통 원인 진단해줘' 진단 결과: 1) 모니터링: payments-service 상태=degraded, CPU 91.0% (알림 2건) · cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['cpu-spike'],0,"['cache-service', 'payments-service', 'web-01']",2,,[]
+fake,multi-cpu-memory,False,0.006522,,"[{'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E1', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E2', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E5', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E6', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",a10daffb-d076-414e-9ac0-352a770b6965,0.0564,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+[E2] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E3] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E4] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E5] payments-service → docs://services/payments-service
+[E6] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['cpu-spike', 'memory-leak']",1,"['cache-service', 'payments-service']",2,True,[]
+fake,multi-network-cpu,False,0.000724,,[],655124f5-238c-41e5-9b42-da494e1a9d81,0.7596,baseline,0,"'gateway-service에서 payments-service로 요청 타임아웃 장애 진단' 진단 결과: 1) 모니터링: gateway-service 상태=degraded, CPU 30.0% (알림 2건) · payments-service 상태=degraded, CPU 91.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['cpu-spike'],0,"['gateway-service', 'payments-service', 'web-01']",2,,[]
+fake,multi-network-cpu,False,0.006645,,"[{'source': 'monitoring', 'target': 'gateway-service', 'uri': 'monitoring://gateway-service', 'id': 'E1', 'data': {'system_name': 'gateway-service', 'status': 'degraded', 'cpu_percent': 30.0, 'memory_percent': 45.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['upstream timeout to payments-service (504)', 'network packet loss 3%']}}, {'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E2', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'runbook', 'target': 'gateway-service', 'uri': 'runbook://incident-response/network-timeout', 'incident_type': 'network-timeout', 'score': 0.7257, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: 네트워크 타임아웃 대응 절차\n\n1. get_monitoring_status로 어떤 시스템 간 호출에서 타임아웃이 발생하는지 확인한다.\n2. DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다.\n3. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다.\n4. 타임아웃 값이 너무 짧아 정상 응답도 실패로 처리되는 경우라면 임계값을 임시 상향해 2차 피해를 줄인다.\n5. 정상화 후 네트워크 경로 기록을 남기고, 재발 방지를 위해 헬스체크 주기와 재시도 정책을 재검토한다.\n'}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'docs', 'target': 'gateway-service', 'uri': 'docs://services/gateway-service', 'id': 'E5', 'data': '# gateway-service 설계 참고 문서 (실습용)\n게이트웨이는 payments-service 등 upstream으로 요청을 전달한다. 504 발생 시 upstream 지연, 네트워크, 타임아웃 설정을 구분해 조사한다. 이 관계만으로 원인이 입증되지는 않는다.'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E6', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}]",59b70a4f-d78e-4a19-8d2f-ca6cbaef7224,0.0591,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] gateway-service: 상태=degraded, CPU=30.0%, 메모리=45.0%, 조회=2026-10-20T09:00:00+09:00; 알림=upstream timeout to payments-service (504); network packet loss 3%
+[E2] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+
+[참고 문서 · 관측 사실과 구분]
+[E3] gateway-service → runbook://incident-response/network-timeout (유사도=0.7257)
+[E4] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E5] gateway-service → docs://services/gateway-service
+[E6] payments-service → docs://services/payments-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- gateway-service: Runbook: 네트워크 타임아웃 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['cpu-spike', 'network-timeout']",1,"['gateway-service', 'payments-service']",2,True,[]
+fake,multi-disk-memory,False,0.000671,,[],aaf8cd9d-aa49-430b-adf1-7c9678012b12,0.7545,baseline,0,"'log-service와 cache-service 장애 진단' 진단 결과: 1) 모니터링: log-service 상태=degraded, CPU 20.0% (알림 2건) · cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 메모리 누수(Memory Leak) 대응 절차'에 따라 OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['memory-leak'],0,"['cache-service', 'log-service', 'web-01']",2,,[]
+fake,multi-disk-memory,False,0.006253,,"[{'source': 'monitoring', 'target': 'log-service', 'uri': 'monitoring://log-service', 'id': 'E1', 'data': {'system_name': 'log-service', 'status': 'degraded', 'cpu_percent': 20.0, 'memory_percent': 35.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['disk usage 95% on /var/log', 'disk space low']}}, {'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E2', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'log-service', 'uri': 'runbook://incident-response/disk-full', 'incident_type': 'disk-full', 'score': 0.707, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: 디스크 용량 부족 대응 절차\n\n1. get_monitoring_status와 서버 디스크 사용률을 확인해 임계 수준(90% 이상)인지 판단한다.\n2. 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다.\n3. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다.\n4. 임시 조치로도 부족하면 볼륨을 확장하거나 추가 스토리지를 연결한다.\n5. 정상화 후 로그 보존 정책과 디스크 사용률 알림 임계값을 재검토해 조기에 감지되도록 조정한다.\n'}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'log-service', 'uri': 'docs://services/log-service', 'id': 'E5', 'data': '# log-service 설계 참고 문서 (실습용)\n로그 수집·보관 서비스. 로그 로테이션과 보존기간을 확인한다. 감사 로그를 임의 삭제하지 않고 보관 정책을 따른다.'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E6', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",d4c59702-64ef-411b-8df7-ea8fee27ce0a,0.0609,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] log-service: 상태=degraded, CPU=20.0%, 메모리=35.0%, 조회=2026-10-20T09:00:00+09:00; 알림=disk usage 95% on /var/log; disk space low
+[E2] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E3] log-service → runbook://incident-response/disk-full (유사도=0.707)
+[E4] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E5] log-service → docs://services/log-service
+[E6] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- log-service: Runbook: 디스크 용량 부족 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['disk-full', 'memory-leak']",1,"['cache-service', 'log-service']",2,True,[]
+fake,healthy,False,0.00042,,[],974c8cfc-47d6-4034-8912-496f502eb24e,0.7496,baseline,0,"'web-01 상태 진단' 진단 결과: 1) 모니터링: web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: DB Down 대응 절차'에 따라 커넥션 풀/리플리케이션 상태를 점검하고 필요 시 failover 노드로 전환한다. 서비스 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['db-down'],1,['web-01'],2,,[]
+fake,healthy,False,0.001258,,"[{'source': 'monitoring', 'target': 'web-01', 'uri': 'monitoring://web-01', 'id': 'E1', 'data': {'system_name': 'web-01', 'status': 'healthy', 'cpu_percent': 34.0, 'memory_percent': 48.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': []}}, {'source': 'docs', 'target': 'web-01', 'uri': 'docs://services/web-01', 'id': 'E2', 'data': '# web-01 설계 참고 문서 (실습용)\n웹 요청을 처리하는 인스턴스. 상태가 healthy이면 사용자 증상과 관측 시각의 차이를 확인하고 추가 로그를 요청한다.'}]",4f8d4030-599f-4b2e-9516-d8b34b878e27,0.0456,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] web-01: 상태=healthy, CPU=34.0%, 메모리=48.0%, 조회=2026-10-20T09:00:00+09:00; 알림=없음
+
+[참고 문서 · 관측 사실과 구분]
+[E2] web-01 → docs://services/web-01
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,[],1,['web-01'],2,True,[]
+fake,missing,False,0.000535,,[],63fee2d8-edda-4f2f-af21-d35c222727da,0.7581,baseline,0,"'로그인 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,missing,True,0.0,,[],3a1f7dc6-c137-4d2d-b36e-25343c204fef,0.0043,improved,0,"진단할 시스템이 지정되지 않았습니다.
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,unknown,False,0.000542,,[],909f062f-768b-400c-98a9-d67514b0c5ba,0.7958,baseline,0,"'billing-service 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: billing-service 상태=unknown, CPU 0.0% (알림 1건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: DB Down 대응 절차'에 따라 커넥션 풀/리플리케이션 상태를 점검하고 필요 시 failover 노드로 전환한다. 서비스 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['db-down'],0,"['billing-service', 'web-01']",2,,[]
+fake,unknown,True,0.0,,[],586e382d-0c09-427b-8ebc-724505bbbb1d,0.0746,improved,0,"등록되지 않은 시스템: billing-service
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,mixed,False,0.000676,,[],fc122317-7876-4153-ac2e-bf7f1d20eece,0.7831,baseline,0,"'billing-service와 auth-service 장애 진단' 진단 결과: 1) 모니터링: billing-service 상태=unknown, CPU 0.0% (알림 1건) · auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'billing-service', 'web-01']",2,,[]
+fake,mixed,True,0.0,,[],bdb7fb9f-418d-4aac-9350-4a6f49ee2e59,0.0085,improved,0,"등록되지 않은 시스템: billing-service
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,boundary,False,0.000567,,[],140bc761-3e0c-4b13-a617-5174fffba33f,0.7784,baseline,0,"'auth-service-extra 장애 진단' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,boundary,True,0.0,,[],acdcd3fa-110f-486f-8be1-ca8c6fed7037,0.0055,improved,0,"등록되지 않은 시스템: auth-service-extra
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,greeting,False,3e-06,,[],3af04ca5-0513-49ec-949d-dfddc24b4e5b,0.0085,baseline,0,안녕하세요! 무엇을 도와드릴까요?,0,1.0,1.0,[],1,[],0,,[]
+fake,greeting,False,1e-06,,[],84cd3937-0c72-47f2-8f62-28d47b0cf1b8,0.01,improved,0,안녕하세요! 무엇을 도와드릴까요?,0,1.0,1.0,[],1,[],0,,[]
+fake,explicit-only,False,3e-06,,[],46a9571c-7866-4e15-9fc1-be1c29c3bfc5,0.0113,baseline,0,안녕하세요! 무엇을 도와드릴까요?,0,0.0,0.0,[],0,[],0,,[]
+fake,explicit-only,False,0.003138,,"[{'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E1', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E3', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",90e79320-beb3-4b21-aa16-7e454c404339,0.122,improved,0,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E2] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E3] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['memory-leak'],1,['cache-service'],2,True,[]
+fake,cpu,False,0.0031839999999999998,,"[{'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E1', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E3', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}]",951973ce-8508-473b-b35f-0f7a4b3bffb2,0.1984,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+
+[참고 문서 · 관측 사실과 구분]
+[E2] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E3] payments-service → docs://services/payments-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['cpu-spike'],1,['payments-service'],2,True,[]
+fake,cpu,False,0.000597,,[],9ebd23f6-b914-4927-9ff7-cc0dc731305e,0.7926,baseline,1,"'payments-service CPU 급증 원인을 진단해줘' 진단 결과: 1) 모니터링: payments-service 상태=degraded, CPU 91.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['cpu-spike'],0,"['payments-service', 'web-01']",2,,[]
+fake,memory,False,0.0031789999999999995,,"[{'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E1', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E3', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",134235f8-6c79-4820-b377-b089abf7c23a,0.0696,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E2] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E3] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['memory-leak'],1,['cache-service'],2,True,[]
+fake,memory,False,0.000597,,[],a9f2347d-6150-42d9-8508-9d4db139349b,0.7569,baseline,1,"'cache-service 메모리 증가 장애를 진단해줘' 진단 결과: 1) 모니터링: cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 메모리 누수(Memory Leak) 대응 절차'에 따라 OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['memory-leak'],0,"['cache-service', 'web-01']",2,,[]
+fake,disk,False,0.002944,,"[{'source': 'monitoring', 'target': 'log-service', 'uri': 'monitoring://log-service', 'id': 'E1', 'data': {'system_name': 'log-service', 'status': 'degraded', 'cpu_percent': 20.0, 'memory_percent': 35.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['disk usage 95% on /var/log', 'disk space low']}}, {'source': 'runbook', 'target': 'log-service', 'uri': 'runbook://incident-response/disk-full', 'incident_type': 'disk-full', 'score': 0.707, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 디스크 용량 부족 대응 절차\n\n1. get_monitoring_status와 서버 디스크 사용률을 확인해 임계 수준(90% 이상)인지 판단한다.\n2. 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다.\n3. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다.\n4. 임시 조치로도 부족하면 볼륨을 확장하거나 추가 스토리지를 연결한다.\n5. 정상화 후 로그 보존 정책과 디스크 사용률 알림 임계값을 재검토해 조기에 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'log-service', 'uri': 'docs://services/log-service', 'id': 'E3', 'data': '# log-service 설계 참고 문서 (실습용)\n로그 수집·보관 서비스. 로그 로테이션과 보존기간을 확인한다. 감사 로그를 임의 삭제하지 않고 보관 정책을 따른다.'}]",20370d23-743d-4de3-a10e-d35a1f781c59,0.0543,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] log-service: 상태=degraded, CPU=20.0%, 메모리=35.0%, 조회=2026-10-20T09:00:00+09:00; 알림=disk usage 95% on /var/log; disk space low
+
+[참고 문서 · 관측 사실과 구분]
+[E2] log-service → runbook://incident-response/disk-full (유사도=0.707)
+[E3] log-service → docs://services/log-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- log-service: Runbook: 디스크 용량 부족 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['disk-full'],1,['log-service'],2,True,[]
+fake,disk,False,0.000582,,[],ff35c4e7-6c13-4062-abcc-2d52e2380bf7,0.7686,baseline,1,"'log-service 디스크 부족 장애를 진단해줘' 진단 결과: 1) 모니터링: log-service 상태=degraded, CPU 20.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 디스크 용량 부족 대응 절차'에 따라 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['disk-full'],0,"['log-service', 'web-01']",2,,[]
+fake,network,False,0.003274,,"[{'source': 'monitoring', 'target': 'gateway-service', 'uri': 'monitoring://gateway-service', 'id': 'E1', 'data': {'system_name': 'gateway-service', 'status': 'degraded', 'cpu_percent': 30.0, 'memory_percent': 45.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['upstream timeout to payments-service (504)', 'network packet loss 3%']}}, {'source': 'runbook', 'target': 'gateway-service', 'uri': 'runbook://incident-response/network-timeout', 'incident_type': 'network-timeout', 'score': 0.7257, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 네트워크 타임아웃 대응 절차\n\n1. get_monitoring_status로 어떤 시스템 간 호출에서 타임아웃이 발생하는지 확인한다.\n2. DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다.\n3. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다.\n4. 타임아웃 값이 너무 짧아 정상 응답도 실패로 처리되는 경우라면 임계값을 임시 상향해 2차 피해를 줄인다.\n5. 정상화 후 네트워크 경로 기록을 남기고, 재발 방지를 위해 헬스체크 주기와 재시도 정책을 재검토한다.\n'}, {'source': 'docs', 'target': 'gateway-service', 'uri': 'docs://services/gateway-service', 'id': 'E3', 'data': '# gateway-service 설계 참고 문서 (실습용)\n게이트웨이는 payments-service 등 upstream으로 요청을 전달한다. 504 발생 시 upstream 지연, 네트워크, 타임아웃 설정을 구분해 조사한다. 이 관계만으로 원인이 입증되지는 않는다.'}]",bf8c282e-f238-4fd4-9203-c92c956e34f3,0.0826,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] gateway-service: 상태=degraded, CPU=30.0%, 메모리=45.0%, 조회=2026-10-20T09:00:00+09:00; 알림=upstream timeout to payments-service (504); network packet loss 3%
+
+[참고 문서 · 관측 사실과 구분]
+[E2] gateway-service → runbook://incident-response/network-timeout (유사도=0.7257)
+[E3] gateway-service → docs://services/gateway-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- gateway-service: Runbook: 네트워크 타임아웃 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['network-timeout'],1,['gateway-service'],2,True,[]
+fake,network,False,0.000582,,[],e41de30b-41dd-497e-9614-44641908ffeb,0.76,baseline,1,"'gateway-service 타임아웃 장애를 진단해줘' 진단 결과: 1) 모니터링: gateway-service 상태=degraded, CPU 30.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 네트워크 타임아웃 대응 절차'에 따라 DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['network-timeout'],0,"['gateway-service', 'web-01']",2,,[]
+fake,latency,False,0.003129,,"[{'source': 'monitoring', 'target': 'auth-service', 'uri': 'monitoring://auth-service', 'id': 'E1', 'data': {'system_name': 'auth-service', 'status': 'degraded', 'cpu_percent': 78.0, 'memory_percent': 61.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['p95 latency 2.4s (threshold 1.0s)', 'connection pool 92% used']}}, {'source': 'runbook', 'target': 'auth-service', 'uri': 'runbook://incident-response/high-latency', 'incident_type': 'high-latency', 'score': 0.7565, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 응답 지연(High Latency) 대응 절차\n\n1. get_monitoring_status로 p95 지연시간과 커넥션 풀 사용률을 확인한다.\n2. 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다.\n3. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다.\n4. 5분 내 p95가 임계치(1.0s) 아래로 내려오지 않으면 캐시 계층 또는 읽기 복제본으로 트래픽을 분산한다.\n5. 정상화 후 느린 쿼리 로그를 분석해 근본 원인을 문서화하고 후속 최적화 티켓을 등록한다.\n'}, {'source': 'docs', 'target': 'auth-service', 'uri': 'docs://services/auth-service', 'id': 'E3', 'data': '# auth-service 설계 참고 문서 (실습용)\nPOST /auth/token, POST /auth/refresh. 인증 저장소의 커넥션 풀과 느린 질의를 점검한다. 토큰과 개인정보는 진단 출력에 포함하지 않는다.'}]",3324018c-4822-4562-ad9e-9977fe42be24,0.0775,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] auth-service: 상태=degraded, CPU=78.0%, 메모리=61.0%, 조회=2026-10-20T09:00:00+09:00; 알림=p95 latency 2.4s (threshold 1.0s); connection pool 92% used
+
+[참고 문서 · 관측 사실과 구분]
+[E2] auth-service → runbook://incident-response/high-latency (유사도=0.7565)
+[E3] auth-service → docs://services/auth-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- auth-service: Runbook: 응답 지연(High Latency) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['high-latency'],1,['auth-service'],2,True,[]
+fake,latency,False,0.000582,,[],85fdac8d-f674-4b9c-a0bc-0484b8cf332a,0.781,baseline,1,"'auth-service 로그인 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,multi-cpu-memory,False,0.006522,,"[{'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E1', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E2', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E5', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E6', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",680445eb-c680-45b8-9848-5c1aa25995b9,0.1222,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+[E2] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E3] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E4] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E5] payments-service → docs://services/payments-service
+[E6] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['cpu-spike', 'memory-leak']",1,"['cache-service', 'payments-service']",2,True,[]
+fake,multi-cpu-memory,False,0.000697,,[],d65e6d81-63fc-4f9f-a573-0c50e81576f5,0.7636,baseline,1,"'payments-service랑 cache-service 공통 원인 진단해줘' 진단 결과: 1) 모니터링: payments-service 상태=degraded, CPU 91.0% (알림 2건) · cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['cpu-spike'],0,"['cache-service', 'payments-service', 'web-01']",2,,[]
+fake,multi-network-cpu,False,0.006645,,"[{'source': 'monitoring', 'target': 'gateway-service', 'uri': 'monitoring://gateway-service', 'id': 'E1', 'data': {'system_name': 'gateway-service', 'status': 'degraded', 'cpu_percent': 30.0, 'memory_percent': 45.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['upstream timeout to payments-service (504)', 'network packet loss 3%']}}, {'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E2', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'runbook', 'target': 'gateway-service', 'uri': 'runbook://incident-response/network-timeout', 'incident_type': 'network-timeout', 'score': 0.7257, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: 네트워크 타임아웃 대응 절차\n\n1. get_monitoring_status로 어떤 시스템 간 호출에서 타임아웃이 발생하는지 확인한다.\n2. DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다.\n3. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다.\n4. 타임아웃 값이 너무 짧아 정상 응답도 실패로 처리되는 경우라면 임계값을 임시 상향해 2차 피해를 줄인다.\n5. 정상화 후 네트워크 경로 기록을 남기고, 재발 방지를 위해 헬스체크 주기와 재시도 정책을 재검토한다.\n'}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'docs', 'target': 'gateway-service', 'uri': 'docs://services/gateway-service', 'id': 'E5', 'data': '# gateway-service 설계 참고 문서 (실습용)\n게이트웨이는 payments-service 등 upstream으로 요청을 전달한다. 504 발생 시 upstream 지연, 네트워크, 타임아웃 설정을 구분해 조사한다. 이 관계만으로 원인이 입증되지는 않는다.'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E6', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}]",38134c2e-3bed-48c4-b2ac-e795640dc73e,0.0606,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] gateway-service: 상태=degraded, CPU=30.0%, 메모리=45.0%, 조회=2026-10-20T09:00:00+09:00; 알림=upstream timeout to payments-service (504); network packet loss 3%
+[E2] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+
+[참고 문서 · 관측 사실과 구분]
+[E3] gateway-service → runbook://incident-response/network-timeout (유사도=0.7257)
+[E4] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E5] gateway-service → docs://services/gateway-service
+[E6] payments-service → docs://services/payments-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- gateway-service: Runbook: 네트워크 타임아웃 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['cpu-spike', 'network-timeout']",1,"['gateway-service', 'payments-service']",2,True,[]
+fake,multi-network-cpu,False,0.000724,,[],f285fef7-5c6e-4445-812d-8bbc939028f0,0.7586,baseline,1,"'gateway-service에서 payments-service로 요청 타임아웃 장애 진단' 진단 결과: 1) 모니터링: gateway-service 상태=degraded, CPU 30.0% (알림 2건) · payments-service 상태=degraded, CPU 91.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['cpu-spike'],0,"['gateway-service', 'payments-service', 'web-01']",2,,[]
+fake,multi-disk-memory,False,0.006253,,"[{'source': 'monitoring', 'target': 'log-service', 'uri': 'monitoring://log-service', 'id': 'E1', 'data': {'system_name': 'log-service', 'status': 'degraded', 'cpu_percent': 20.0, 'memory_percent': 35.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['disk usage 95% on /var/log', 'disk space low']}}, {'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E2', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'log-service', 'uri': 'runbook://incident-response/disk-full', 'incident_type': 'disk-full', 'score': 0.707, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: 디스크 용량 부족 대응 절차\n\n1. get_monitoring_status와 서버 디스크 사용률을 확인해 임계 수준(90% 이상)인지 판단한다.\n2. 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다.\n3. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다.\n4. 임시 조치로도 부족하면 볼륨을 확장하거나 추가 스토리지를 연결한다.\n5. 정상화 후 로그 보존 정책과 디스크 사용률 알림 임계값을 재검토해 조기에 감지되도록 조정한다.\n'}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'log-service', 'uri': 'docs://services/log-service', 'id': 'E5', 'data': '# log-service 설계 참고 문서 (실습용)\n로그 수집·보관 서비스. 로그 로테이션과 보존기간을 확인한다. 감사 로그를 임의 삭제하지 않고 보관 정책을 따른다.'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E6', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",f9442dcb-926e-42a8-8fa8-a8f6e1e2facf,0.2626,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] log-service: 상태=degraded, CPU=20.0%, 메모리=35.0%, 조회=2026-10-20T09:00:00+09:00; 알림=disk usage 95% on /var/log; disk space low
+[E2] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E3] log-service → runbook://incident-response/disk-full (유사도=0.707)
+[E4] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E5] log-service → docs://services/log-service
+[E6] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- log-service: Runbook: 디스크 용량 부족 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['disk-full', 'memory-leak']",1,"['cache-service', 'log-service']",2,True,[]
+fake,multi-disk-memory,False,0.000671,,[],e313d09b-439b-4388-ad65-954e6b4b2fc2,0.7752,baseline,1,"'log-service와 cache-service 장애 진단' 진단 결과: 1) 모니터링: log-service 상태=degraded, CPU 20.0% (알림 2건) · cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 메모리 누수(Memory Leak) 대응 절차'에 따라 OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['memory-leak'],0,"['cache-service', 'log-service', 'web-01']",2,,[]
+fake,healthy,False,0.001258,,"[{'source': 'monitoring', 'target': 'web-01', 'uri': 'monitoring://web-01', 'id': 'E1', 'data': {'system_name': 'web-01', 'status': 'healthy', 'cpu_percent': 34.0, 'memory_percent': 48.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': []}}, {'source': 'docs', 'target': 'web-01', 'uri': 'docs://services/web-01', 'id': 'E2', 'data': '# web-01 설계 참고 문서 (실습용)\n웹 요청을 처리하는 인스턴스. 상태가 healthy이면 사용자 증상과 관측 시각의 차이를 확인하고 추가 로그를 요청한다.'}]",6324c713-8e4b-4a75-920a-17203b7038c7,0.0313,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] web-01: 상태=healthy, CPU=34.0%, 메모리=48.0%, 조회=2026-10-20T09:00:00+09:00; 알림=없음
+
+[참고 문서 · 관측 사실과 구분]
+[E2] web-01 → docs://services/web-01
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,[],1,['web-01'],2,True,[]
+fake,healthy,False,0.00042,,[],2a167109-1b1a-4ac8-ad85-22c33d8c8919,0.7507,baseline,1,"'web-01 상태 진단' 진단 결과: 1) 모니터링: web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: DB Down 대응 절차'에 따라 커넥션 풀/리플리케이션 상태를 점검하고 필요 시 failover 노드로 전환한다. 서비스 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['db-down'],1,['web-01'],2,,[]
+fake,missing,True,0.0,,[],af05dde2-6fd6-4ace-9911-400b3f377f1a,0.004,improved,1,"진단할 시스템이 지정되지 않았습니다.
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,missing,False,0.000535,,[],83b34848-dfad-4c73-a200-014e9d8b3201,0.7517,baseline,1,"'로그인 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,unknown,True,0.0,,[],95e227a4-9e9b-413b-98f7-56e8b032eac9,0.0039,improved,1,"등록되지 않은 시스템: billing-service
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,unknown,False,0.000542,,[],d194d9be-63f8-47b5-a996-6d086e566af2,0.7517,baseline,1,"'billing-service 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: billing-service 상태=unknown, CPU 0.0% (알림 1건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: DB Down 대응 절차'에 따라 커넥션 풀/리플리케이션 상태를 점검하고 필요 시 failover 노드로 전환한다. 서비스 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['db-down'],0,"['billing-service', 'web-01']",2,,[]
+fake,mixed,True,0.0,,[],60799ce4-5ef3-488d-ab9a-b074dcfc79d9,0.0044,improved,1,"등록되지 않은 시스템: billing-service
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,mixed,False,0.000676,,[],5eed023e-4aae-4659-b60f-31cd40f5f903,0.7637,baseline,1,"'billing-service와 auth-service 장애 진단' 진단 결과: 1) 모니터링: billing-service 상태=unknown, CPU 0.0% (알림 1건) · auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'billing-service', 'web-01']",2,,[]
+fake,boundary,True,0.0,,[],51c87b99-763a-402f-8dff-0bc848da5344,0.0056,improved,1,"등록되지 않은 시스템: auth-service-extra
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,boundary,False,0.000567,,[],8f89ffc5-8a5d-4077-a9f1-698c6b4f41ed,0.7555,baseline,1,"'auth-service-extra 장애 진단' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,greeting,False,1e-06,,[],1414b427-781b-401f-88d4-c77f15c26b56,0.0054,improved,1,안녕하세요! 무엇을 도와드릴까요?,0,1.0,1.0,[],1,[],0,,[]
+fake,greeting,False,3e-06,,[],7cb40c45-9462-4046-9e71-615cc080681a,0.0045,baseline,1,안녕하세요! 무엇을 도와드릴까요?,0,1.0,1.0,[],1,[],0,,[]
+fake,explicit-only,False,0.003138,,"[{'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E1', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E3', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",f537e246-cad8-4f0b-a244-79833cb7e48f,0.04,improved,1,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E2] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E3] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['memory-leak'],1,['cache-service'],2,True,[]
+fake,explicit-only,False,3e-06,,[],e53720e5-bd32-4fcd-9a9f-4059d944c498,0.0041,baseline,1,안녕하세요! 무엇을 도와드릴까요?,0,0.0,0.0,[],0,[],0,,[]
+fake,cpu,False,0.000597,,[],ece3a66d-3b2d-4fd9-8055-13406dfaf47f,0.7476,baseline,2,"'payments-service CPU 급증 원인을 진단해줘' 진단 결과: 1) 모니터링: payments-service 상태=degraded, CPU 91.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['cpu-spike'],0,"['payments-service', 'web-01']",2,,[]
+fake,cpu,False,0.0031839999999999998,,"[{'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E1', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E3', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}]",0b5594d5-3438-44cf-81d2-670c621fa614,0.048,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+
+[참고 문서 · 관측 사실과 구분]
+[E2] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E3] payments-service → docs://services/payments-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['cpu-spike'],1,['payments-service'],2,True,[]
+fake,memory,False,0.000597,,[],ff5ca665-ee24-43b7-8595-dfc979c9fee0,0.7564,baseline,2,"'cache-service 메모리 증가 장애를 진단해줘' 진단 결과: 1) 모니터링: cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 메모리 누수(Memory Leak) 대응 절차'에 따라 OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['memory-leak'],0,"['cache-service', 'web-01']",2,,[]
+fake,memory,False,0.0031789999999999995,,"[{'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E1', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E3', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",4849b16a-65b6-4eb8-a3e9-29afd7286a61,0.0682,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E2] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E3] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['memory-leak'],1,['cache-service'],2,True,[]
+fake,disk,False,0.000582,,[],e6110e4e-d470-462c-97d7-4b8416bfc00c,0.7662,baseline,2,"'log-service 디스크 부족 장애를 진단해줘' 진단 결과: 1) 모니터링: log-service 상태=degraded, CPU 20.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 디스크 용량 부족 대응 절차'에 따라 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['disk-full'],0,"['log-service', 'web-01']",2,,[]
+fake,disk,False,0.002944,,"[{'source': 'monitoring', 'target': 'log-service', 'uri': 'monitoring://log-service', 'id': 'E1', 'data': {'system_name': 'log-service', 'status': 'degraded', 'cpu_percent': 20.0, 'memory_percent': 35.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['disk usage 95% on /var/log', 'disk space low']}}, {'source': 'runbook', 'target': 'log-service', 'uri': 'runbook://incident-response/disk-full', 'incident_type': 'disk-full', 'score': 0.707, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 디스크 용량 부족 대응 절차\n\n1. get_monitoring_status와 서버 디스크 사용률을 확인해 임계 수준(90% 이상)인지 판단한다.\n2. 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다.\n3. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다.\n4. 임시 조치로도 부족하면 볼륨을 확장하거나 추가 스토리지를 연결한다.\n5. 정상화 후 로그 보존 정책과 디스크 사용률 알림 임계값을 재검토해 조기에 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'log-service', 'uri': 'docs://services/log-service', 'id': 'E3', 'data': '# log-service 설계 참고 문서 (실습용)\n로그 수집·보관 서비스. 로그 로테이션과 보존기간을 확인한다. 감사 로그를 임의 삭제하지 않고 보관 정책을 따른다.'}]",6ed8745e-7ca0-44c8-9317-c7c74089d3ba,0.0432,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] log-service: 상태=degraded, CPU=20.0%, 메모리=35.0%, 조회=2026-10-20T09:00:00+09:00; 알림=disk usage 95% on /var/log; disk space low
+
+[참고 문서 · 관측 사실과 구분]
+[E2] log-service → runbook://incident-response/disk-full (유사도=0.707)
+[E3] log-service → docs://services/log-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- log-service: Runbook: 디스크 용량 부족 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['disk-full'],1,['log-service'],2,True,[]
+fake,network,False,0.000582,,[],6bb171a6-9857-4dbf-8b6d-3dd3be2347fc,0.755,baseline,2,"'gateway-service 타임아웃 장애를 진단해줘' 진단 결과: 1) 모니터링: gateway-service 상태=degraded, CPU 30.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 네트워크 타임아웃 대응 절차'에 따라 DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['network-timeout'],0,"['gateway-service', 'web-01']",2,,[]
+fake,network,False,0.003274,,"[{'source': 'monitoring', 'target': 'gateway-service', 'uri': 'monitoring://gateway-service', 'id': 'E1', 'data': {'system_name': 'gateway-service', 'status': 'degraded', 'cpu_percent': 30.0, 'memory_percent': 45.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['upstream timeout to payments-service (504)', 'network packet loss 3%']}}, {'source': 'runbook', 'target': 'gateway-service', 'uri': 'runbook://incident-response/network-timeout', 'incident_type': 'network-timeout', 'score': 0.7257, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 네트워크 타임아웃 대응 절차\n\n1. get_monitoring_status로 어떤 시스템 간 호출에서 타임아웃이 발생하는지 확인한다.\n2. DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다.\n3. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다.\n4. 타임아웃 값이 너무 짧아 정상 응답도 실패로 처리되는 경우라면 임계값을 임시 상향해 2차 피해를 줄인다.\n5. 정상화 후 네트워크 경로 기록을 남기고, 재발 방지를 위해 헬스체크 주기와 재시도 정책을 재검토한다.\n'}, {'source': 'docs', 'target': 'gateway-service', 'uri': 'docs://services/gateway-service', 'id': 'E3', 'data': '# gateway-service 설계 참고 문서 (실습용)\n게이트웨이는 payments-service 등 upstream으로 요청을 전달한다. 504 발생 시 upstream 지연, 네트워크, 타임아웃 설정을 구분해 조사한다. 이 관계만으로 원인이 입증되지는 않는다.'}]",9070c501-1edb-46a8-ae22-885f5b133b4c,0.047,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] gateway-service: 상태=degraded, CPU=30.0%, 메모리=45.0%, 조회=2026-10-20T09:00:00+09:00; 알림=upstream timeout to payments-service (504); network packet loss 3%
+
+[참고 문서 · 관측 사실과 구분]
+[E2] gateway-service → runbook://incident-response/network-timeout (유사도=0.7257)
+[E3] gateway-service → docs://services/gateway-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- gateway-service: Runbook: 네트워크 타임아웃 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['network-timeout'],1,['gateway-service'],2,True,[]
+fake,latency,False,0.000582,,[],db7890d3-63cc-4345-8803-751eb1967845,0.7592,baseline,2,"'auth-service 로그인 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,1.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,latency,False,0.003129,,"[{'source': 'monitoring', 'target': 'auth-service', 'uri': 'monitoring://auth-service', 'id': 'E1', 'data': {'system_name': 'auth-service', 'status': 'degraded', 'cpu_percent': 78.0, 'memory_percent': 61.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['p95 latency 2.4s (threshold 1.0s)', 'connection pool 92% used']}}, {'source': 'runbook', 'target': 'auth-service', 'uri': 'runbook://incident-response/high-latency', 'incident_type': 'high-latency', 'score': 0.7565, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 응답 지연(High Latency) 대응 절차\n\n1. get_monitoring_status로 p95 지연시간과 커넥션 풀 사용률을 확인한다.\n2. 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다.\n3. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다.\n4. 5분 내 p95가 임계치(1.0s) 아래로 내려오지 않으면 캐시 계층 또는 읽기 복제본으로 트래픽을 분산한다.\n5. 정상화 후 느린 쿼리 로그를 분석해 근본 원인을 문서화하고 후속 최적화 티켓을 등록한다.\n'}, {'source': 'docs', 'target': 'auth-service', 'uri': 'docs://services/auth-service', 'id': 'E3', 'data': '# auth-service 설계 참고 문서 (실습용)\nPOST /auth/token, POST /auth/refresh. 인증 저장소의 커넥션 풀과 느린 질의를 점검한다. 토큰과 개인정보는 진단 출력에 포함하지 않는다.'}]",3ea54c13-dc06-4dbb-a7ee-4d27ece02f54,0.0657,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] auth-service: 상태=degraded, CPU=78.0%, 메모리=61.0%, 조회=2026-10-20T09:00:00+09:00; 알림=p95 latency 2.4s (threshold 1.0s); connection pool 92% used
+
+[참고 문서 · 관측 사실과 구분]
+[E2] auth-service → runbook://incident-response/high-latency (유사도=0.7565)
+[E3] auth-service → docs://services/auth-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- auth-service: Runbook: 응답 지연(High Latency) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['high-latency'],1,['auth-service'],2,True,[]
+fake,multi-cpu-memory,False,0.000697,,[],4d32f748-9ca3-4661-a8d1-a73781be66ab,0.7599,baseline,2,"'payments-service랑 cache-service 공통 원인 진단해줘' 진단 결과: 1) 모니터링: payments-service 상태=degraded, CPU 91.0% (알림 2건) · cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['cpu-spike'],0,"['cache-service', 'payments-service', 'web-01']",2,,[]
+fake,multi-cpu-memory,False,0.006522,,"[{'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E1', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E2', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E5', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E6', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",3569df52-1cff-4063-9067-ac2e9663039d,0.0934,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+[E2] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E3] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E4] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E5] payments-service → docs://services/payments-service
+[E6] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['cpu-spike', 'memory-leak']",1,"['cache-service', 'payments-service']",2,True,[]
+fake,multi-network-cpu,False,0.000724,,[],5926aa85-1063-4a9b-afe1-aabe1969b18a,0.7591,baseline,2,"'gateway-service에서 payments-service로 요청 타임아웃 장애 진단' 진단 결과: 1) 모니터링: gateway-service 상태=degraded, CPU 30.0% (알림 2건) · payments-service 상태=degraded, CPU 91.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: CPU 급증 대응 절차'에 따라 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['cpu-spike'],0,"['gateway-service', 'payments-service', 'web-01']",2,,[]
+fake,multi-network-cpu,False,0.006645,,"[{'source': 'monitoring', 'target': 'gateway-service', 'uri': 'monitoring://gateway-service', 'id': 'E1', 'data': {'system_name': 'gateway-service', 'status': 'degraded', 'cpu_percent': 30.0, 'memory_percent': 45.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['upstream timeout to payments-service (504)', 'network packet loss 3%']}}, {'source': 'monitoring', 'target': 'payments-service', 'uri': 'monitoring://payments-service', 'id': 'E2', 'data': {'system_name': 'payments-service', 'status': 'degraded', 'cpu_percent': 91.0, 'memory_percent': 55.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']}}, {'source': 'runbook', 'target': 'gateway-service', 'uri': 'runbook://incident-response/network-timeout', 'incident_type': 'network-timeout', 'score': 0.7257, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: 네트워크 타임아웃 대응 절차\n\n1. get_monitoring_status로 어떤 시스템 간 호출에서 타임아웃이 발생하는지 확인한다.\n2. DNS 해석 실패, 방화벽/보안그룹 변경, 로드밸런서 헬스체크 실패 중 최근 변경 사항이 있었는지 점검한다.\n3. 특정 리전/가용영역에서만 발생하면 해당 구간을 우회하는 라우팅으로 임시 전환한다.\n4. 타임아웃 값이 너무 짧아 정상 응답도 실패로 처리되는 경우라면 임계값을 임시 상향해 2차 피해를 줄인다.\n5. 정상화 후 네트워크 경로 기록을 남기고, 재발 방지를 위해 헬스체크 주기와 재시도 정책을 재검토한다.\n'}, {'source': 'runbook', 'target': 'payments-service', 'uri': 'runbook://incident-response/cpu-spike', 'incident_type': 'cpu-spike', 'score': 0.6312, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n'}, {'source': 'docs', 'target': 'gateway-service', 'uri': 'docs://services/gateway-service', 'id': 'E5', 'data': '# gateway-service 설계 참고 문서 (실습용)\n게이트웨이는 payments-service 등 upstream으로 요청을 전달한다. 504 발생 시 upstream 지연, 네트워크, 타임아웃 설정을 구분해 조사한다. 이 관계만으로 원인이 입증되지는 않는다.'}, {'source': 'docs', 'target': 'payments-service', 'uri': 'docs://services/payments-service', 'id': 'E6', 'data': '# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.'}]",017f14c9-fe61-46f8-bc17-b95b5e9149e5,0.0891,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] gateway-service: 상태=degraded, CPU=30.0%, 메모리=45.0%, 조회=2026-10-20T09:00:00+09:00; 알림=upstream timeout to payments-service (504); network packet loss 3%
+[E2] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow
+
+[참고 문서 · 관측 사실과 구분]
+[E3] gateway-service → runbook://incident-response/network-timeout (유사도=0.7257)
+[E4] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)
+[E5] gateway-service → docs://services/gateway-service
+[E6] payments-service → docs://services/payments-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- gateway-service: Runbook: 네트워크 타임아웃 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- payments-service: Runbook: CPU 급증 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['cpu-spike', 'network-timeout']",1,"['gateway-service', 'payments-service']",2,True,[]
+fake,multi-disk-memory,False,0.000671,,[],7c44bcd5-9cd0-4934-bc44-4647211eda24,0.7643,baseline,2,"'log-service와 cache-service 장애 진단' 진단 결과: 1) 모니터링: log-service 상태=degraded, CPU 20.0% (알림 2건) · cache-service 상태=degraded, CPU 42.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 메모리 누수(Memory Leak) 대응 절차'에 따라 OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,1.0,0.5,['memory-leak'],0,"['cache-service', 'log-service', 'web-01']",2,,[]
+fake,multi-disk-memory,False,0.006253,,"[{'source': 'monitoring', 'target': 'log-service', 'uri': 'monitoring://log-service', 'id': 'E1', 'data': {'system_name': 'log-service', 'status': 'degraded', 'cpu_percent': 20.0, 'memory_percent': 35.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['disk usage 95% on /var/log', 'disk space low']}}, {'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E2', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'log-service', 'uri': 'runbook://incident-response/disk-full', 'incident_type': 'disk-full', 'score': 0.707, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E3', 'data': '# Runbook: 디스크 용량 부족 대응 절차\n\n1. get_monitoring_status와 서버 디스크 사용률을 확인해 임계 수준(90% 이상)인지 판단한다.\n2. 로그 파일, 임시 파일, 오래된 백업처럼 안전하게 지울 수 있는 항목부터 정리해 여유 공간을 즉시 확보한다.\n3. 특정 프로세스가 비정상적으로 로그를 쌓고 있다면 로그 레벨을 낮추거나 로테이션 주기를 단축한다.\n4. 임시 조치로도 부족하면 볼륨을 확장하거나 추가 스토리지를 연결한다.\n5. 정상화 후 로그 보존 정책과 디스크 사용률 알림 임계값을 재검토해 조기에 감지되도록 조정한다.\n'}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E4', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'log-service', 'uri': 'docs://services/log-service', 'id': 'E5', 'data': '# log-service 설계 참고 문서 (실습용)\n로그 수집·보관 서비스. 로그 로테이션과 보존기간을 확인한다. 감사 로그를 임의 삭제하지 않고 보관 정책을 따른다.'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E6', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",ce975dd7-cf95-41b0-a8de-e57a059f79ed,0.1447,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] log-service: 상태=degraded, CPU=20.0%, 메모리=35.0%, 조회=2026-10-20T09:00:00+09:00; 알림=disk usage 95% on /var/log; disk space low
+[E2] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E3] log-service → runbook://incident-response/disk-full (유사도=0.707)
+[E4] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E5] log-service → docs://services/log-service
+[E6] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- log-service: Runbook: 디스크 용량 부족 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,"['disk-full', 'memory-leak']",1,"['cache-service', 'log-service']",2,True,[]
+fake,healthy,False,0.00042,,[],5258f436-e2a5-43c5-9a5b-3f7bda42be34,0.7709,baseline,2,"'web-01 상태 진단' 진단 결과: 1) 모니터링: web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: DB Down 대응 절차'에 따라 커넥션 풀/리플리케이션 상태를 점검하고 필요 시 failover 노드로 전환한다. 서비스 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['db-down'],1,['web-01'],2,,[]
+fake,healthy,False,0.001258,,"[{'source': 'monitoring', 'target': 'web-01', 'uri': 'monitoring://web-01', 'id': 'E1', 'data': {'system_name': 'web-01', 'status': 'healthy', 'cpu_percent': 34.0, 'memory_percent': 48.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': []}}, {'source': 'docs', 'target': 'web-01', 'uri': 'docs://services/web-01', 'id': 'E2', 'data': '# web-01 설계 참고 문서 (실습용)\n웹 요청을 처리하는 인스턴스. 상태가 healthy이면 사용자 증상과 관측 시각의 차이를 확인하고 추가 로그를 요청한다.'}]",a44900e6-eaee-41f6-a6eb-52d2abb5125c,0.0749,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] web-01: 상태=healthy, CPU=34.0%, 메모리=48.0%, 조회=2026-10-20T09:00:00+09:00; 알림=없음
+
+[참고 문서 · 관측 사실과 구분]
+[E2] web-01 → docs://services/web-01
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,[],1,['web-01'],2,True,[]
+fake,missing,False,0.000535,,[],883051a4-d5f2-4286-b46e-ba6f1a94bc64,0.7955,baseline,2,"'로그인 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,missing,True,0.0,,[],fc038ab4-33b2-48ae-a19a-c070a9837c0a,0.0114,improved,2,"진단할 시스템이 지정되지 않았습니다.
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,unknown,False,0.000542,,[],bf4ffb21-7011-4cfd-897c-d37c63142e1e,0.8005,baseline,2,"'billing-service 응답 지연을 진단해줘' 진단 결과: 1) 모니터링: billing-service 상태=unknown, CPU 0.0% (알림 1건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: DB Down 대응 절차'에 따라 커넥션 풀/리플리케이션 상태를 점검하고 필요 시 failover 노드로 전환한다. 서비스 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['db-down'],0,"['billing-service', 'web-01']",2,,[]
+fake,unknown,True,0.0,,[],04b8f35d-dd6e-4d34-a08e-d9b101fd0e85,0.0082,improved,2,"등록되지 않은 시스템: billing-service
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,mixed,False,0.000676,,[],46b965ea-ec17-44cb-8230-1284d3cfa6f3,0.7759,baseline,2,"'billing-service와 auth-service 장애 진단' 진단 결과: 1) 모니터링: billing-service 상태=unknown, CPU 0.0% (알림 1건) · auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'billing-service', 'web-01']",2,,[]
+fake,mixed,True,0.0,,[],0bd57310-8a69-4e87-87db-9e05c64d5cb7,0.0067,improved,2,"등록되지 않은 시스템: billing-service
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,boundary,False,0.000567,,[],79ce22de-d5e4-4045-a525-7d5ca5adbac3,0.7663,baseline,2,"'auth-service-extra 장애 진단' 진단 결과: 1) 모니터링: auth-service 상태=degraded, CPU 78.0% (알림 2건) · web-01 상태=healthy, CPU 34.0% (알림 0건) 2) 표준 절차: 'Runbook: 응답 지연(High Latency) 대응 절차'에 따라 커넥션 풀 사용률이 90%를 넘으면 풀 크기를 늘리거나 느린 쿼리/외부 호출에 타임아웃을 건다. 지연이 특정 리전/인스턴스에 몰려 있으면 해당 인스턴스를 로드밸런서에서 일시 제외한다. 3) 정상화 확인 후 원인 분석과 재발 방지 대책을 문서화하세요.",0,0.0,0.0,['high-latency'],0,"['auth-service', 'web-01']",2,,[]
+fake,boundary,True,0.0,,[],a025db73-6d1e-4106-8328-ea0e08462f02,0.0086,improved,2,"등록되지 않은 시스템: auth-service-extra
+어느 시스템을 진단할까요? 시스템명을 선택하거나 입력해 주세요.
+auth-service, web-01, payments-service, cache-service, gateway-service, log-service",0,1.0,1.0,[],1,[],0,,[]
+fake,greeting,False,3e-06,,[],4c9753a8-6f67-443f-8fd3-2edff582153f,0.0101,baseline,2,안녕하세요! 무엇을 도와드릴까요?,0,1.0,1.0,[],1,[],0,,[]
+fake,greeting,False,1e-06,,[],6f032532-eb4a-410d-80e7-8fb8680c69df,0.0096,improved,2,안녕하세요! 무엇을 도와드릴까요?,0,1.0,1.0,[],1,[],0,,[]
+fake,explicit-only,False,3e-06,,[],f5c3a160-442d-45e2-be80-7b6bb66592a5,0.0099,baseline,2,안녕하세요! 무엇을 도와드릴까요?,0,0.0,0.0,[],0,[],0,,[]
+fake,explicit-only,False,0.003138,,"[{'source': 'monitoring', 'target': 'cache-service', 'uri': 'monitoring://cache-service', 'id': 'E1', 'data': {'system_name': 'cache-service', 'status': 'degraded', 'cpu_percent': 42.0, 'memory_percent': 89.0, 'last_checked': '2026-10-20T09:00:00+09:00', 'alerts': ['memory usage climbing steadily over 6h', 'heap near limit']}}, {'source': 'runbook', 'target': 'cache-service', 'uri': 'runbook://incident-response/memory-leak', 'incident_type': 'memory-leak', 'score': 0.7871, 'embedding_model': 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', 'id': 'E2', 'data': '# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n'}, {'source': 'docs', 'target': 'cache-service', 'uri': 'docs://services/cache-service', 'id': 'E3', 'data': '# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.'}]",eeebc4d4-ceda-4510-aee9-553723c3c6dc,0.1079,improved,2,"[확인된 사실 · 시뮬레이션 모니터링]
+[E1] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit
+
+[참고 문서 · 관측 사실과 구분]
+[E2] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)
+[E3] cache-service → docs://services/cache-service
+
+[AI 해석·권장 점검 · 원인 미확정]
+1) 수집한 시스템별 지표와 알림을 먼저 확인하세요.
+- cache-service: Runbook: 메모리 누수(Memory Leak) 대응 절차를 참고해 증상과 적용 조건을 점검하세요.
+2) 서비스 문서는 설계 참고 자료이며 현재 장애의 원인을 입증하지 않습니다.
+3) 원인은 미확정입니다. 추가 로그와 지표 추세를 확보한 뒤 담당자가 조치 여부를 결정하세요.
+
+[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",0,1.0,1.0,['memory-leak'],1,['cache-service'],2,True,[]

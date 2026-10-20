@@ -1,0 +1,10 @@
+{
+  "audio_seconds": 3.35,
+  "live_transcript": "빛이여, 작은 방을 밝혀라.",
+  "ui": "conlang without IPA/save/reload/mocked microphone/file upload/STT apply/selected and full TTS/mobile PASS",
+  "stt_uploads": [
+    160844,
+    160844
+  ],
+  "tts_requests": 2
+}

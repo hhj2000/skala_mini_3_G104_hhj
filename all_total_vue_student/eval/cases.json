@@ -1,0 +1,166 @@
+[
+  {
+    "id": "cpu",
+    "query": "payments-service CPU 급증 원인을 진단해줘",
+    "targets": [
+      "payments-service"
+    ],
+    "runbooks": [
+      "cpu-spike"
+    ],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "memory",
+    "query": "cache-service 메모리 증가 장애를 진단해줘",
+    "targets": [
+      "cache-service"
+    ],
+    "runbooks": [
+      "memory-leak"
+    ],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "disk",
+    "query": "log-service 디스크 부족 장애를 진단해줘",
+    "targets": [
+      "log-service"
+    ],
+    "runbooks": [
+      "disk-full"
+    ],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "network",
+    "query": "gateway-service 타임아웃 장애를 진단해줘",
+    "targets": [
+      "gateway-service"
+    ],
+    "runbooks": [
+      "network-timeout"
+    ],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "latency",
+    "query": "auth-service 로그인 응답 지연을 진단해줘",
+    "targets": [
+      "auth-service"
+    ],
+    "runbooks": [
+      "high-latency"
+    ],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "multi-cpu-memory",
+    "query": "payments-service랑 cache-service 공통 원인 진단해줘",
+    "targets": [
+      "payments-service",
+      "cache-service"
+    ],
+    "runbooks": [
+      "cpu-spike",
+      "memory-leak"
+    ],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "multi-network-cpu",
+    "query": "gateway-service에서 payments-service로 요청 타임아웃 장애 진단",
+    "targets": [
+      "gateway-service",
+      "payments-service"
+    ],
+    "runbooks": [
+      "network-timeout",
+      "cpu-spike"
+    ],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "multi-disk-memory",
+    "query": "log-service와 cache-service 장애 진단",
+    "targets": [
+      "log-service",
+      "cache-service"
+    ],
+    "runbooks": [
+      "disk-full",
+      "memory-leak"
+    ],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "healthy",
+    "query": "web-01 상태 진단",
+    "targets": [
+      "web-01"
+    ],
+    "runbooks": [],
+    "clarify": false,
+    "chat": false
+  },
+  {
+    "id": "missing",
+    "query": "로그인 응답 지연을 진단해줘",
+    "targets": [],
+    "runbooks": [],
+    "clarify": true,
+    "chat": false
+  },
+  {
+    "id": "unknown",
+    "query": "billing-service 응답 지연을 진단해줘",
+    "targets": [],
+    "runbooks": [],
+    "clarify": true,
+    "chat": false
+  },
+  {
+    "id": "mixed",
+    "query": "billing-service와 auth-service 장애 진단",
+    "targets": [],
+    "runbooks": [],
+    "clarify": true,
+    "chat": false
+  },
+  {
+    "id": "boundary",
+    "query": "auth-service-extra 장애 진단",
+    "targets": [],
+    "runbooks": [],
+    "clarify": true,
+    "chat": false
+  },
+  {
+    "id": "greeting",
+    "query": "안녕, 너는 누구야?",
+    "targets": [],
+    "runbooks": [],
+    "clarify": false,
+    "chat": true
+  },
+  {
+    "id": "explicit-only",
+    "query": "cache-service",
+    "targets": [
+      "cache-service"
+    ],
+    "runbooks": [
+      "memory-leak"
+    ],
+    "clarify": false,
+    "chat": false
+  }
+]

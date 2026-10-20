@@ -1,0 +1,10 @@
+{
+  "name": "eval.improved",
+  "run_id": "03bdd0af-01a8-4749-adc3-72ad77660b94",
+  "url": "https://smith.langchain.com/o/9ccec4fc-3d5b-4062-a75c-20be0fe20f6a/projects/p/9f56a931-12c6-4674-b983-517ec18de6af/r/03bdd0af-01a8-4749-adc3-72ad77660b94?poll=true",
+  "feedback": {
+    "runbook_precision": 1.0,
+    "runbook_recall": 1.0,
+    "target_correct": 1.0
+  }
+}

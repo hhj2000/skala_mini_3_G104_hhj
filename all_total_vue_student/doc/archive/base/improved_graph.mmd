@@ -1,0 +1,37 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	target(target)
+	plan(plan)
+	analysis(analysis)
+	write(write)
+	validate(validate)
+	finalize(finalize)
+	chat_answer(chat_answer)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> target;
+	analysis --> write;
+	plan --> research\3ametrics;
+	research\3aservice_docs --> analysis;
+	target -.-> __end__;
+	target -.-> chat_answer;
+	target -.-> plan;
+	validate -.-> finalize;
+	validate -.-> write;
+	write --> validate;
+	chat_answer --> __end__;
+	finalize --> __end__;
+	subgraph research
+	research\3ametrics(metrics)
+	research\3arunbooks(runbooks)
+	research\3aservice_docs(service_docs)
+	research\3ametrics --> research\3arunbooks;
+	research\3arunbooks --> research\3aservice_docs;
+	end
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

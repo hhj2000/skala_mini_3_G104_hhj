@@ -1,0 +1,39 @@
+{
+  "run_id": "01a1584a-4bd1-70ce-9e4b-4ececfba5081",
+  "url": "https://smith.langchain.com/o/9ccec4fc-3d5b-4062-a75c-20be0fe20f6a/projects/p/762671fe-da82-432f-aaee-46609c593d48/r/01a1584a-4bd1-70ce-9e4b-4ececfba5081?poll=true",
+  "nodes": [
+    [
+      "kharakteres.generate_request",
+      "chain"
+    ],
+    [
+      "kharakteres.generate_spell",
+      "chain"
+    ],
+    [
+      "kharakteres_spell_creation",
+      "chain"
+    ],
+    [
+      "retrieve_lexicon",
+      "chain"
+    ],
+    [
+      "lexicon.retrieve_context",
+      "chain"
+    ],
+    [
+      "compose_spell",
+      "chain"
+    ],
+    [
+      "spell.compose",
+      "chain"
+    ],
+    [
+      "spell.language_model",
+      "llm"
+    ]
+  ],
+  "error": null
+}

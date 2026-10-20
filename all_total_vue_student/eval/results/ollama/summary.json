@@ -1,0 +1,30 @@
+{
+  "backend": "ollama",
+  "repeats": 1,
+  "cases": 5,
+  "warmup_s": 1.0608,
+  "monitoring_fixed": true,
+  "trace_enabled": true,
+  "notes": [
+    "fake results measure control flow, not real LLM reasoning quality",
+    "baseline contains an intentional 0.35-second/task delay; latency is not solely a RAG comparison",
+    "cost is an educational token estimate, not actual billing",
+    "runbook metrics are case-level type coverage, not proof of per-system citation correctness"
+  ],
+  "modes": {
+    "baseline": {
+      "target_accuracy": 0.4,
+      "runbook_recall": 0.5,
+      "runbook_precision": 0.6,
+      "median_latency_s": 50.4312,
+      "errors": 0
+    },
+    "improved": {
+      "target_accuracy": 1,
+      "runbook_recall": 1.0,
+      "runbook_precision": 1.0,
+      "median_latency_s": 0.954,
+      "errors": 0
+    }
+  }
+}

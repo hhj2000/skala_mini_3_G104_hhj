@@ -1,0 +1,31 @@
+{
+  "batch_id": "3d64ffc7-cbfb-4087-8ce3-07d729970ade",
+  "backend": "fake",
+  "repeats": 3,
+  "cases": 15,
+  "warmup_s": 2.1255,
+  "monitoring_fixed": true,
+  "trace_enabled": true,
+  "notes": [
+    "fake results measure control flow, not real LLM reasoning quality",
+    "baseline contains an intentional 0.35-second/task delay; latency is not solely a RAG comparison",
+    "cost is an educational token estimate, not actual billing",
+    "runbook metrics are case-level type coverage, not proof of per-system citation correctness"
+  ],
+  "modes": {
+    "baseline": {
+      "target_accuracy": 0.1333,
+      "runbook_recall": 0.5,
+      "runbook_precision": 0.6,
+      "median_latency_s": 0.7596,
+      "errors": 0
+    },
+    "improved": {
+      "target_accuracy": 1,
+      "runbook_recall": 1.0,
+      "runbook_precision": 1.0,
+      "median_latency_s": 0.053,
+      "errors": 0
+    }
+  }
+}

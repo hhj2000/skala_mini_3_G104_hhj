@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1430" viewBox="0 0 1600 1430" role="img" aria-labelledby="title desc"><title id="title">Kharakteres 현재 서비스 아키텍처</title><desc id="desc">LangGraph 순차 워크플로, SQLite 기반 제한적 RAG, 작가 정의 인공어, 생성 후 웹 어휘 검증, 음성 API와 선택적 AI 검토. 콘텐츠 필터와 다국어 벡터 주문 RAG 적용. 독립 멀티 에이전트는 미도입이며 MCP는 보존된 Base에만 사용.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#52647a"/></marker></defs><style>text{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;fill:#1c2f45} .title{font-size:34px;font-weight:700}.heading{font-size:22px;font-weight:700}.body{font-size:19px}.small{font-size:17px;fill:#52647a}.edge{fill:none;stroke:#52647a;stroke-width:2.3;marker-end:url(#arrow)}</style><rect width="1600" height="1430" fill="#f4f7fa"/><text x="45" y="58" class="title">Kharakteres · 현재 구현 구조</text><text x="45" y="93" class="body">기준: 기본 SERVICE_MODE=spells · 2026-10-20 코드 · 보존된 장애 진단 서비스와 구분</text>
+<rect x="365" y="395" width="790" height="670" rx="22" fill="#eaf1f9" stroke="#8baac8" stroke-dasharray="8 6"/><text x="385" y="385" class="heading">LangGraph · 순차 실행</text>
+<rect x="480" y="140" width="560" height="80" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
+<text x="500" y="173" class="heading">사용자 · Vue 웹 화면</text>
+<text x="500" y="205" class="body">효과·언어·속성·세계관 입력</text>
+<rect x="480" y="270" width="560" height="80" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
+<text x="500" y="303" class="heading">FastAPI · 콘텐츠 검사·언어 해석</text>
+<text x="500" y="335" class="body">욕설·혐오·현실 정치 검사 → 요청 검증</text>
+<path d="M760 220 V270" class="edge"/>
+<path d="M760 350 V420" class="edge"/>
+<rect x="480" y="420" width="560" height="105" rx="14" fill="#e7f5ee" stroke="#74a78c" stroke-width="2"/>
+<text x="500" y="453" class="heading">1. retrieve_lexicon · 벡터 주문 RAG</text>
+<text x="500" y="485" class="body">같은 세계관에서 코사인 점수 기준 최대 12개</text>
+<text x="500" y="513" class="body">다국어 ONNX 임베딩 · 생성 프롬프트에 맥락 제공</text>
+<rect x="45" y="420" width="290" height="140" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
+<text x="65" y="453" class="heading">SQLite · 영구 주문사전</text>
+<text x="65" y="485" class="body">저장된 주문 + 수정 버전</text>
+<text x="65" y="513" class="body">별도 SQLite 벡터 캐시</text>
+<text x="65" y="541" class="body">키워드 / 의미 검색 선택</text>
+<path d="M335 480 H480" class="edge"/>
+<text x="375" y="468" class="small">조회</text>
+<path d="M760 525 V550 H560 V580" class="edge"/>
+<path d="M760 550 H960 V580" class="edge"/>
+<rect x="390" y="580" width="340" height="125" rx="14" fill="#e7f5ee" stroke="#74a78c" stroke-width="2"/>
+<text x="410" y="613" class="heading">2. compose_spell · 실제 언어</text>
+<text x="410" y="645" class="body">기존 주문 + 요청 → LLM</text>
+<text x="410" y="673" class="body">원문·한글 전사·IPA·의미</text>
+<text x="410" y="701" class="body">OpenAI 또는 Ollama</text>
+<rect x="790" y="580" width="340" height="125" rx="14" fill="#fff6df" stroke="#d1b56c" stroke-width="2"/>
+<text x="810" y="613" class="heading">2. compose_spell · 인공어</text>
+<text x="810" y="645" class="body">작가의 원문·발음·의미 보존</text>
+<text x="810" y="673" class="body">IPA는 선택 · 언어 생성 생략</text>
+<text x="810" y="701" class="body">효과·속성·제약을 함께 기록</text>
+<path d="M560 705 V765" class="edge"/>
+<path d="M960 705 V765" class="edge"/>
+<rect x="390" y="765" width="340" height="125" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
+<text x="410" y="798" class="heading">3. verify_language_sources</text>
+<text x="410" y="830" class="body">Wiktionary 실제 단어 조회</text>
+<text x="410" y="858" class="body">원문 링크·판본·확인 시각</text>
+<text x="410" y="886" class="body">생성 후 검증 · 재생성 없음</text>
+<rect x="790" y="765" width="340" height="125" rx="14" fill="#fff6df" stroke="#d1b56c" stroke-width="2"/>
+<text x="810" y="798" class="heading">3. verify_language_sources</text>
+<text x="810" y="830" class="body">작가 정의 언어로 표시</text>
+<text x="810" y="858" class="body">웹 조회·언어 인증 생략</text>
+<text x="810" y="886" class="body">작가 입력을 언어 기준으로 사용</text>
+<path d="M560 890 V920 H760 V955" class="edge"/>
+<path d="M960 890 V920 H760" class="edge"/>
+<rect x="480" y="955" width="560" height="80" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
+<text x="500" y="988" class="heading">4. review_consistency · 규칙 기반 비교</text>
+<text x="500" y="1020" class="body">같은 세계관의 이름·주문문·속성·유사 효과 확인</text>
+<path d="M760 1035 V1100" class="edge"/>
+<rect x="480" y="1100" width="560" height="120" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
+<text x="500" y="1133" class="heading">초안 표시 → 사용자 편집·검토 → 저장</text>
+<text x="500" y="1165" class="body">높은 중복 경고는 확인 후 저장 가능</text>
+<text x="500" y="1193" class="body">생성만으로 저장하지 않음 · SQLite에 영구 기록</text>
+<path d="M480 1160 H355 V530 H335" class="edge"/>
+<text x="370" y="1145" class="small">저장</text>
+<rect x="45" y="680" width="290" height="220" rx="14" fill="#e7f5ee" stroke="#74a78c" stroke-width="2"/>
+<text x="65" y="713" class="heading">현재 RAG의 범위</text>
+<text x="65" y="745" class="body">로컬 ONNX 384차원 임베딩</text>
+<text x="65" y="773" class="body">코사인 유사도 → 생성 맥락</text>
+<text x="65" y="801" class="body">수정 재임베딩·삭제 반영</text>
+<text x="65" y="829" class="body">준비 실패는 대체 조회 고지</text>
+<text x="65" y="857" class="body">웹 어휘 조회는 생성 이후의</text>
+<text x="65" y="885" class="body">근거 확인 단계로 분리</text>
+<rect x="1190" y="140" width="360" height="150" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
+<text x="1210" y="173" class="heading">음성 입력 · STT</text>
+<text x="1210" y="205" class="body">마이크 / 파일 → whisper-1</text>
+<text x="1210" y="233" class="body">전사 결과 확인·수정</text>
+<text x="1210" y="261" class="body">사용자가 고른 입력 칸에 적용</text>
+<path d="M1190 185 H1040" class="edge"/>
+<text x="1070" y="170" class="small">선택 입력</text>
+<rect x="1190" y="420" width="360" height="160" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
+<text x="1210" y="453" class="heading">음성 출력 · TTS</text>
+<text x="1210" y="485" class="body">선택 구절 / 전체 기록 읽기</text>
+<text x="1210" y="513" class="body">gpt-4o-mini-tts · 음색·속도</text>
+<text x="1210" y="541" class="body">인공어는 작가의 발음 표기 사용</text>
+<text x="1210" y="569" class="body">재생 및 WAV 다운로드</text>
+<path d="M1040 1160 H1168 V500 H1190" class="edge"/>
+<rect x="1190" y="675" width="360" height="180" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="1210" y="708" class="heading">선택적 AI 설정 검토</text>
+<text x="1210" y="740" class="body">사용자가 검토 버튼을 눌러 실행</text>
+<text x="1210" y="768" class="body">같은 세계관의 관련 주문 최대 30개</text>
+<text x="1210" y="796" class="body">설정 충돌 후보와 이유 제시</text>
+<text x="1210" y="824" class="body">생성 때와 동일한 LLM 사용</text>
+<path d="M1168 760 H1190" class="edge" stroke-dasharray="7 6"/>
+<rect x="1190" y="970" width="360" height="165" rx="14" fill="#eef0fa" stroke="#a3a6c8" stroke-width="2"/>
+<text x="1210" y="1003" class="heading">LangSmith · 실행 관측</text>
+<text x="1210" y="1035" class="body">언어 해석·생성·웹 조회 추적</text>
+<text x="1210" y="1063" class="body">STT/TTS 실행 메타데이터 추적</text>
+<text x="1210" y="1091" class="body">콘텐츠 차단 기능은 수행하지 않음</text>
+<rect x="45" y="1300" width="1510" height="90" rx="14" fill="#fff0ef" stroke="#d69691" stroke-width="2"/>
+<text x="65" y="1333" class="heading">운영 정책과 보류 항목</text>
+<text x="65" y="1365" class="body">Multi-Agent 미도입 · MCP는 Base에만 사용 · 생성·직접 저장·STT 결과·TTS 입력 콘텐츠 검사 · 완전한 탐지 보장은 아님</text>
+</svg>

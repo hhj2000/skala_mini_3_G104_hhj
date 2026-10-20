@@ -1,0 +1,260 @@
+{
+  "clarification": false,
+  "collected": [
+    {
+      "data": {
+        "alerts": [
+          "CPU 91% (threshold 80%)",
+          "payments-service-3 instance responding slow"
+        ],
+        "cpu_percent": 91.0,
+        "last_checked": "2026-10-20T09:00:00+09:00",
+        "memory_percent": 55.0,
+        "status": "degraded",
+        "system_name": "payments-service"
+      },
+      "source": "monitoring",
+      "target": "payments-service",
+      "uri": "monitoring://payments-service"
+    },
+    {
+      "data": {
+        "alerts": [
+          "memory usage climbing steadily over 6h",
+          "heap near limit"
+        ],
+        "cpu_percent": 42.0,
+        "last_checked": "2026-10-20T09:00:00+09:00",
+        "memory_percent": 89.0,
+        "status": "degraded",
+        "system_name": "cache-service"
+      },
+      "source": "monitoring",
+      "target": "cache-service",
+      "uri": "monitoring://cache-service"
+    },
+    {
+      "data": "# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n",
+      "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "incident_type": "cpu-spike",
+      "score": 0.6312,
+      "source": "runbook",
+      "target": "payments-service",
+      "uri": "runbook://incident-response/cpu-spike"
+    },
+    {
+      "data": "# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n",
+      "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "incident_type": "memory-leak",
+      "score": 0.7871,
+      "source": "runbook",
+      "target": "cache-service",
+      "uri": "runbook://incident-response/memory-leak"
+    },
+    {
+      "data": "# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.",
+      "source": "docs",
+      "target": "payments-service",
+      "uri": "docs://services/payments-service"
+    },
+    {
+      "data": "# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.",
+      "source": "docs",
+      "target": "cache-service",
+      "uri": "docs://services/cache-service"
+    },
+    {
+      "data": "미확정 가설 (인과관계 미입증): 특이 패턴 없음.",
+      "source": "analysis"
+    }
+  ],
+  "cost_usd": 0.009739,
+  "draft": "1) **미확정 원인 가설**:  \n   - 공통 원인은 입증되지 않았으나, **공유된 네트워크/DB 리소스** 또는 **공통 배포/설정 오류**가 동시 발생했을 가능성.  \n   - **모니터링 데이터의 상관성**: payments-service CPU 과부하와 cache-service 메모리 누수는 서로 다른 리소스 사용 패턴이지만, **공통 배포 시점** 또는 **외부 시스템(예: DB, 메시지 큐)의 일시적 장애**로 인해 간접적으로 영향을 받을 수 있음.  \n\n2) **권장 점검 절차**:  \n   1. **공통 배포/트래픽 변화 확인**: `get_monitoring_status`로 두 서비스의 최근 배포 시점과 트래픽 증가 패턴을 비교해 동일한 시점에 문제가 발생했는지 점검.  \n   2. **공유 리소스 점검**: DB, 메시지 큐, 네트워크 라우터 등 공통으로 사용하는 인프라의 상태와 로그를 확인해 **리소스 경쟁** 또는 **장애** 여부 확인.  \n   3. **메모리 누수 및 CPU 과부하 분리 분석**: cache-service의 메모리 누수 원인(예: 캐시 TTL 미설정, 힙 덤프 분석)과 payments-service의 CPU 과부하 원인(예: 반복 요청 패턴, 특정 API 호출)을 별도로 분석.  \n\n3) **추천 조치**:  \n   - **payments-service**: CPU 91% 이상 지속 시 오토스케일링 확장 및 `POST /payments` 요청 패턴 로그 분석.  \n   - **cache-service**: 메모리 89% 이상 지속 시 힙 덤프 분석 및 캐시 정책(예: TTL, eviction) 점검.  \n   - **공통 대응**: 메모리/CPU 임계치 설정 재검토 및 **모니터링 알림 경계값 조정**으로 재발 방지.",
+  "effective_query": "payments-service랑 cache-service 공통 원인 진단해줘",
+  "events": [
+    {
+      "targets": [
+        "payments-service",
+        "cache-service"
+      ],
+      "type": "TargetsResolved"
+    },
+    {
+      "model_task_count": 2,
+      "targets": [
+        "payments-service",
+        "cache-service"
+      ],
+      "task_count": 2,
+      "type": "PlanCreated"
+    },
+    {
+      "failures": [],
+      "targets": [
+        "payments-service",
+        "cache-service"
+      ],
+      "type": "MetricsCollected"
+    },
+    {
+      "hits": [
+        {
+          "score": 0.6312,
+          "uri": "runbook://incident-response/cpu-spike"
+        }
+      ],
+      "query": "CPU 91% (threshold 80%) payments-service-3 instance responding slow",
+      "target": "payments-service",
+      "type": "RunbooksRetrieved"
+    },
+    {
+      "hits": [
+        {
+          "score": 0.7871,
+          "uri": "runbook://incident-response/memory-leak"
+        }
+      ],
+      "query": "memory usage climbing steadily over 6h heap near limit",
+      "target": "cache-service",
+      "type": "RunbooksRetrieved"
+    },
+    {
+      "server": "docs",
+      "target": "payments-service",
+      "type": "ServiceDocRetrieved",
+      "uri": "docs://services/payments-service"
+    },
+    {
+      "server": "docs",
+      "target": "cache-service",
+      "type": "ServiceDocRetrieved",
+      "uri": "docs://services/cache-service"
+    },
+    {
+      "type": "AnalysisCompleted"
+    },
+    {
+      "attempt": 1,
+      "length": 888,
+      "type": "DraftWritten"
+    },
+    {
+      "attempt": 1,
+      "errors": [],
+      "type": "Validation",
+      "verdict": "합격"
+    },
+    {
+      "count": 6,
+      "type": "EvidenceReady"
+    },
+    {
+      "pipeline": "incident-improved",
+      "type": "Finalize"
+    }
+  ],
+  "evidence": [
+    {
+      "data": {
+        "alerts": [
+          "CPU 91% (threshold 80%)",
+          "payments-service-3 instance responding slow"
+        ],
+        "cpu_percent": 91.0,
+        "last_checked": "2026-10-20T09:00:00+09:00",
+        "memory_percent": 55.0,
+        "status": "degraded",
+        "system_name": "payments-service"
+      },
+      "id": "E1",
+      "source": "monitoring",
+      "target": "payments-service",
+      "uri": "monitoring://payments-service"
+    },
+    {
+      "data": {
+        "alerts": [
+          "memory usage climbing steadily over 6h",
+          "heap near limit"
+        ],
+        "cpu_percent": 42.0,
+        "last_checked": "2026-10-20T09:00:00+09:00",
+        "memory_percent": 89.0,
+        "status": "degraded",
+        "system_name": "cache-service"
+      },
+      "id": "E2",
+      "source": "monitoring",
+      "target": "cache-service",
+      "uri": "monitoring://cache-service"
+    },
+    {
+      "data": "# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n",
+      "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "id": "E3",
+      "incident_type": "cpu-spike",
+      "score": 0.6312,
+      "source": "runbook",
+      "target": "payments-service",
+      "uri": "runbook://incident-response/cpu-spike"
+    },
+    {
+      "data": "# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n",
+      "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "id": "E4",
+      "incident_type": "memory-leak",
+      "score": 0.7871,
+      "source": "runbook",
+      "target": "cache-service",
+      "uri": "runbook://incident-response/memory-leak"
+    },
+    {
+      "data": "# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.",
+      "id": "E5",
+      "source": "docs",
+      "target": "payments-service",
+      "uri": "docs://services/payments-service"
+    },
+    {
+      "data": "# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.",
+      "id": "E6",
+      "source": "docs",
+      "target": "cache-service",
+      "uri": "docs://services/cache-service"
+    }
+  ],
+  "final": "[확인된 사실 · 시뮬레이션 모니터링]\n[E1] payments-service: 상태=degraded, CPU=91.0%, 메모리=55.0%, 조회=2026-10-20T09:00:00+09:00; 알림=CPU 91% (threshold 80%); payments-service-3 instance responding slow\n[E2] cache-service: 상태=degraded, CPU=42.0%, 메모리=89.0%, 조회=2026-10-20T09:00:00+09:00; 알림=memory usage climbing steadily over 6h; heap near limit\n\n[참고 문서 · 관측 사실과 구분]\n[E3] payments-service → runbook://incident-response/cpu-spike (유사도=0.6312)\n[E4] cache-service → runbook://incident-response/memory-leak (유사도=0.7871)\n[E5] payments-service → docs://services/payments-service\n[E6] cache-service → docs://services/cache-service\n\n[AI 해석·권장 점검 · 원인 미확정]\n1) **미확정 원인 가설**:  \n   - 공통 원인은 입증되지 않았으나, **공유된 네트워크/DB 리소스** 또는 **공통 배포/설정 오류**가 동시 발생했을 가능성.  \n   - **모니터링 데이터의 상관성**: payments-service CPU 과부하와 cache-service 메모리 누수는 서로 다른 리소스 사용 패턴이지만, **공통 배포 시점** 또는 **외부 시스템(예: DB, 메시지 큐)의 일시적 장애**로 인해 간접적으로 영향을 받을 수 있음.  \n\n2) **권장 점검 절차**:  \n   1. **공통 배포/트래픽 변화 확인**: `get_monitoring_status`로 두 서비스의 최근 배포 시점과 트래픽 증가 패턴을 비교해 동일한 시점에 문제가 발생했는지 점검.  \n   2. **공유 리소스 점검**: DB, 메시지 큐, 네트워크 라우터 등 공통으로 사용하는 인프라의 상태와 로그를 확인해 **리소스 경쟁** 또는 **장애** 여부 확인.  \n   3. **메모리 누수 및 CPU 과부하 분리 분석**: cache-service의 메모리 누수 원인(예: 캐시 TTL 미설정, 힙 덤프 분석)과 payments-service의 CPU 과부하 원인(예: 반복 요청 패턴, 특정 API 호출)을 별도로 분석.  \n\n3) **추천 조치**:  \n   - **payments-service**: CPU 91% 이상 지속 시 오토스케일링 확장 및 `POST /payments` 요청 패턴 로그 분석.  \n   - **cache-service**: 메모리 89% 이상 지속 시 힙 덤프 분석 및 캐시 정책(예: TTL, eviction) 점검.  \n   - **공통 대응**: 메모리/CPU 임계치 설정 재검토 및 **모니터링 알림 경계값 조정**으로 재발 방지.\n\n[한계] 문서 검색 점수는 원인 확률이 아닙니다. 현재 데이터로 인과관계를 확정할 수 없으며, 조치는 자동 실행하지 않습니다.",
+  "history": [],
+  "last_prompt": "[SYSTEM]\n당신은 ICT 운영 보고 작성자다. 수집된 사실만 사용해 한국어로 간결한 대응 보고를 작성하라. 반드시 '1) ... 2) ... 3) ...' 형식의 번호 절차로 답하고, 수치는 수집된 값을 그대로 인용하라.\n\n[USER]\n## 사용자 요청\npayments-service랑 cache-service 공통 원인 진단해줘\n답변은 미확정 원인 가설과 권장 점검 절차로 작성하세요. 수집되지 않은 수치를 만들지 마세요. 공통 원인은 입증되지 않았습니다. 조치는 제안만 하며 자동 실행하지 않습니다.\n\n## 수집된 사실\n- 모니터링 payments-service: 상태=degraded, CPU 91.0%, 메모리 55.0%, 알림 2건 ['CPU 91% (threshold 80%)', 'payments-service-3 instance responding slow']\n- 모니터링 cache-service: 상태=degraded, CPU 42.0%, 메모리 89.0%, 알림 2건 ['memory usage climbing steadily over 6h', 'heap near limit']\n- runbook 발췌:\n# Runbook: CPU 급증 대응 절차\n\n1. get_monitoring_status로 CPU 사용률과 최근 배포/트래픽 변화 시점을 확인한다.\n2. 반복 호출, 배치 작업 중복 실행 같은 특정 요청 패턴이 원인인지 최근 로그에서 확인한다.\n3. CPU가 90%를 넘고 지속되면 해당 인스턴스를 오토스케일링 그룹에서 한 대 더 띄워 부하를 분산한다.\n4. 급증이 특정 배포 직후 시작됐다면 직전 배포를 롤백하고 원인 분석은 별도로 진행한다.\n5. 정상화 후 프로파일링 결과를 바탕으로 핫스팟 코드를 식별해 최적화 작업을 등록한다.\n- runbook 발췌:\n# Runbook: 메모리 누수(Memory Leak) 대응 절차\n\n1. get_monitoring_status로 메모리 사용률 추세(시간에 따라 꾸준히 증가하는지)를 확인한다.\n2. OOM 직전(90% 이상)이면 해당 프로세스를 즉시 재시작해 서비스 중단을 막는다 — 재시작은 임시 조치일 뿐임을 기록해둔다.\n3. 힙 덤프 또는 프로파일링 도구로 어떤 객체가 계속 쌓이는지 확인한다.\n4. 캐시 무제한 증가, 커넥션 미반환, 이벤트 리스너 중복 등록 같은 패턴이 최근 배포에 있었는지 점검한다.\n5. 원인이 된 배포가 있으면 롤백하고, 컨테이너 메모리 상한선을 재확인해 재발 시 더 빨리 감지되도록 조정한다.\n- runbook 발췌:\n참고 서비스 문서 [docs://services/payments-service] (설계 설명이며 관측 사실 아님):\n# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.\n- runbook 발췌:\n참고 서비스 문서 [docs://services/cache-service] (설계 설명이며 관측 사실 아님):\n# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.\n- 패턴 분석: 미확정 가설 (인과관계 미입증): 특이 패턴 없음.",
+  "needs_analysis": true,
+  "parallel_elapsed": 0.0132,
+  "query": "payments-service랑 cache-service 공통 원인 진단해줘",
+  "retry_count": 0,
+  "route": "incident",
+  "targets": [
+    "payments-service",
+    "cache-service"
+  ],
+  "tasks": [
+    {
+      "agent": "research",
+      "id": "monitor-payments-service",
+      "kind": "monitoring",
+      "status": "pending",
+      "target": "payments-service"
+    },
+    {
+      "agent": "research",
+      "id": "monitor-cache-service",
+      "kind": "monitoring",
+      "status": "pending",
+      "target": "cache-service"
+    }
+  ],
+  "thread_id": "multi-cpu-memory",
+  "unknown_targets": [],
+  "validation_attempts": 1,
+  "validation_feedback": null,
+  "validation_ok": true,
+  "warnings": []
+}

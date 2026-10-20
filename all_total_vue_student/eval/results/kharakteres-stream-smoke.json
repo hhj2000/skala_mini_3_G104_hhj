@@ -1,0 +1,7 @@
+{
+  "provider": "delayed mock (not a real LLM)",
+  "first_token_seconds": 0.084,
+  "done_seconds": 2.38,
+  "token_chunks": 25,
+  "browser": "partial fields, stages, cancellation, broken transport, mobile PASS"
+}

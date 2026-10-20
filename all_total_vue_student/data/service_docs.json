@@ -1,0 +1,8 @@
+{
+  "auth-service": "# auth-service 설계 참고 문서 (실습용)\nPOST /auth/token, POST /auth/refresh. 인증 저장소의 커넥션 풀과 느린 질의를 점검한다. 토큰과 개인정보는 진단 출력에 포함하지 않는다.",
+  "payments-service": "# payments-service 설계 참고 문서 (실습용)\nPOST /payments, GET /payments/{id}. 결제 재시도 시 idempotency key로 중복 결제를 방지한다. CPU 저하 시 최근 배포와 요청 패턴을 확인한다.",
+  "gateway-service": "# gateway-service 설계 참고 문서 (실습용)\n게이트웨이는 payments-service 등 upstream으로 요청을 전달한다. 504 발생 시 upstream 지연, 네트워크, 타임아웃 설정을 구분해 조사한다. 이 관계만으로 원인이 입증되지는 않는다.",
+  "cache-service": "# cache-service 설계 참고 문서 (실습용)\n캐시 TTL, eviction 정책, key cardinality를 확인한다. 캐시 초기화는 원본 저장소 부하를 높일 수 있으므로 영향 범위를 확인한다.",
+  "log-service": "# log-service 설계 참고 문서 (실습용)\n로그 수집·보관 서비스. 로그 로테이션과 보존기간을 확인한다. 감사 로그를 임의 삭제하지 않고 보관 정책을 따른다.",
+  "web-01": "# web-01 설계 참고 문서 (실습용)\n웹 요청을 처리하는 인스턴스. 상태가 healthy이면 사용자 증상과 관측 시각의 차이를 확인하고 추가 로그를 요청한다."
+}

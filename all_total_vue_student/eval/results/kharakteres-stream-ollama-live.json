@@ -1,0 +1,80 @@
+{
+  "backend": "ollama",
+  "model": "ollama:qwen3:8b",
+  "token_chunks": 276,
+  "first_token_seconds": 10.128,
+  "done_seconds": 31.854,
+  "langsmith_run_id": "01a15901-a5c1-7ab1-8a7f-8da7dd1138ac",
+  "events": [
+    {
+      "event": "accepted",
+      "time": 0.043
+    },
+    {
+      "event": "stage",
+      "time": 0.045,
+      "stage": "input_safety",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 6.881,
+      "stage": "input_safety",
+      "status": "completed"
+    },
+    {
+      "event": "stage",
+      "time": 6.896,
+      "stage": "retrieve_lexicon",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 6.9,
+      "stage": "retrieve_lexicon",
+      "status": "completed"
+    },
+    {
+      "event": "stage",
+      "time": 6.902,
+      "stage": "compose_spell",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 31.031,
+      "stage": "compose_spell",
+      "status": "completed"
+    },
+    {
+      "event": "stage",
+      "time": 31.035,
+      "stage": "verify_language_sources",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 31.85,
+      "stage": "verify_language_sources",
+      "status": "completed"
+    },
+    {
+      "event": "stage",
+      "time": 31.851,
+      "stage": "review_consistency",
+      "status": "running"
+    },
+    {
+      "event": "stage",
+      "time": 31.852,
+      "stage": "review_consistency",
+      "status": "completed"
+    },
+    {
+      "event": "done",
+      "time": 31.854
+    }
+  ],
+  "verification_status": "not_found",
+  "langsmith_token_events": 276
+}

@@ -1,0 +1,208 @@
+[
+  {
+    "case_id": "cpu",
+    "mode": "baseline",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 50.4312,
+    "target_correct": 1,
+    "runbook_recall": 1.0,
+    "runbook_precision": 1.0,
+    "targets": [
+      "payments-service"
+    ],
+    "runbooks": [
+      "cpu-spike"
+    ],
+    "clarified": false,
+    "cost_usd_estimate": 0.004637,
+    "validation_attempts": 1,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "1499a80a-c99d-4e2f-a0f2-813e6fa9dfab"
+  },
+  {
+    "case_id": "cpu",
+    "mode": "improved",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 124.0059,
+    "target_correct": 1,
+    "runbook_recall": 1.0,
+    "runbook_precision": 1.0,
+    "targets": [
+      "payments-service"
+    ],
+    "runbooks": [
+      "cpu-spike"
+    ],
+    "clarified": false,
+    "cost_usd_estimate": 0.01078,
+    "validation_attempts": 1,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "c71d9cb7-709c-4644-9541-d3f22f4f682d"
+  },
+  {
+    "case_id": "multi-cpu-memory",
+    "mode": "baseline",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 76.3485,
+    "target_correct": 0,
+    "runbook_recall": 0.5,
+    "runbook_precision": 1.0,
+    "targets": [
+      "payments-service"
+    ],
+    "runbooks": [
+      "cpu-spike"
+    ],
+    "clarified": false,
+    "cost_usd_estimate": 0.006948,
+    "validation_attempts": 1,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "027712d0-37e6-4b35-bcb9-bcf5f6f2e278"
+  },
+  {
+    "case_id": "multi-cpu-memory",
+    "mode": "improved",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 76.5704,
+    "target_correct": 1,
+    "runbook_recall": 1.0,
+    "runbook_precision": 1.0,
+    "targets": [
+      "cache-service",
+      "payments-service"
+    ],
+    "runbooks": [
+      "cpu-spike",
+      "memory-leak"
+    ],
+    "clarified": false,
+    "cost_usd_estimate": 0.009739,
+    "validation_attempts": 1,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "03bdd0af-01a8-4749-adc3-72ad77660b94"
+  },
+  {
+    "case_id": "missing",
+    "mode": "baseline",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 54.743,
+    "target_correct": 0,
+    "runbook_recall": 0.0,
+    "runbook_precision": 0.0,
+    "targets": [
+      "auth-service"
+    ],
+    "runbooks": [
+      "high-latency"
+    ],
+    "clarified": false,
+    "cost_usd_estimate": 0.005686,
+    "validation_attempts": 1,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "a44a8d5a-95ee-40e4-adae-8a4f1bf904fd"
+  },
+  {
+    "case_id": "missing",
+    "mode": "improved",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 0.008,
+    "target_correct": 1,
+    "runbook_recall": 1.0,
+    "runbook_precision": 1.0,
+    "targets": [],
+    "runbooks": [],
+    "clarified": true,
+    "cost_usd_estimate": 0.0,
+    "validation_attempts": 0,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "55fea90f-b32f-4382-a2c3-e49c22bf7a66"
+  },
+  {
+    "case_id": "unknown",
+    "mode": "baseline",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 50.4272,
+    "target_correct": 0,
+    "runbook_recall": 0.0,
+    "runbook_precision": 0.0,
+    "targets": [
+      "auth-service"
+    ],
+    "runbooks": [
+      "high-latency"
+    ],
+    "clarified": false,
+    "cost_usd_estimate": 0.005598,
+    "validation_attempts": 1,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "c02863ff-796f-4f78-8de2-be7c07ea8e32"
+  },
+  {
+    "case_id": "unknown",
+    "mode": "improved",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 0.0043,
+    "target_correct": 1,
+    "runbook_recall": 1.0,
+    "runbook_precision": 1.0,
+    "targets": [],
+    "runbooks": [],
+    "clarified": true,
+    "cost_usd_estimate": 0.0,
+    "validation_attempts": 0,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "67fa3ed6-d733-4646-b1d3-c74a81e12fe0"
+  },
+  {
+    "case_id": "greeting",
+    "mode": "baseline",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 2.6766,
+    "target_correct": 1,
+    "runbook_recall": 1.0,
+    "runbook_precision": 1.0,
+    "targets": [],
+    "runbooks": [],
+    "clarified": false,
+    "cost_usd_estimate": 6.6e-05,
+    "validation_attempts": 0,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "3608a5f1-f250-44d5-87af-a768f13c360e"
+  },
+  {
+    "case_id": "greeting",
+    "mode": "improved",
+    "repeat": 0,
+    "backend": "ollama",
+    "latency_s": 0.954,
+    "target_correct": 1,
+    "runbook_recall": 1.0,
+    "runbook_precision": 1.0,
+    "targets": [],
+    "runbooks": [],
+    "clarified": false,
+    "cost_usd_estimate": 2.9e-05,
+    "validation_attempts": 0,
+    "retry_count": 0,
+    "error": null,
+    "langsmith_run_id": "3ad6cada-7ac2-4532-a4a7-46f49ef5aefe"
+  }
+]

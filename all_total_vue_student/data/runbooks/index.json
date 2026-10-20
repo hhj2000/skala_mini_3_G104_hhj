@@ -1,0 +1,8 @@
+{
+  "cpu-spike": "CPU saturation, high processor usage, CPU 급증, 프로세서 과부하, 트래픽 폭증, 반복 연산",
+  "memory-leak": "Memory usage climbing, heap near limit, OOM, 메모리 누수, 힙 증가, 객체 미반환",
+  "disk-full": "Disk usage high, no space left on device, disk space low, 디스크 용량 부족, 로그 파일 누적",
+  "high-latency": "High p95 latency, connection pool exhausted, slow queries, 응답 지연, 커넥션 풀 포화",
+  "network-timeout": "Upstream timeout 504, network packet loss, DNS failure, 네트워크 타임아웃, 패킷 손실",
+  "db-down": "Database down, database unavailable, replication failure, DB 중단, 데이터베이스 접속 불가"
+}
