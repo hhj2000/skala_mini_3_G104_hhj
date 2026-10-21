@@ -57,7 +57,7 @@ FastAPI + Vue 3 + LangGraph + SQLite 기반입니다. 가입 계정과 salted PB
 
 **현재 Kharakteres는 MCP 서버를 사용하지 않습니다.** 웹 사전과 음성 API는 HTTP로, 주문 DB와 임베딩은 로컬 모듈로 연결합니다. 보존된 장애 진단 Base에서만 `agent/mcp_client.py`가 stdio로 `mcp_server.py`(모니터링·Runbook)와 `mcp_server_docs.py`(서비스 문서)를 연결합니다. Base는 도구·리소스 인터페이스를 분리하고 재사용하기 위해 MCP를 사용했습니다. 기본 `SERVICE_MODE=spells` 경로는 이 MCP 세션을 시작하지 않습니다.
 
-![현재 구조](all_total_vue_student/doc/kharakteres-architecture.png)
+![현재 구조](all_total_vue_student/doc/kharakteres-architecture.svg)
 
 ## 설정과 한계
 
