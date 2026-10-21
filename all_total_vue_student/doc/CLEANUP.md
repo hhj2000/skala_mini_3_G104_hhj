@@ -46,3 +46,7 @@ BASE의 별도 화면 서버는 기존 API 서버를 변경하지 않고 데모 
 현재는 계정별 주문·영구 단일 로그인·시크릿 저장소·한국어 이름 229개·고전 통합 분류를 제공합니다. Docker는 `docker compose up --build -d`로 갱신하며 사전 기본값은 `wiktapi`입니다. 하위 SQLite/DB와 개인 사용자 폴더를 이미지 빌드에서 제외하고 볼륨에서 관리합니다. 현재 전체 회귀는 pytest 152개·SSE 클라이언트 5개입니다([문서 목차](README.md)).
 
 이 문서의 83개 테스트와 제거/이동 목록은 파일 정리 당시 기록입니다. BASE 코드·Runbook·원본 평가 스냅샷과 과거 보고서는 최신 기능으로 다시 쓰지 않습니다. 현재 코드의 주석과 사용 안내만 실제 구현에 맞춰 관리합니다.
+
+## ngrok·배포 안내 추가
+
+호스트 ngrok으로 연결하는 [공유 안내](NGROK_SHARING.md)와 `joonsdocker/kharakteres:latest`의 [Hub 배포 안내](DOCKER_HUB.md), 공유 경로 SVG/PNG를 추가했습니다. 실제 `.env`·공개 URL·토큰·개인 DB는 추가하지 않고 ngrok을 앱 이미지 안에 넣지도 않았습니다. 과거 BASE 자료·평가 스냅샷은 그대로 보존합니다.

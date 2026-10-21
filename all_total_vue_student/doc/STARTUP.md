@@ -57,3 +57,7 @@ cp -n .env.example .env
 ## 언어 목록이 다를 때
 
 한국어 이름이 있는 지원 언어 229개를 가나다순으로 제공합니다. **언어 목록** 메뉴가 없거나 전체 목록이 표시되지 않으면 로컬 서버 재시작 또는 Docker 이미지 rebuild 후 브라우저를 새로고침합니다. [목록·이름/코드·지원 한계](LANGUAGES.md)를 참고하세요.
+
+## ngrok과 Hub 이미지로 공유
+
+로컬/소스 Compose의 기본 포트는 `ngrok http 8100`, Hub 이미지의 호스트 8101 실행 예시는 `ngrok http 8101`로 연결합니다. ngrok은 같은 컴퓨터에서 별도 실행하므로 loopback 바인딩을 바꿀 필요가 없습니다. HTTPS용 `KHARAKTERES_COOKIE_SECURE=1`과 서명 키를 준비하고 실제 Forwarding 주소를 공유합니다. [ngrok 설치·환경·공유](NGROK_SHARING.md), [joonsdocker/kharakteres:latest pull·실행·갱신](DOCKER_HUB.md)을 참고하세요.

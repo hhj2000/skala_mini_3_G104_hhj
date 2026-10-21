@@ -1,4 +1,6 @@
 # Apply code/UI changes: docker compose up --build -d (existing named volumes stay).
+# For public HTTPS, host ngrok targets DOCKER_PORT (default 8100); loopback binding is enough.
+# This source-build profile does not pull/push joonsdocker/kharakteres:latest; see doc/DOCKER_HUB.md.
 services:
   kharakteres:
     build: .

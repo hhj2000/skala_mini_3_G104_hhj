@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-10-21T07:52:52.081896+00:00",
+  "source": "user_report",
+  "reported_checks": [
+    "macOS localhost execution",
+    "Docker/Docker Desktop execution",
+    "ngrok public HTTPS URL access",
+    "service functions worked through the public URL"
+  ],
+  "docker_hub_image_reported_by_user": "joonsdocker/kharakteres:latest",
+  "agent_independent_public_url_retest": false,
+  "per_feature_measurements_provided": false,
+  "sensitive_values_recorded": false,
+  "note": "User-confirmed deployment usability; no assertion of separately measured SSE, audio, all-language quality or production security."
+}

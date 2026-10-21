@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1160" viewBox="0 0 1500 1160" role="img" aria-labelledby="title desc">
+<title id="title">Kharakteres · Docker Hub와 ngrok 공유 경로</title>
+<desc id="desc">외부 브라우저가 ngrok HTTPS를 통해 서버 호스트의 loopback 포트에 접속한다. 로컬 Python, 소스 Compose, Hub 이미지 실행 중 하나를 선택한다. Hub는 이미지 배포이고 계정 데이터·토큰·공개 URL은 이미지에 넣지 않는다.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#52647a"/></marker></defs>
+<style>text{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;fill:#1c2f45}.title{font-size:32px;font-weight:700}.head{font-size:22px;font-weight:700}.body{font-size:19px}.small{font-size:17px;fill:#52647a}.edge{fill:none;stroke:#52647a;stroke-width:2.3;marker-end:url(#arrow)}.dash{stroke-dasharray:7 5}</style>
+<rect width="1500" height="1160" fill="#f4f7fa"/>
+<text x="45" y="55" class="title">Kharakteres · 실행 이미지 배포와 공용 HTTPS 접속</text>
+<text x="45" y="91" class="body">2026-10-21 · ngrok은 서버 호스트에서 별도 실행 · 웹 방문자는 Docker 설치 불필요</text>
+<rect x="500" y="130" width="500" height="100" rx="16" fill="#fff" stroke="#a6bdce" stroke-width="2"/>
+<text x="520" y="163" class="head">외부 사용자 · 브라우저</text>
+<text x="520" y="195" class="body">공유받은 HTTPS 주소에서 가입·로그인</text>
+<rect x="500" y="285" width="500" height="130" rx="16" fill="#e7f3fa" stroke="#a6bdce" stroke-width="2"/>
+<text x="520" y="318" class="head">ngrok · HTTPS 공개 진입점</text>
+<text x="520" y="350" class="body">Forwarding의 실제 HTTPS URL 공유</text>
+<text x="520" y="379" class="body">터널은 실행한 컴퓨터의 앱 포트로 연결</text>
+<path d="M750 230 V285" class="edge"/>
+<rect x="500" y="470" width="500" height="100" rx="16" fill="#e7f3fa" stroke="#a6bdce" stroke-width="2"/>
+<text x="520" y="503" class="head">서버 호스트 · loopback 포트</text>
+<text x="520" y="535" class="body">127.0.0.1:8100 또는 127.0.0.1:8101</text>
+<path d="M750 415 V470" class="edge"/>
+<rect x="45" y="285" width="375" height="130" rx="16" fill="#fff" stroke="#a6bdce" stroke-width="2"/>
+<text x="65" y="318" class="head">호스트에서 최초 설정</text>
+<text x="65" y="350" class="body">brew install ngrok</text>
+<text x="65" y="379" class="body">토큰 등록 → ngrok http 8100 / 8101</text>
+<rect x="1080" y="285" width="375" height="130" rx="16" fill="#fff6df" stroke="#a6bdce" stroke-width="2"/>
+<text x="1100" y="318" class="head">Docker Hub · 이미지 저장소</text>
+<text x="1100" y="350" class="body">joonsdocker/kharakteres:latest</text>
+<text x="1100" y="379" class="body">push / pull · 공용 웹 서버와는 별개</text>
+<text x="500" y="615" class="small">아래 실행 방식 중 하나 선택 · 호스트 포트 중복 사용 주의</text>
+<path d="M750 570 V635 H255 V670" class="edge"/>
+<path d="M750 570 V670" class="edge"/>
+<path d="M750 635 H1245 V670" class="edge"/>
+<rect x="45" y="670" width="420" height="175" rx="16" fill="#e7f5ee" stroke="#a6bdce" stroke-width="2"/>
+<text x="65" y="703" class="head">A. macOS 로컬 Python</text>
+<text x="65" y="735" class="body">run_kharakteres.sh openai</text>
+<text x="65" y="764" class="body">호스트 8100에서 Vue·API·SSE 제공</text>
+<text x="65" y="793" class="body">ngrok http 8100</text>
+<rect x="540" y="670" width="420" height="175" rx="16" fill="#e7f5ee" stroke="#a6bdce" stroke-width="2"/>
+<text x="560" y="703" class="head">B. 소스 Docker Compose</text>
+<text x="560" y="735" class="body">docker compose up --build -d</text>
+<text x="560" y="764" class="body">호스트 8100 → 컨테이너 8100</text>
+<text x="560" y="793" class="body">ngrok http 8100</text>
+<rect x="1035" y="670" width="420" height="175" rx="16" fill="#e7f5ee" stroke="#a6bdce" stroke-width="2"/>
+<text x="1055" y="703" class="head">C. Hub 이미지 실행</text>
+<text x="1055" y="735" class="body">docker pull → docker run</text>
+<text x="1055" y="764" class="body">예: 호스트 8101 → 컨테이너 8100</text>
+<text x="1055" y="793" class="body">ngrok http 8101</text>
+<path d="M1267 415 H1480 V745 H1455" class="edge dash"/>
+<text x="1182" y="450" class="small">이미지 배포 경로</text>
+<rect x="45" y="900" width="1410" height="105" rx="16" fill="#fff" stroke="#a6bdce" stroke-width="2"/>
+<text x="65" y="933" class="head">각 실행 서버의 데이터와 환경</text>
+<text x="65" y="965" class="body">계정·주문·세션·벡터 DB는 해당 서버의 파일/볼륨에 보존 · 서로 다른 서버의 데이터는 자동 공유되지 않음</text>
+<text x="65" y="994" class="body">API 키·세션 서명 키는 실행 환경 · ngrok 토큰은 호스트 설정 · 실제 .env·개인 DB는 이미지에서 제외</text>
+<rect x="45" y="1035" width="1410" height="95" rx="16" fill="#fff0ef" stroke="#a6bdce" stroke-width="2"/>
+<text x="65" y="1068" class="head">운영과 이미지 갱신</text>
+<text x="65" y="1100" class="body">컴퓨터·앱·ngrok 실행 유지 · 이미지 안 문서 갱신: 재빌드/push · 받는 쪽: pull 후 같은 환경/볼륨으로 재생성</text>
+</svg>

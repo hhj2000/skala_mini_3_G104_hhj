@@ -1,0 +1,101 @@
+{
+  "checked_at": "2026-10-21T07:58:10.009962+00:00",
+  "scope": "Documentation, comments, environment example, rendered SVG/PNG and local image packaging; no public tunnel or operational container replacement",
+  "documentation": {
+    "active_markdown_files": 19,
+    "missing_local_links": [],
+    "unresolved_anchors": [],
+    "shell_blocks_syntax_checked": 13,
+    "python_syntax": "passed",
+    "env_example_parse": "passed",
+    "diff_check": "passed"
+  },
+  "local_image": {
+    "tag": "kharakteres:ngrok-docs-check",
+    "image_id": "sha256:5b8b6c327c82ebf2737681eccaa4e0e4174d5e2213a890d0cafe797adad3aa54",
+    "matching_bundled_files": 24,
+    "bundled_file_sha256": {
+      "doc/KHARAKTERES.md": "da9885fd85e46aa53e97644f9ef49841633af33bfe60a48894bebd5162d0a930",
+      "doc/DOCKER_HUB.md": "2a26f7573e161c1ede900742ab7bbb48ebceb206f0118feea30485019078e31a",
+      "doc/WEB_SOURCES.md": "a94b1f7d8c20c15fea572b08b29bef77febf6f32ba1fcc7d4dbbad7b8f66fb47",
+      "doc/LANGUAGES.md": "3f5ad5b7f56a282a905e7eaf7e234ea77bb05ab508fcdefa5c02e60f85fd6a36",
+      "doc/DOCKER_AUTH.md": "89d10dc9f135c2c10d48dc64889a0aa49d514d7ecdc35a535063e5245f9df27e",
+      "doc/ASSIGNMENT_REVIEW.md": "c32ebab5f5ccd42986f5a71b0666060b6ec8d6b2d05efc8b39438108bd8703f2",
+      "doc/STREAMING.md": "1a9ad97adeac664badffedc1ef95ccc23ad2541081d23fc0c2ce2a5f1cd0956b",
+      "doc/NGROK_SHARING.md": "db1c05a19bab1a1d4c55196df077c29d9735f4041ed2ba7722cb3398d76f878d",
+      "doc/README.md": "26aeb4a3f7da90a386a2d68e262a1611a64d16d741be8c8e8b8169d5693c6445",
+      "doc/STARTUP.md": "1e3d2208fe560cc56183f714da1ba729ed626c6ae480fc1808aa94ffc8d7c216",
+      "doc/GIT_UPLOAD.md": "7fc4cc0946ae68a01d9f98db927ef7b1124de5ce5c19349f8fa595dcfe4279ef",
+      "doc/CLEANUP.md": "d30ce84f6aae77dcbbe288b772a495d536f5c64bff82378fa198e081b886c92c",
+      "doc/regression_test_queries.md": "67df88f5a52fa5b14b14121c8b0489248d3b742e5b95ac43a184b04238639a0f",
+      "doc/EVALUATION.md": "113b2c058907dfa094bb5ef05d7156338694b56d0d7d3b6dfaf463a9a4c17258",
+      "doc/SAFETY_RAG_MCP.md": "d8eaa71c2bd794b45eb81ea6edc90972bb4833190ec51fc3f845327e570fe02e",
+      "doc/kharakteres-sharing.svg": "a4cafee49e8a91889a5a3566fb3b109de548eadedf333e5e7b3f364426623294",
+      "doc/kharakteres-sharing.png": "9ca44217814f9112cb38481a2d9a59461898dd16a7a7ac984cd6f3798ff865ee",
+      "doc/kharakteres-architecture.svg": "d775d7e380edb13d9c547825a9c45bed052f63271099b1faae6cd84c4610b665",
+      "doc/kharakteres-architecture.png": "91dbcdd35649e2188a929fe79aa5077190789f7a4047a87fbccfc089071b2a9d",
+      ".env.example": "feb6ee2a5f21c7ccec34c7665872c0ad8b8fd49b7ba489437b48ae1c454279b0",
+      "Dockerfile": "8cf03b58383d9ee5e5af8e728d5a73d565e9b28477a352a184f70dcbcc415ed6",
+      "docker-compose.yml": "eb1f5e490e82a516d8809359ca2e48d4511e7fa77abe49a636f18d24eba98c39",
+      "server.py": "8290a06bddb43fd9157d87fc968ded98fe2cfb92bfaf49c9f52985f59571375f",
+      "kharakteres/auth.py": "660caee35accb95314399363e49eb2a0d4218f6a1b73117846c2e8c2f59819f8"
+    },
+    "private_env_excluded": true,
+    "runtime_databases_excluded": true,
+    "ngrok_binary_not_bundled": true,
+    "isolated_check_network": "none"
+  },
+  "figures": {
+    "architecture": [
+      1600,
+      1430
+    ],
+    "sharing": [
+      1500,
+      1160
+    ],
+    "svg_and_png_rendered": true,
+    "visually_checked": true
+  },
+  "compose": {
+    "valid": true,
+    "dictionary_provider": "wiktapi",
+    "ports": [
+      {
+        "mode": "ingress",
+        "host_ip": "127.0.0.1",
+        "target": 8100,
+        "published": "8100",
+        "protocol": "tcp"
+      }
+    ]
+  },
+  "hub": {
+    "repository": "joonsdocker/kharakteres:latest",
+    "remote_platforms_observed_before_changes": [
+      "linux/arm64"
+    ],
+    "push_performed": false,
+    "overview_modified": false
+  },
+  "user_report": "kharakteres-ngrok-user-report-20261021.json",
+  "agent_public_url_retest": false,
+  "model_calls_made": false,
+  "full_regression_rerun": false,
+  "last_verified_regression": {
+    "pytest": 152,
+    "sse_client": 5
+  },
+  "historical_benchmark": {
+    "source_hashes_verified": 17,
+    "quality_scores_remeasured": false
+  },
+  "git_audit": {
+    "candidate_count": 268,
+    "candidate_bytes": 14039000,
+    "over_50_mib": [],
+    "over_100_mib": [],
+    "history_over_100_mib": [],
+    "possible_key_paths": []
+  }
+}

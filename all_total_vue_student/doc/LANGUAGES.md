@@ -70,3 +70,7 @@ docker compose up --build -d
 # 기존 계정이 없는 별도 임시 서버에서 실행. 생성/음성 호출 없음.
 .venv/bin/python eval/kharakteres_expanded_languages_smoke.py --base-url http://127.0.0.1:18120 --refresh --output eval/results/my-korean-language-check.json
 ```
+
+## 공용 URL에서의 언어 목록
+
+ngrok으로 공유해도 229개·가나다순·현대/고전/사멸 분류와 검증 한계는 같습니다. 외부 사용자는 같은 서버에 가입하고 해당 계정의 서고를 사용합니다. 별도 이미지/서버를 각자 실행한 경우 DB와 계정은 자동 공유되지 않습니다. 연결 방법은 [ngrok 공유](NGROK_SHARING.md), 실행 이미지의 갱신은 [Docker Hub](DOCKER_HUB.md)를 참고합니다.

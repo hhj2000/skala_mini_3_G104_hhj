@@ -87,3 +87,9 @@ SQLite 트랜잭션과 `login_sessions(user_id)` UNIQUE 인덱스로 여러 요�
 같은 주문의 오래된 수정본은 기존 버전 검사(409)로 덮어쓰기를 막습니다. 중복 로그인 자체가 DB 손상을 의미하는 것은 아니며, 이번 제한은 동시 사용 혼선을 줄이는 정책입니다. 교체 전에 접수된 생성/음성 요청이 이미 진행 중일 수 있습니다. 주문 생성은 자동 저장하지 않고, 저장/수정/삭제는 비동기 검사나 잠금 대기 후 실제 변경 직전에 세션을 재확인합니다. 시크릿 해제의 세션 교체도 이전 세션 소유권을 확인하므로 새 로그인을 역으로 무효화하지 않습니다.
 
 검증: pytest **152개**, SSE 클라이언트 **5개**. 이전 쿠키 차단·잘못된 비밀번호·다른 계정 영향 없음·시크릿 정리·동시 로그인 DB 경합·기존 다중 세션 마이그레이션·저장 대기 중 세션 교체·늦은 시크릿 해제 방지를 확인했습니다. [로컬 두 브라우저 확인](../eval/results/kharakteres-single-session-local-20261021.json) · [Docker 두 브라우저/재시작 확인](../eval/results/kharakteres-single-session-docker-20261021.json).
+
+## ngrok HTTPS 공유와 Hub 배포
+
+소스 Compose는 `docker compose up --build -d` 뒤 호스트에서 `ngrok http 8100`을 실행합니다. 다른 호스트 포트로 매핑했다면 그 포트를 사용합니다. loopback 바인딩을 유지하며 Docker Desktop의 실행 컨테이너도 동일하게 연결합니다. HTTPS에서는 `KHARAKTERES_COOKIE_SECURE=1`을 적용하고 환경 변경 시 컨테이너를 재생성합니다. 토큰은 호스트 ngrok 설정에만 보관하고 실제 `.env`·개인 DB는 이미지에 포함하지 않습니다.
+
+공식 이미지 이름은 `joonsdocker/kharakteres:latest`이며 [다운로드·실행·볼륨·업데이트](DOCKER_HUB.md)와 [공용 URL 발급·공유](NGROK_SHARING.md)를 따릅니다. 2026-10-21 사용자가 macOS 로컬/Docker/Desktop 및 ngrok 접속·기능을 확인했습니다. 이 사용자 확인을 위 격리 자동 검사나 공개 서비스 보안 인증과 동일하게 취급하지 않습니다.

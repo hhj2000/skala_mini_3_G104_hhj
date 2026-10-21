@@ -1,5 +1,7 @@
 """통합 서비스 진입점: 기본 Kharakteres, SERVICE_MODE=incident는 보존된 BASE.
 
+공용 HTTPS URL은 호스트 ngrok에서 발급하며 화면/API/SSE는 같은 출처를 사용한다.
+호스트 포트와 컨테이너 포트를 구분한다(doc/NGROK_SHARING.md).
 주문 서비스의 정량 평가는 eval/kharakteres_benchmark.py를 사용한다.
 장애 진단 BASE의 과거 평가는 서로 다른 도메인의 현재 성능 근거로 사용하지 않는다.
 """

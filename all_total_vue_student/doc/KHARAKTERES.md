@@ -263,3 +263,9 @@ SPELL_RETRIEVAL_TIMEOUT_SECONDS=25
 콘텐츠 분류 모델은 기존 검사 LLM 설정을 사용합니다. 모델 분류가 실패하면 요청을 중단합니다. 단어 규칙만 쓰려면 `CONTENT_FILTER_MODE=rules`로 설정하며 문맥 분류의 보호 범위가 줄어듭니다.
 
 [새 회귀 테스트 쿼리](regression_test_queries.md)와 [Git 업로드 안내](GIT_UPLOAD.md)도 갱신했습니다.
+
+## 실행 이미지와 공용 HTTPS 주소
+
+`joonsdocker/kharakteres:latest`를 pull해 환경변수·포트·데이터 볼륨과 함께 실행할 수 있습니다. Docker Desktop은 동일 컨테이너의 상태/로그를 확인하는 관리 앱입니다. 호스트에서 ngrok을 별도로 실행해 로컬/Compose 8100 또는 Hub 예시 8101을 연결하고 Forwarding HTTPS 주소를 공유합니다. 컴퓨터·앱·ngrok이 계속 실행돼 있어야 하며 계정별 저장·단일 로그인·시크릿 정책은 그대로입니다.
+
+[ngrok 단계별 절차](NGROK_SHARING.md) · [Hub 이미지 갱신](DOCKER_HUB.md). 2026-10-21 공용 URL 접속과 기능 사용은 사용자가 확인했고, 이번 문서 갱신에서 실제 모델/마이크·공개 URL을 다시 측정한 것은 아닙니다.

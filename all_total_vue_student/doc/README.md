@@ -24,6 +24,9 @@ docker compose up --build -d
 - [전체 기능·모듈·음성 사용법](KHARAKTERES.md)
 - [229개 언어·가나다순·실제 품질 범위](LANGUAGES.md)
 - [Docker·영구 로그인·계정당 활성 세션 1개·시크릿](DOCKER_AUTH.md)
+- [ngrok HTTPS 공용 URL 발급·공유·포트별 연결](NGROK_SHARING.md)
+- [joonsdocker/kharakteres 이미지 pull·실행·push·업데이트](DOCKER_HUB.md)
+- [공유 경로 PNG](kharakteres-sharing.png) / [SVG](kharakteres-sharing.svg)
 - [로컬/Docker 웹 사전 제공자·출처·실패 처리](WEB_SOURCES.md)
 - [SSE 단계·토큰 전송](STREAMING.md)
 - [콘텐츠 필터·벡터 RAG·MCP/Multi-Agent 판단](SAFETY_RAG_MCP.md)
@@ -43,3 +46,7 @@ docker compose up --build -d
 과거 BASE 문서·Runbook·평가 스냅샷·실험 보고서는 당시 기록으로 보존합니다. 현재 실행 안내로 사용하지 않습니다([BASE 보관](../archive/README.md), [과거 문서](archive/base/README.md)).
 
 [문서·Compose·구조도·원본 보존 정합성 점검 기록](../eval/results/kharakteres-documentation-validation-20261021.json)에서 현재 문서 17개의 로컬 링크/앵커, Compose 제공자, 기존 평가 코드 17개의 원본 해시 보존 결과를 확인할 수 있습니다.
+
+ngrok 공용 URL 접속·기능 사용은 2026-10-21 [사용자 확인 기록](../eval/results/kharakteres-ngrok-user-report-20261021.json)으로 추가했습니다. 앱 회귀/정량 점수와 구분합니다. 새 안내를 Hub 이미지 내부에도 제공하려면 재빌드·push가 필요하며 Hub Overview는 별도 편집합니다([갱신 절차](DOCKER_HUB.md)).
+
+[ngrok 안내·명령·그림·이미지 포함 점검](../eval/results/kharakteres-ngrok-docs-validation-20261021.json)은 이번 설명 추가의 검증 범위입니다. 공개 URL 기능 사용은 사용자 보고이고, 에이전트는 문서/예제와 격리 로컬 이미지 포장을 확인했습니다.

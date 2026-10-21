@@ -21,6 +21,17 @@ bash sh/run_kharakteres.sh openai
 
 Docker Compose 배포는 `.env`의 모델 키와 `KHARAKTERES_SESSION_SECRET`을 설정한 뒤 `docker compose up --build -d`로 시작합니다. 기본 주소는 http://localhost:8100 이며 첫 접속에서 회원가입합니다. 계정과 사용자별 주문 DB, 임베딩 모델은 Docker 볼륨에 보존됩니다. 사전 기본값은 `wiktapi`이므로 명령 앞 환경변수 지정은 필요 없으며 명시한 셸/`.env` 설정은 유지합니다. 코드 변경 반영 후 브라우저를 새로고침합니다. 상세 절차는 [Docker·로그인·시크릿 모드 안내](all_total_vue_student/doc/DOCKER_AUTH.md)에 있습니다.
 
+## ngrok 공용 URL과 Docker Hub
+
+이미지는 **`joonsdocker/kharakteres:latest`**로 배포합니다. 소스 실행/Compose는 기본 호스트 8100에 `ngrok http 8100`, Hub 실행 예시는 호스트 8101에 `ngrok http 8101`을 연결합니다. ngrok은 서버 컴퓨터에서 별도로 실행하며 앱 이미지를 수정하거나 LAN 전체에 포트를 열 필요는 없습니다. HTTPS 공유 시 `KHARAKTERES_COOKIE_SECURE=1`을 적용하고 출력된 Forwarding HTTPS 주소를 공유합니다.
+
+- [macOS·Docker Desktop·ngrok 실행과 URL 공유](all_total_vue_student/doc/NGROK_SHARING.md)
+- [Hub 이미지 다운로드·실행·갱신 및 게시자 push](all_total_vue_student/doc/DOCKER_HUB.md)
+
+![이미지 배포와 HTTPS 접속 경로](all_total_vue_student/doc/kharakteres-sharing.png)
+
+2026-10-21 사용자가 로컬/Docker와 ngrok 공용 URL 접속 및 기능 사용을 확인했습니다. 이는 사용자 실행 확인이며 이번 문서 작업에서 에이전트가 공개 URL의 모든 기능을 독립 재측정한 기록은 아닙니다. Hub 업로드는 실행 이미지 공유이고 상시 웹 호스팅은 아닙니다.
+
 ## [주요 기능]
 
 - AI 주문 생성: 언어·속성·효과·문체·제약 조건 반영

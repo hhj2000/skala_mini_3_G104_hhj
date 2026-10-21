@@ -2,7 +2,9 @@
 
 The newest successful login replaces the previous grant in SQLite. Browser cookies
 renew on authenticated responses; logout/reset revoke grants. Secret content stays
-temporary even though the login and secret-mode choice survive a restart."""
+temporary even though the login and secret-mode choice survive a restart.
+For host ngrok HTTPS sharing enable the secure-cookie env setting; the tunnel does
+not change account scope, revoke rules or strengthen email-only recovery."""
 
 from collections import defaultdict, deque
 from dataclasses import dataclass

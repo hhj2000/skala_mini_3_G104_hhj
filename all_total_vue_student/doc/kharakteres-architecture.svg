@@ -1,5 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1430" viewBox="0 0 1600 1430" role="img" aria-labelledby="title desc"><title id="title">Kharakteres 현재 서비스 아키텍처</title><desc id="desc">회원가입·로그인 이후 계정별 주문사전을 사용하는 Kharakteres 구조. FastAPI 인증 미들웨어, 사용자별 SQLite와 벡터 인덱스, 임시 시크릿 서고, LangGraph 순차 생성·검토, STT/TTS, LangSmith 추적, Docker 영구 볼륨을 표시. 시크릿 모드에서는 LangSmith tracing을 끄며 독립 멀티 에이전트와 MCP는 사용하지 않음.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#52647a"/></marker></defs><style>text{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;fill:#1c2f45} .title{font-size:34px;font-weight:700}.heading{font-size:22px;font-weight:700}.body{font-size:19px}.small{font-size:17px;fill:#52647a}.edge{fill:none;stroke:#52647a;stroke-width:2.3;marker-end:url(#arrow)}</style><rect width="1600" height="1430" fill="#f4f7fa"/><text x="45" y="58" class="title">Kharakteres · 현재 구현 구조</text><text x="45" y="93" class="body">현재 기본 경로: SERVICE_MODE=spells · 2026-10-21 · 과거 장애 진단 서비스는 별도 보존</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1430" viewBox="0 0 1600 1430" role="img" aria-labelledby="title desc"><title id="title">Kharakteres 현재 서비스 아키텍처</title><desc id="desc">회원가입·로그인 이후 계정별 주문사전을 사용하는 Kharakteres 구조. FastAPI 인증 미들웨어, 사용자별 SQLite와 벡터 인덱스, 임시 시크릿 서고, LangGraph 순차 생성·검토, STT/TTS, LangSmith 추적, Docker 영구 볼륨과 호스트 ngrok HTTPS 경로를 표시. 시크릿 모드에서는 LangSmith tracing을 끄며 독립 멀티 에이전트와 MCP는 사용하지 않음.</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#52647a"/></marker></defs><style>text{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;fill:#1c2f45} .title{font-size:34px;font-weight:700}.heading{font-size:22px;font-weight:700}.body{font-size:19px}.small{font-size:17px;fill:#52647a}.edge{fill:none;stroke:#52647a;stroke-width:2.3;marker-end:url(#arrow)}</style><rect width="1600" height="1430" fill="#f4f7fa"/><text x="45" y="58" class="title">Kharakteres · 현재 구현 구조</text><text x="45" y="93" class="body">현재 기본 경로: SERVICE_MODE=spells · 2026-10-21 · ngrok HTTPS 공유 · 과거 BASE는 별도 보존</text>
 <rect x="365" y="395" width="790" height="670" rx="22" fill="#eaf1f9" stroke="#8baac8" stroke-dasharray="8 6"/><text x="385" y="385" class="heading">LangGraph · 순차 실행</text>
+<rect x="45" y="140" width="290" height="200" rx="14" fill="#e7f3fa" stroke="#80a8bd" stroke-width="2"/>
+<text x="65" y="173" class="heading">ngrok · 호스트 터널</text>
+<text x="65" y="205" class="body">공용 HTTPS → 로컬 앱</text>
+<text x="65" y="233" class="body">호스트 포트 8100 / 8101</text>
+<text x="65" y="261" class="body">인증 토큰은 호스트에 보관</text>
+<text x="65" y="289" class="body">앱과 같은 컴퓨터에서 실행</text>
+<text x="65" y="317" class="small">Hub는 이미지 배포 · 웹 호스팅 별도</text>
+<path d="M335 245 H445 V310 H480" class="edge"/>
 <rect x="480" y="140" width="560" height="80" rx="14" fill="#ffffff" stroke="#c2cfdb" stroke-width="2"/>
 <text x="500" y="173" class="heading">사용자 · Vue 웹 화면</text>
 <text x="500" y="205" class="body">지원 언어 229개 · 가나다순 · 계정별 서고</text>
@@ -91,5 +99,5 @@
 <text x="1210" y="1091" class="body">시크릿 모드 요청은 추적 제외</text>
 <rect x="45" y="1285" width="1510" height="115" rx="14" fill="#fff0ef" stroke="#d69691" stroke-width="2"/>
 <text x="65" y="1318" class="heading">로컬·Docker 배포와 운영 경계</text>
-<text x="65" y="1350" class="body">로컬·Docker 공통 로그인 · 새 로그인 우선 · 영구 볼륨 · docker compose up --build -d</text><text x="65" y="1378" class="body">시크릿 종료/교체 시 임시 DB 폐기 · 현대 209 / 고전 17 / 사멸 3 · Multi-Agent/MCP 미도입</text>
+<text x="65" y="1350" class="body">로컬·Docker/Desktop · Hub: joonsdocker/kharakteres:latest · 공용 주소: 호스트 ngrok HTTPS</text><text x="65" y="1378" class="body">영구 볼륨·단일 세션 유지 · ngrok 토큰은 이미지 밖 · 시크릿 폐기 · Multi-Agent/MCP 미도입</text>
 </svg>

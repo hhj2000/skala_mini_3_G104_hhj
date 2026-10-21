@@ -75,3 +75,11 @@ pytest 146개를 통과했습니다. 언어 브라우저 스모크는 고전 필
 ```bash
 .venv/bin/python eval/kharakteres_single_session_smoke.py --base-url http://127.0.0.1:18120 --output eval/results/my-single-session-check.json
 ```
+
+## ngrok 공유 사용자 확인과 문서 포장 검사
+
+2026-10-21 사용자가 macOS 로컬호스트·Docker/Desktop 실행, ngrok 공용 URL 접속과 기능 정상 사용을 보고했습니다([원본 구분 기록](results/kharakteres-ngrok-user-report-20261021.json)). 공개 URL·토큰은 저장하지 않았으며 에이전트가 전 기능을 독립 재측정한 것으로 표시하지 않습니다. 기존 pytest 152개·SSE 클라이언트 5개와 정량 보고서는 이전 실행의 증거로 보존합니다. 이번 문서/주석 갱신은 링크·환경 예제·그림 렌더링·이미지 내부 파일 포함을 별도로 점검합니다.
+
+[ngrok 공유 재현](../doc/NGROK_SHARING.md) · [Hub 재빌드/push와 사용자 pull/재생성](../doc/DOCKER_HUB.md). 이번 작업에서는 실제 Hub push나 기존 공개 터널/서비스 교체를 수행하지 않습니다.
+
+이번 [포장 검사 기록](results/kharakteres-ngrok-docs-validation-20261021.json)은 로컬 전용 이미지의 안내/그림/예제 포함과 개인 DB·실제 .env 제외를 확인합니다. 공개 Hub 이미지를 변경하거나 사용자 컨테이너·터널을 재시작하지 않습니다.

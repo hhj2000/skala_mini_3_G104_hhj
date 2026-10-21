@@ -1,5 +1,7 @@
 # Unified Vue/API service; runtime account/session/order data comes from /app/data.
 # .dockerignore excludes personal databases from image layers.
+# doc/, SVG/PNG and .env.example are bundled by COPY; rebuild/push to distribute updates.
+# ngrok runs on the HOST and targets its mapped port; no tunnel credentials are baked in.
 FROM python:3.11-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

@@ -87,3 +87,7 @@ Google Spread의 과제 선택·계획·Git 주소·최종 보고서 주소 등�
 최신 회귀는 **pytest 152개·SSE 클라이언트 5개**입니다. 지원 언어 229개(현대 209·고전 17·사멸 3), 가나다순, 고전 통합, 영구 세션·새 로그인 우선·계정당 활성 세션 1개가 반영됐습니다. 로컬/Docker 독립 브라우저와 실제 컨테이너 재시작을 확인했습니다([현재 검증 도구](../eval/README.md)).
 
 고정 데이터 208개 결과·모델 호출·검색/충돌/생성 수치·원본 보고서의 당시 105개 기록은 그대로 보존합니다. 이후 언어/인증/UI 변경으로 같은 점수가 재검증됐다고 주장하지 않습니다. 현재 Docker 갱신은 `docker compose up --build -d`이며 명시적인 제공자 재정의가 없다면 `wiktapi`가 기본입니다.
+
+## 배포 시연 증거 추가
+
+사용자가 2026-10-21 macOS 로컬호스트·Docker/Desktop 및 ngrok 공용 URL의 접속·기능 사용을 확인했습니다([보고](../eval/results/kharakteres-ngrok-user-report-20261021.json)). 발표에는 로컬 실행·이미지 배포·실제 웹 접속 주소가 별도 단계임을 설명하고 [공유 경로 그림](kharakteres-sharing.png)을 사용할 수 있습니다. `joonsdocker/kharakteres:latest`의 [pull·실행·갱신](DOCKER_HUB.md)도 문서화했습니다. 이를 점수 재측정이나 안전한 불특정 다수 공개 운영의 인증으로 제시하지 않습니다.
