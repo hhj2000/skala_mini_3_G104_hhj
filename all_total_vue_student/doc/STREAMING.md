@@ -18,7 +18,7 @@ http://localhost:8100/ 에서 새 주문을 생성합니다. 실행 중인 이�
 4. 언어·발음 출처 확인 — 검사된 초안 표시 후 웹 어휘 조회 결과 반영
 5. 기존 주문과 충돌 검토 — 검토 결과 반영 후 편집·저장·TTS 활성화
 
-출처 조회의 이름은 언어·발음 출처 확인이지만 실제 범위는 Wiktionary 단어·언어 항목과 제공되는 단어 IPA 참고입니다. 문장 전체의 문법·의미·한글 전사·IPA를 인증하지 않습니다.
+출처 조회의 이름은 언어·발음 출처 확인이지만 실제 범위는 선택된 사전 제공자의 단어·언어 항목과 단어 IPA 참고입니다. Docker 기본 WiktAPI는 배포 데이터이며 직접 판본 검증과 구분합니다([제공자 안내](WEB_SOURCES.md)). 문장 전체의 문법·의미·한글 전사·IPA를 인증하지 않습니다.
 
 작성 중 미리보기와 검사 완료 초안은 구분됩니다. 생성만으로 주문을 저장하지 않습니다. 생성 중단·콘텐츠 차단·잘못된 형식·연결 끊김은 미완성 결과를 지우며 자동으로 유료 요청을 반복하지 않습니다.
 
@@ -74,7 +74,7 @@ LangSmith 추적을 활성화하면 `kharakteres.generate_stream_request` 아래
 
 시크릿 모드 요청은 LangSmith tracing을 비활성화하므로 Run ID가 생성되지 않습니다. 시크릿 서고의 내용이 LangSmith 실행 기록에 남지 않게 하기 위한 동작이며, 요청에 사용된 외부 모델 제공자에는 별도 전송될 수 있습니다.
 
-## 검증
+## 스트리밍 도입 당시 검증
 
 2026-10-21 기준 실제 가입을 거치는 pytest 105개와 JavaScript 스트림 클라이언트 4개가 통과했습니다. 격리 컨테이너에서도 fake SSE 완료 흐름을 확인했습니다. [최신 검증 기록](../eval/results/kharakteres-benchmark-20261021/validation.json)과 [평가 범위](EVALUATION.md)를 참고합니다. 정량 벤치마크의 생성 시간은 핵심 함수 경로이며 전체 SSE/웹 조회/안전 검사 시간과 다릅니다.
 
@@ -101,3 +101,8 @@ node --test tests/test_stream_client.cjs
 결과: `eval/results/kharakteres-stream-{openai,ollama}-live.json`, `kharakteres-stream-smoke.json`, 화면 `kharakteres-streaming.png`.
 
 OpenAI 구현은 [공식 스트리밍 이벤트 문서](https://developers.openai.com/api/reference/resources/chat/subresources/completions/streaming-events)의 `delta.content`, 완료 사유와 사용량 이벤트를 따릅니다.
+
+
+## 현재 인증과 회귀
+
+현재 전체 회귀는 pytest **152개**, SSE 클라이언트 **5개**입니다. 새 로그인으로 세션이 교체되면 이후 스트림 요청은 HTTP 401이고 클라이언트는 상태를 유지해 로그인 화면으로 전환하며 유료 생성을 자동 재시도하지 않습니다. 이미 접수된 작업이 진행 중일 수 있으므로 세션 제한을 기존 모델 호출의 즉각 취소로 설명하지 않습니다. 화면의 15초 확인·포커스 복귀 확인은 [로그인 정책](DOCKER_AUTH.md)을 따릅니다. 저장 직전에도 세션을 확인합니다. 위 실제 모델 시간·토큰 수는 당시 단일 요청 실험이며 새 버전 성능을 다시 측정한 수치가 아닙니다.

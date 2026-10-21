@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-10-21T05:25:29.163875+00:00",
+  "scope": "Documentation/comment/UI-introduction refresh; no new model calls or operational Compose replacement",
+  "pytest": {
+    "passed": 152,
+    "exit_code": 0,
+    "duration_seconds": 12.27
+  },
+  "sse_client_tests": {
+    "passed": 5,
+    "exit_code": 0
+  },
+  "markdown": {
+    "active_files": 17,
+    "missing_local_links": [],
+    "unresolved_anchors": []
+  },
+  "compose": {
+    "config_valid": true,
+    "resolved_dictionary_provider": "wiktapi",
+    "command": "docker compose up --build -d",
+    "existing_data_volumes_preserved": true
+  },
+  "historical_benchmark": {
+    "source_snapshots_verified": 17,
+    "modified_snapshots": [],
+    "quality_scores_remeasured": false
+  },
+  "architecture": {
+    "svg": "doc/kharakteres-architecture.svg",
+    "png": "doc/kharakteres-architecture.png",
+    "width": 1600,
+    "height": 1430,
+    "rendered_and_visually_checked": true
+  },
+  "git_audit": {
+    "candidate_count": 262,
+    "candidate_bytes": 13799155,
+    "over_50_mib": [],
+    "over_100_mib": [],
+    "history_over_100_mib": [],
+    "possible_key_paths": []
+  },
+  "preserved_history": [
+    "doc/archive/base/",
+    "archive/base_ui/",
+    "data/runbooks/",
+    "eval/results/ prior reports and source snapshots"
+  ]
+}

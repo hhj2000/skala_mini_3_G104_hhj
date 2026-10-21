@@ -1,4 +1,7 @@
-"""Local account registry with salted password hashes and recovery metadata."""
+"""Account registry, password/recovery metadata and durable single-login grants.
+
+Token hashes and a UNIQUE user index enforce latest-login-wins across managers
+sharing this database. Local signing keys persist here when not supplied in env."""
 
 import hashlib
 import hmac
@@ -11,6 +14,10 @@ import threading
 USERNAME_RE = re.compile(r"^[A-Za-z0-9_.-]{3,32}$")
 EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 PBKDF2_ROUNDS = 310_000
+
+
+class SessionReplaced(Exception):
+    """A session rotation lost to a newer login; never restore the old grant."""
 
 
 class AccountStore:
@@ -29,6 +36,61 @@ class AccountStore:
                 password_hash TEXT NOT NULL,
                 created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
             )""")
+            # Only token hashes and the secret-mode flag persist, never browser tokens or secret content.
+            db.execute("CREATE TABLE IF NOT EXISTS auth_metadata(key TEXT PRIMARY KEY,value TEXT NOT NULL)")
+            db.execute("""CREATE TABLE IF NOT EXISTS login_sessions (
+                token_hash TEXT PRIMARY KEY,user_id INTEGER NOT NULL,
+                secret_mode INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )""")
+
+            # Migrate old multi-login registries atomically, retaining the latest login per account.
+            db.execute("BEGIN IMMEDIATE")
+            db.execute("DELETE FROM login_sessions WHERE rowid NOT IN (SELECT MAX(rowid) FROM login_sessions GROUP BY user_id)")
+            db.execute("CREATE UNIQUE INDEX IF NOT EXISTS one_login_per_account ON login_sessions(user_id)")
+
+    def session_key(self):
+        """Persist the local signing key so login survives process/container restart."""
+        with self.lock, sqlite3.connect(self.path) as db:
+            db.execute("INSERT OR IGNORE INTO auth_metadata(key,value) VALUES ('session_key',?)", (secrets.token_hex(32),))
+            return bytes.fromhex(db.execute("SELECT value FROM auth_metadata WHERE key='session_key'").fetchone()[0])
+
+    @staticmethod
+    def session_hash(sid):
+        return hashlib.sha256(sid.encode()).hexdigest()
+
+    def save_session(self, sid, user_id, previous_sid=None):
+        """Latest successful login wins, even across managers sharing this SQLite DB.
+
+        Rotation (secret-mode exit) must still own the previous grant. Login itself
+        intentionally replaces any existing grant. The delete/insert is one transaction.
+        """
+        with self.lock, sqlite3.connect(self.path) as db:
+            db.execute("BEGIN IMMEDIATE")
+            previous=db.execute("SELECT token_hash FROM login_sessions WHERE user_id=?",(user_id,)).fetchall()
+            hashes={row[0] for row in previous}
+            if previous_sid is not None and self.session_hash(previous_sid) not in hashes:
+                raise SessionReplaced()
+            db.execute("DELETE FROM login_sessions WHERE user_id=?",(user_id,))
+            db.execute("INSERT INTO login_sessions(token_hash,user_id) VALUES (?,?)", (self.session_hash(sid),user_id))
+        return hashes
+
+    def load_session(self, sid):
+        with self.lock, sqlite3.connect(self.path) as db:
+            row=db.execute("SELECT a.id,a.username,s.secret_mode FROM login_sessions s JOIN accounts a ON a.id=s.user_id WHERE s.token_hash=?",(self.session_hash(sid),)).fetchone()
+        return {"id":row[0],"username":row[1],"secret_mode":bool(row[2])} if row else None
+
+    def set_session_secret(self, sid, enabled):
+        with self.lock, sqlite3.connect(self.path) as db:
+            return db.execute("UPDATE login_sessions SET secret_mode=? WHERE token_hash=?",(int(enabled),self.session_hash(sid))).rowcount==1
+
+    def revoke_session(self, sid):
+        with self.lock, sqlite3.connect(self.path) as db:
+            db.execute("DELETE FROM login_sessions WHERE token_hash=?",(self.session_hash(sid),))
+
+    def revoke_user_sessions(self, username):
+        with self.lock, sqlite3.connect(self.path) as db:
+            db.execute("DELETE FROM login_sessions WHERE user_id IN (SELECT id FROM accounts WHERE username_key=?)",(username.casefold(),))
 
     @staticmethod
     def password_hash(password, salt=None):

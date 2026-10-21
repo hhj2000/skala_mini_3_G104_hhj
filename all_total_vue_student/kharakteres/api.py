@@ -1,6 +1,8 @@
 """Kharakteres HTTP API와 통합 화면: 계정별 주문·생성·검색·음성·SSE.
 
 생성 초안은 사용자가 확인해 저장하며, 요청마다 계정/시크릿 저장소를 선택한다.
+계정당 최신 로그인 하나를 유지하고 비동기 검사 후 저장 직전에도 세션을 확인한다.
+언어 목록은 한국어 이름 기반 가나다순이며 고대/역사는 고전 분류로 통합한다.
 핵심 함수 정량 평가와 전체 HTTP·UI·실제 음성 검증 범위는 구분한다.
 현재 검증 상태는 doc/EVALUATION.md와 doc/ASSIGNMENT_REVIEW.md를 참고한다.
 """
@@ -19,6 +21,7 @@ from langsmith.run_helpers import get_current_run_tree
 
 from .generation import GenerationError, SpellGenerator
 from .lexicon import review, search, stats
+from .language_catalog import CATALOG
 from .models import (
     ELEMENTS,
     LANGUAGES,
@@ -82,10 +85,7 @@ async def lifespan(app):
     try:
         yield
     finally:
-        for sid, session in list(app.state.auth.sessions.items()):
-            app.state.auth.remove(sid, session)
-        for user_workspace in app.state.auth.workspaces.values():
-            user_workspace.close()
+        app.state.auth.close()
         store.close()
         from langsmith.run_trees import get_cached_client
 
@@ -214,7 +214,10 @@ async def health(request: Request):
 @app.get("/api/catalog")
 async def catalog():
     return {
-        "languages": LANGUAGES,
+        "languages": [{k:r[k] for k in ("code","name","family")} for r in CATALOG.ordered],
+        "registered_language_count": CATALOG.metadata()["total"],
+        "language_catalog": CATALOG.metadata(),
+        "language_labels": {r["code"]:r["name"] for r in CATALOG.ordered},
         "elements": ELEMENTS,
         "schools": SCHOOLS,
         "tones": TONES,
@@ -227,6 +230,18 @@ async def catalog():
             "model": workspace().retrieval.index.model_name,
         },
     }
+
+
+@app.get("/api/languages")
+async def list_languages(q: str=Query(default="",max_length=160), family: str=Query(default="",pattern="^([LCAHE])?$"),
+                         tier: str=Query(default="",pattern="^(default|extended)?$"), dictionary_only: bool=False,
+                         offset: int=Query(default=0,ge=0,le=20000), limit: int=Query(default=48,ge=1,le=200)):
+    return CATALOG.search(q,family,tier,dictionary_only,offset,limit)
+
+
+@app.post("/api/languages/refresh")
+async def refresh_languages():
+    return await CATALOG.refresh()
 
 
 @app.get("/api/spells/export")
@@ -283,7 +298,7 @@ async def get_spell(spell_id: str):
 
 
 @app.post("/api/spells", status_code=201)
-async def create_spell(data: SaveSpell):
+async def create_spell(data: SaveSpell, request: Request):
     await app.state.guard.check(spell_content(data.model_dump()), "save")
     payload = SpellInput.model_validate(
         data.model_dump(exclude={"acknowledge_conflicts"})
@@ -293,6 +308,7 @@ async def create_spell(data: SaveSpell):
         payload["verification"] = await verify_language(payload)
     current = workspace()
     async with app.state.write_lock:
+        app.state.auth.require(request)
         conflicts = review(payload, current.store.all())
         if conflicts["has_high"] and not data.acknowledge_conflicts:
             raise HTTPException(
@@ -307,7 +323,7 @@ async def create_spell(data: SaveSpell):
 
 
 @app.put("/api/spells/{spell_id}")
-async def update_spell(spell_id: str, data: UpdateSpell):
+async def update_spell(spell_id: str, data: UpdateSpell, request: Request):
     await app.state.guard.check(spell_content(data.model_dump()), "save")
     payload = SpellInput.model_validate(
         data.model_dump(exclude={"acknowledge_conflicts", "version"})
@@ -317,6 +333,7 @@ async def update_spell(spell_id: str, data: UpdateSpell):
         payload["verification"] = await verify_language(payload)
     current = workspace()
     async with app.state.write_lock:
+        app.state.auth.require(request)
         existing = current.store.get(spell_id)
         if not existing:
             raise HTTPException(404, "주문을 찾을 수 없습니다.")
@@ -347,9 +364,10 @@ async def update_spell(spell_id: str, data: UpdateSpell):
 
 
 @app.delete("/api/spells/{spell_id}", status_code=204)
-async def delete_spell(spell_id: str, version: int = Query(ge=1)):
+async def delete_spell(spell_id: str, request: Request, version: int = Query(ge=1)):
     current = workspace()
     async with app.state.write_lock:
+        app.state.auth.require(request)
         try:
             deleted = current.store.delete(spell_id, version)
         except StaleVersion:

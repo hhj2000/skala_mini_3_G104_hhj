@@ -1,0 +1,31 @@
+{
+  "retrieved_at": "2026-10-21T04:04:46.396352+00:00",
+  "sources": {
+    "iso639-3.json": {
+      "url": "https://raw.githubusercontent.com/pycountry/pycountry/main/src/pycountry/databases/iso639-3.json",
+      "sha256": "2c61a9bb90a8c50c46bfbab484838863a12335bfdd0a92b4809f3faf1756b22d"
+    },
+    "language-provider-snapshot.json": {
+      "url": "https://api.wiktapi.dev/v1/languages",
+      "sha256": "649dac62fff215b085a5c42ea3d5be9c419d374752e8d102a3a34eb77a848102"
+    },
+    "LICENSE-language-data.txt": {
+      "url": "https://raw.githubusercontent.com/pycountry/pycountry/main/LICENSE.txt",
+      "sha256": "3fa39c6e18a3a4411082b64c164deae1d8f47b03a4d45304c1f0ae478626e382"
+    },
+    "COPYRIGHT-language-data.txt": {
+      "url": "https://raw.githubusercontent.com/pycountry/pycountry/main/COPYRIGHT.txt",
+      "sha256": "f4b01617064bcd9e9fe3db62ec9c6ef8d0afcc388dda58d9b2935a551d7960e4"
+    }
+  },
+  "derived": {
+    "korean-language-names.json": {
+      "from": [
+        "language-provider-snapshot.json",
+        "../language_defaults.py"
+      ],
+      "selection": "Existing Korean display names, natural spoken ISO types L/A/H/E; 229 entries; fixed across provider refresh",
+      "sha256": "c124046cf0fa40a613c8242ae64351da6c3b0de034730bcccfa715e403b69500"
+    }
+  }
+}

@@ -1,3 +1,5 @@
+# Unified Vue/API service; runtime account/session/order data comes from /app/data.
+# .dockerignore excludes personal databases from image layers.
 FROM python:3.11-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -5,6 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PORT=8100 \
     HOST=0.0.0.0 \
     SERVICE_MODE=spells \
+    SPELL_DICTIONARY_PROVIDER=wiktapi \
     SPELL_DB_PATH=/app/data/kharakteres.sqlite \
     FASTEMBED_CACHE_PATH=/models/fastembed
 

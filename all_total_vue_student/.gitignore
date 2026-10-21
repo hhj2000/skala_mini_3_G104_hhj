@@ -18,3 +18,8 @@ node_modules/
 .env.*
 !.env.example
 *.db
+
+# Runtime provider-language availability cache (bundled catalog remains versioned).
+data/language_catalog.json
+data/language_catalog.tmp
+data/.language-catalog-*.tmp

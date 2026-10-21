@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-10-21T05:15:49.371659+00:00",
+  "scope": "isolated API and two independent Chromium browser contexts; no model/voice calls",
+  "latest_login_replaced_previous": true,
+  "old_token_rejected": true,
+  "old_browser_returned_to_login": true,
+  "failed_password_preserved_active_session": true,
+  "other_account_did_not_evict_user": true,
+  "browser_errors": [],
+  "screenshot": "/Users/hyeongjunhan/skala_mini_3_G104_hhj/all_total_vue_student/eval/results/kharakteres-single-session-docker-20261021.png",
+  "docker_lifecycle": {
+    "persistent_volume": true,
+    "session_restored_after_restart": true,
+    "superseded_cookie_blocked_after_restart": true,
+    "one_active_session_per_account": true,
+    "logout_replay_blocked": true,
+    "logout_replay_blocked_after_restart": true,
+    "image_id": "sha256:fa05985d3900a49fb5b8acb1212d700c4f1ed611fefbfab572926fc41f822da4"
+  }
+}

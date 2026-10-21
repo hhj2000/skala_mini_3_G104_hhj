@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-10-21T05:13:26.669656+00:00",
+  "scope": "isolated API and two independent Chromium browser contexts; no model/voice calls",
+  "latest_login_replaced_previous": true,
+  "old_token_rejected": true,
+  "old_browser_returned_to_login": true,
+  "failed_password_preserved_active_session": true,
+  "other_account_did_not_evict_user": true,
+  "browser_errors": [],
+  "screenshot": "eval/results/kharakteres-single-session-local-20261021.png"
+}

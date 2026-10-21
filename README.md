@@ -19,15 +19,16 @@ bash sh/run_kharakteres.sh openai
 - `bash sh/run_kharakteres.sh fake`: 외부 LLM 호출 없는 데모. 콘텐츠 검사는 규칙만, 벡터 검색은 기본 비활성화
 - `bash sh/run_kharakteres.sh openai --check`: 연결 상태만 확인
 
-Docker Compose 배포는 `.env`의 모델 키와 `KHARAKTERES_SESSION_SECRET`을 설정한 뒤 `docker compose up --build -d`로 시작합니다. 기본 주소는 http://localhost:8100 이며 첫 접속에서 회원가입합니다. 계정과 사용자별 주문 DB, 임베딩 모델은 Docker 볼륨에 보존됩니다. 상세 절차는 [Docker·로그인·시크릿 모드 안내](all_total_vue_student/doc/DOCKER_AUTH.md)에 있습니다.
+Docker Compose 배포는 `.env`의 모델 키와 `KHARAKTERES_SESSION_SECRET`을 설정한 뒤 `docker compose up --build -d`로 시작합니다. 기본 주소는 http://localhost:8100 이며 첫 접속에서 회원가입합니다. 계정과 사용자별 주문 DB, 임베딩 모델은 Docker 볼륨에 보존됩니다. 사전 기본값은 `wiktapi`이므로 명령 앞 환경변수 지정은 필요 없으며 명시한 셸/`.env` 설정은 유지합니다. 코드 변경 반영 후 브라우저를 새로고침합니다. 상세 절차는 [Docker·로그인·시크릿 모드 안내](all_total_vue_student/doc/DOCKER_AUTH.md)에 있습니다.
 
 ## [주요 기능]
 
 - AI 주문 생성: 언어·속성·효과·문체·제약 조건 반영
-- 다국어 표현: 주문 원문·읽기용 표기·한글 발음·IPA·한국어 의미
+- 언어 선택: 한국어 이름이 있는 자연어 229개를 사이트에서 가나다순으로 검색·선택
+- 다국어 표현: 주문 원문·읽기용 표기·한글 발음·IPA·한국어 의미. 실제 생성 가능성과 품질은 모델·언어별로 다름
 - 창작 언어: 사용자가 원문·발음·의미를 직접 정의하고 IPA는 선택 입력
 - 주문사전 관리: 생성 초안 편집·저장, 직접 기록, 수정·삭제 및 JSON 내보내기
-- 계정별 기록: 회원가입·로그인, 아이디 중복 확인, 가입 이메일 기반 아이디 찾기·비밀번호 재설정, 계정별 주문사전 분리
+- 계정별 기록: 활성 로그인 1개·재시작 후 로그인 복원, 회원가입·로그인, 아이디 중복 확인, 가입 이메일 기반 아이디 찾기·비밀번호 재설정, 계정별 주문사전 분리
 - 분류·검색: 언어·속성·계열·세계관 필터, 텍스트·의미 기반 검색
 - 충돌 검토: 이름·주문문 중복 및 AI 설정 검토, 의도한 변형은 확인 후 저장
 - 음성 기능: STT 음성 입력, 선택 구절·주문 항목·전체 기록의 TTS 재생
@@ -35,14 +36,16 @@ Docker Compose 배포는 `.env`의 모델 키와 `KHARAKTERES_SESSION_SECRET`을
 
 ## [개선 포인트]
 
-- 언어 출처 확인: Wiktionary 어휘 출처 연결, 확인 범위·실패 상태·원문 링크 표시
+- 언어 출처 확인: 로컬·Docker 기본 WiktAPI 배포 데이터 조회 또는 명시적으로 선택한 Wiktionary 직접 조회, 제공자·판본 고정 여부·실패 상태 표시
 - 벡터 RAG: 다국어 로컬 임베딩으로 관련 주문을 검색해 새 주문 생성에 반영
 - 콘텐츠 필터: 욕설·혐오·현실 정치 관련 입력을 규칙과 LLM으로 검사
 - 생성 과정 체계화: LangGraph로 검색·작성·출처 확인·충돌 검토 순차 구성
 - 실행 추적: LangSmith로 모델·검색·필터·음성 처리 과정 관측. 시크릿 모드에서는 추적 제외
 - 사용성: 반응형 서고 UI와 단계별 SSE 진행·생성 토큰 표시
 - 정량 평가: 고정 데이터셋의 검색 P/R·nDCG, 충돌 F1, 블라인드 생성 채점, 반복 비교·95% 구간·원본 결과 재계산
-- 배포·기록 보호: Docker Compose, 계정별 영구 저장 볼륨, 로그인 세션 및 임시 시크릿 저장소
+- 배포·기록 보호: Docker Compose, 계정별 영구 저장 볼륨, 로그아웃 전까지 유지되는 영구 로그인 세션 및 임시 시크릿 저장소
+
+사이트의 **언어 목록**에서 이름/코드·현대(209)/고전(17)/사멸(3) 분류·사전 수록 여부로 검색하고 바로 창작 언어를 선택합니다. 포함 자료 기준 229개 항목이 사전 목록과 연결되지만 개별 단어의 존재나 229개 전체의 번역 품질을 보장하지는 않습니다. 목록은 네트워크 없이도 표시하며 외부 사전 목록을 갱신할 수 있습니다. [전체 언어 목록·별칭·검증 범위](all_total_vue_student/doc/LANGUAGES.md)를 참고하세요.
 
 ## 현재 기술 구조와 도입 판단
 
@@ -70,7 +73,7 @@ FastAPI + Vue 3 + LangGraph + SQLite 기반입니다. 가입 계정과 salted PB
 
 미니 프로젝트에서 개선 효과와 한계를 설명할 수준의 정량 평가 체계를 갖췄습니다. 평가 체계를 갖춘 것과 서비스 성능이 충분히 높다는 판단은 구분합니다. 고정 데이터·정답표·동일 모델·2회 반복·블라인드 LLM 채점·95% 대응 구간을 사용하며, [정량 평가 방법](all_total_vue_student/doc/EVALUATION.md)과 [과제 기준 대조](all_total_vue_student/doc/ASSIGNMENT_REVIEW.md)에 범위를 기록했습니다.
 
-2026-10-21 기준 pytest 105개와 SSE 클라이언트 테스트 4개, Docker 빌드·격리 컨테이너 스모크를 통과했습니다. 실제 OpenAI 핵심 함수 평가는 208개 결과를 기록했고 원본 행 재계산을 통과했습니다. 브라우저 전체·실제 음성 장치·전문 언어 정확도를 모두 검증한 것은 아닙니다.
+2026-10-21 현재 자동 회귀는 **pytest 152개·SSE 클라이언트 5개**입니다. 로컬/Docker 두 브라우저의 로그인 교체, 영구 볼륨을 사용한 컨테이너 재시작 후 최신 쿠키 유지·이전 쿠키 차단을 확인했습니다. 언어 229개·가나다순·고전 통합·필터 정렬·모바일 화면·실제 3언어 사전 조회/저장도 별도 기록했습니다. 실제 모델의 소수 언어 생성 실험과 고정 데이터 핵심 함수 평가 208개는 당시 결과로 보존하며 최신 회귀 수와 구분합니다. 전체 브라우저·실제 음성 장치·전 언어 품질을 모두 검증한 것은 아닙니다. [검증 도구·결과](all_total_vue_student/eval/README.md)를 참고하세요.
 
 | 대표 지표 | 고정 test 데이터의 결과 |
 |---|---|
@@ -100,8 +103,13 @@ node --test tests/test_stream_client.cjs
 - [Kharakteres 회귀 테스트 쿼리와 기대 결과](all_total_vue_student/doc/regression_test_queries.md)
 - [콘텐츠 필터·벡터 RAG·MCP 판단](all_total_vue_student/doc/SAFETY_RAG_MCP.md)
 - [Git 업로드 용량과 push 안내](all_total_vue_student/doc/GIT_UPLOAD.md)
+- [확장 언어 목록과 실제 지원 범위](all_total_vue_student/doc/LANGUAGES.md)
+- [로컬/Docker 웹 출처 조회와 실패 대응](all_total_vue_student/doc/WEB_SOURCES.md)
 - [Docker 배포·로그인·시크릿 모드](all_total_vue_student/doc/DOCKER_AUTH.md)
 
 기존 장애 진단 코드는 보존했습니다. `SERVICE_MODE=incident`로 선택하며 해당 평가 자료는 새 주문 서비스의 기능 증거와 구분합니다.
 
 정리 후 파일 구성과 보존한 BASE 자료는 [정리 기록](all_total_vue_student/doc/CLEANUP.md)과 [BASE 보관 안내](all_total_vue_student/archive/README.md)를 참고하세요.
+
+
+로그인은 계정 DB에 보존해 브라우저·서버·Docker 재시작 후 복원하며 **새 로그인 성공 시 기존 세션을 해제**합니다. 실패한 로그인과 다른 계정은 영향을 주지 않습니다. 쿠키는 400일 수명으로 인증 응답마다 갱신하며 쿠키 삭제·서명 키 변경·비밀번호 초기화 시 재로그인이 필요합니다. 시크릿 주문은 재시작 후 복원하지 않습니다. 별도 DB로 운영하는 로컬/Docker 서버끼리는 세션을 공유하지 않습니다([로그인 정책](all_total_vue_student/doc/DOCKER_AUTH.md)).

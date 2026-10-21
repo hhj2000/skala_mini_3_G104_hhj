@@ -1,3 +1,4 @@
+# Apply code/UI changes: docker compose up --build -d (existing named volumes stay).
 services:
   kharakteres:
     build: .
@@ -8,6 +9,8 @@ services:
       - .env
     environment:
       SERVICE_MODE: spells
+      # Default works without a command prefix; explicit shell/.env values take precedence.
+      SPELL_DICTIONARY_PROVIDER: ${SPELL_DICTIONARY_PROVIDER:-wiktapi}
       HOST: 0.0.0.0
       PORT: 8100
       SPELL_DB_PATH: /app/data/kharakteres.sqlite

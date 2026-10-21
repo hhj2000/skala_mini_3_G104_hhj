@@ -1,0 +1,162 @@
+{
+  "checked_at": "2026-10-21T02:36:02.864791+00:00",
+  "scope": "isolated Docker HTTP API + persistence + optional Vue rendering; real dictionary, no LLM/audio calls",
+  "records": [
+    {
+      "language": "en",
+      "word": "light",
+      "latency_ms": 3160.9570830005396,
+      "verification": {
+        "status": "references_found",
+        "fingerprint": "d94d6476fde58fd4c380f6be5416652099f7796f160ee683dabcfd297bc2370a",
+        "checked_at": "2026-10-21T02:35:52.053232+00:00",
+        "provider": "WiktAPI (Kaikki/Wiktextract)",
+        "searched_words": [
+          "light"
+        ],
+        "sources": [
+          {
+            "word": "light",
+            "title": "light",
+            "url": "https://api.wiktapi.dev/v1/en/word/light/definitions?lang=en",
+            "origin_url": "https://en.wiktionary.org/wiki/light#English",
+            "language": "English",
+            "excerpt": "Having light; bright; clear; not dark or obscure.",
+            "ipa": [
+              "/laɪt/",
+              "[laɪt]",
+              "[lɑjt]",
+              "[ɫɐɪt]",
+              "[ləjt]",
+              "[lɑɪt]"
+            ]
+          }
+        ],
+        "note": "WiktAPI가 배포하는 Kaikki/Wiktextract 사전 데이터를 조회했습니다. 최신 Wiktionary 판본을 직접 확인한 결과가 아닙니다. 주문 앞부분의 최대 4개 단어를 웹 사전에서 검색했습니다. 같은 표제어의 해당 언어 항목만 출처로 표시합니다. 문장 전체의 문법·뜻·한글 전사·IPA 일치 여부는 미검증입니다. 굴절형·띄어쓰기 없는 언어·창작어는 검색되지 않을 수 있습니다."
+      },
+      "saved_and_read": true
+    },
+    {
+      "language": "la",
+      "word": "lux",
+      "latency_ms": 285.4953749993001,
+      "verification": {
+        "status": "references_found",
+        "fingerprint": "83f6c5cef1a81d94546c9f3158847354fb1796d266000f56259059a8612c74c3",
+        "checked_at": "2026-10-21T02:35:55.212594+00:00",
+        "provider": "WiktAPI (Kaikki/Wiktextract)",
+        "searched_words": [
+          "lux"
+        ],
+        "sources": [
+          {
+            "word": "lux",
+            "title": "lux",
+            "url": "https://api.wiktapi.dev/v1/en/word/lux/definitions?lang=la",
+            "origin_url": "https://en.wiktionary.org/wiki/lux#Latin",
+            "language": "Latin",
+            "excerpt": "light (of the sun, stars etc.)",
+            "ipa": [
+              "[ˈɫuːks]",
+              "[ˈluks]"
+            ]
+          }
+        ],
+        "note": "WiktAPI가 배포하는 Kaikki/Wiktextract 사전 데이터를 조회했습니다. 최신 Wiktionary 판본을 직접 확인한 결과가 아닙니다. 주문 앞부분의 최대 4개 단어를 웹 사전에서 검색했습니다. 같은 표제어의 해당 언어 항목만 출처로 표시합니다. 문장 전체의 문법·뜻·한글 전사·IPA 일치 여부는 미검증입니다. 굴절형·띄어쓰기 없는 언어·창작어는 검색되지 않을 수 있습니다."
+      },
+      "saved_and_read": true
+    },
+    {
+      "language": "grc",
+      "word": "φῶς",
+      "latency_ms": 2255.7051660005527,
+      "verification": {
+        "status": "references_found",
+        "fingerprint": "ca1e44504e48f72e4549b7f5f05502730c8ed7ef3b2c4a2865da042a5ae58419",
+        "checked_at": "2026-10-21T02:35:55.497927+00:00",
+        "provider": "WiktAPI (Kaikki/Wiktextract)",
+        "searched_words": [
+          "φῶς"
+        ],
+        "sources": [
+          {
+            "word": "φῶς",
+            "title": "φῶς",
+            "url": "https://api.wiktapi.dev/v1/en/word/%CF%86%E1%BF%B6%CF%82/definitions?lang=grc",
+            "origin_url": "https://en.wiktionary.org/wiki/%CF%86%E1%BF%B6%CF%82#Ancient_Greek",
+            "language": "Ancient Greek",
+            "excerpt": "Attic form of φᾰ́ος (phắos, “light”)",
+            "ipa": [
+              "/pʰɔ̂ːs/",
+              "/ˈɸos/",
+              "/ˈfos/",
+              "/ˈpʰos/"
+            ]
+          }
+        ],
+        "note": "WiktAPI가 배포하는 Kaikki/Wiktextract 사전 데이터를 조회했습니다. 최신 Wiktionary 판본을 직접 확인한 결과가 아닙니다. 주문 앞부분의 최대 4개 단어를 웹 사전에서 검색했습니다. 같은 표제어의 해당 언어 항목만 출처로 표시합니다. 문장 전체의 문법·뜻·한글 전사·IPA 일치 여부는 미검증입니다. 굴절형·띄어쓰기 없는 언어·창작어는 검색되지 않을 수 있습니다."
+      },
+      "saved_and_read": true
+    },
+    {
+      "language": "sa",
+      "word": "अग्नि",
+      "latency_ms": 2334.6428330005438,
+      "verification": {
+        "status": "references_found",
+        "fingerprint": "046194ed2c65a8a82b2e0e2aa59aaa9b0a1697ed24d262b158d08e7c9f289b75",
+        "checked_at": "2026-10-21T02:35:57.754367+00:00",
+        "provider": "WiktAPI (Kaikki/Wiktextract)",
+        "searched_words": [
+          "अग्नि"
+        ],
+        "sources": [
+          {
+            "word": "अग्नि",
+            "title": "अग्नि",
+            "url": "https://api.wiktapi.dev/v1/en/word/%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF/definitions?lang=sa",
+            "origin_url": "https://en.wiktionary.org/wiki/%E0%A4%85%E0%A4%97%E0%A5%8D%E0%A4%A8%E0%A4%BF#Sanskrit",
+            "language": "Sanskrit",
+            "excerpt": "Agni, god of fire",
+            "ipa": [
+              "/ɐɡ.ní/",
+              "/ɐɡ.n̪i/"
+            ]
+          }
+        ],
+        "note": "WiktAPI가 배포하는 Kaikki/Wiktextract 사전 데이터를 조회했습니다. 최신 Wiktionary 판본을 직접 확인한 결과가 아닙니다. 주문 앞부분의 최대 4개 단어를 웹 사전에서 검색했습니다. 같은 표제어의 해당 언어 항목만 출처로 표시합니다. 문장 전체의 문법·뜻·한글 전사·IPA 일치 여부는 미검증입니다. 굴절형·띄어쓰기 없는 언어·창작어는 검색되지 않을 수 있습니다."
+      },
+      "saved_and_read": true
+    }
+  ],
+  "browser": {
+    "vue_source_component": true,
+    "provider_attribution": true,
+    "origin_link": true,
+    "page_errors": [],
+    "screenshot": "eval/results/kharakteres-dictionary-docker-20261021.png"
+  },
+  "image": {
+    "tag": "kharakteres:dictionary-fix",
+    "id": "sha256:4ba6ae182d971af94d71d644386339c1248cbb3396441c13364a3b81106d75a7"
+  },
+  "regression": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 115,
+    "failed": 0,
+    "duration_seconds": 10.09
+  },
+  "diagnosis": {
+    "host_wiktionary_status": 200,
+    "old_container_wiktionary_status": 403,
+    "old_container_reason": "Wikimedia robot policy denial",
+    "fix": "Explicit independent dump-data provider in Docker; no automatic relay or retry around denied access"
+  },
+  "tested_source_sha256": {
+    "kharakteres/verification.py": "bde662990cf64032f1591eef284342c10d1103cba37dc72e910098d8f9f739fa",
+    "kharakteres/models.py": "4431400c92866073c534146ffa8e73079bb265951266bfd6b23a82c7b7037836",
+    "web_chat.html": "7f55b4d2bf871aba11c59595e702d1b0cafe077ebdf02e9c9d85093b76867a27",
+    "Dockerfile": "ad26ca8e634d9c29badb272125baccf11745f78f1a0a4c14fd654298fb730d35",
+    "docker-compose.yml": "792e72b83a7f7683dc3e8c67602078e5807fe5e3e73a1e6e064b3105c4e82221"
+  }
+}

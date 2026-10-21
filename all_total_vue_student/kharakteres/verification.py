@@ -3,6 +3,8 @@
 import asyncio
 import hashlib
 import json
+import os
+import logging
 import re
 import time
 import unicodedata
@@ -14,9 +16,17 @@ from urllib.parse import quote
 import httpx
 from langsmith import traceable
 
-from .models import LANGUAGE_SECTIONS as SECTIONS
+from .models import LANGUAGE_SECTIONS as SECTIONS, canonical_language
+from .language_catalog import CATALOG
 
 API = "https://en.wiktionary.org/w/api.php"
+WIKT_API = "https://api.wiktapi.dev/v1/en/word/"
+PROVIDERS = {"wiktionary": "Wiktionary", "wiktapi": "WiktAPI (Kaikki/Wiktextract)"}
+logger = logging.getLogger(__name__)
+# Supported codes/names resolve through the shared Korean-named catalog. This legacy
+# fallback preserves older free-text records; do not add new catalog languages here.
+EXTRA_CODES = {"Portuguese": "pt", "Russian": "ru", "Finnish": "fi", "Greek": "el"}
+
 
 INPUT_KEYS = (
     "language_kind",
@@ -86,32 +96,106 @@ def excerpt_from(raw):
 
 
 _CACHE = OrderedDict()
-_BACKOFF_UNTIL = 0.0
+_BACKOFF_UNTIL = {}
+_DENIED_HOSTS = set()
 
 
-async def get_dictionary(client, params):
-    global _BACKOFF_UNTIL
-    if time.monotonic() < _BACKOFF_UNTIL:
-        raise ValueError("Dictionary rate limit cooldown")
-    response = await client.get(API, params=params)
+async def get_dictionary(client, params, url=API, missing_ok=False):
+    """Honor provider limits; a denied provider is not retried through other routes."""
+    host = httpx.URL(url).host
+    if host in _DENIED_HOSTS:
+        raise ValueError("dictionary_access_denied")
+    if time.monotonic() < _BACKOFF_UNTIL.get(host, 0):
+        raise ValueError("dictionary_rate_limited")
+    response = await client.get(url, params=params)
     if response.status_code in {429, 503}:
         try:
             delay = max(0, float(response.headers.get("Retry-After", "1")))
         except ValueError:
             delay = 1
-        if response.status_code == 429:
-            _BACKOFF_UNTIL = time.monotonic() + max(1, delay)
+        _BACKOFF_UNTIL[host] = time.monotonic() + max(1, delay)
         if delay <= 3:
             await asyncio.sleep(delay)
-            response = await client.get(API, params=params)
-            if response.status_code == 429:
+            response = await client.get(url, params=params)
+            if response.status_code in {429, 503}:
                 try:
-                    next_delay = float(response.headers.get("Retry-After", "1"))
+                    delay = max(1, float(response.headers.get("Retry-After", "1")))
                 except ValueError:
-                    next_delay = 1
-                _BACKOFF_UNTIL = time.monotonic() + max(1, next_delay)
+                    delay = 1
+                _BACKOFF_UNTIL[host] = time.monotonic() + delay
+    if response.status_code == 403:
+        _DENIED_HOSTS.add(host)
+        logger.warning("Dictionary provider denied access: host=%s status=403", host)
+    if missing_ok and response.status_code == 404:
+        return None
     response.raise_for_status()
     return response
+
+
+def failure_note(errors):
+    """Only controlled diagnostics are shown; never echo proxy URLs or credentials."""
+    if any(isinstance(e, httpx.HTTPStatusError) and e.response.status_code == 403
+           or isinstance(e, ValueError) and str(e) == "dictionary_access_denied" for e in errors):
+        return "사전 제공자가 접근을 거절했습니다(HTTP 403). 서버의 접근 정책을 확인해 주세요. "
+    if any(isinstance(e, httpx.HTTPStatusError) and e.response.status_code in {429, 503}
+           or isinstance(e, ValueError) and str(e) == "dictionary_rate_limited" for e in errors):
+        return "사전 제공자의 요청 제한 또는 일시 중단입니다. 잠시 후 다시 확인해 주세요. "
+    if any(isinstance(e, (TimeoutError, httpx.TimeoutException)) for e in errors):
+        return "웹 사전 응답 시간이 초과되었습니다. "
+    if any(isinstance(e, httpx.ConnectError) for e in errors):
+        return "웹 사전에 연결하지 못했습니다. 서버의 DNS·네트워크·TLS 설정을 확인해 주세요. "
+    if any(isinstance(e, ValueError) and str(e) == "dictionary_language_unsupported" for e in errors):
+        return "선택한 사전 제공자에서 이 언어의 코드를 확인하지 못했습니다. "
+    return "일부 사전 요청 또는 응답 처리에 실패했습니다. "
+
+
+async def lookup_wiktapi(client, word, language):
+    """Read independently published dump data, not a relay to a denied Wiki endpoint.
+
+Definitions/pronunciations expose lang_code; the raw word route does not currently
+include enough language metadata to safely distinguish homographs.
+"""
+    record = CATALOG.get(language)
+    code = record["dictionary_code"] if record else next((v for k,v in EXTRA_CODES.items() if k.casefold()==language.casefold()),None)
+    if code is None:
+        raise ValueError("dictionary_language_unsupported")
+    url = WIKT_API + quote(word, safe="")
+    response = await get_dictionary(client, {"lang": code}, url + "/definitions", missing_ok=True)
+    if response is None:
+        return None
+    data = response.json()
+    if (not isinstance(data, dict) or data.get("edition") != "en"
+        or unicodedata.normalize("NFC", str(data.get("word", ""))).casefold() != unicodedata.normalize("NFC", word).casefold()
+        or not isinstance(data.get("definitions"), list)):
+        raise ValueError("Dictionary data shape error")
+    definitions = [entry for entry in data["definitions"] if isinstance(entry, dict) and entry.get("lang_code") == code]
+    if not definitions:
+        return None
+    glosses = [gloss for entry in definitions for sense in entry.get("senses", [])
+               if isinstance(sense, dict) for gloss in sense.get("glosses", []) if isinstance(gloss, str) and gloss.strip()]
+    if not glosses:
+        return None
+    evidence = {
+        "word": word, "title": word, "language": (record["dictionary_section"] or record["english_name"]) if record else language,
+        "url": str(response.request.url),
+        "excerpt": " ".join(glosses[0].split()[:20])[:200], "ipa": [],
+    }
+    if record and record["dictionary_section"]:
+        evidence["origin_url"] = "https://en.wiktionary.org/wiki/" + quote(word,safe="") + "#" + quote(record["dictionary_section"].replace(" ","_"))
+    # Pronunciation is optional. Do not lose definitions if this extra request fails.
+    try:
+        pronunciation = await get_dictionary(client, {"lang": code}, url + "/pronunciations", missing_ok=True)
+        if pronunciation is not None:
+            data = pronunciation.json()
+            if data.get("word") == word and data.get("edition") == "en":
+                values = [sound["ipa"] for entry in data.get("pronunciations", [])
+                          if isinstance(entry, dict) and entry.get("lang_code") == code
+                          for sound in entry.get("sounds", []) if isinstance(sound, dict)
+                          and isinstance(sound.get("ipa"), str) and 0 < len(sound["ipa"]) <= 150]
+                evidence["ipa"] = list(dict.fromkeys(values))[:8]
+    except (httpx.HTTPError, ValueError, KeyError, TypeError):
+        pass
+    return evidence
 
 
 async def lookup(client, word, language):
@@ -186,11 +270,12 @@ async def lookup(client, word, language):
 
 @traceable(name="language.web_dictionary_search")
 async def verify_language(draft, demo=False, transport=None):
+    provider = os.getenv("SPELL_DICTIONARY_PROVIDER", "wiktapi").strip().lower()
     result = {
         "status": "not_found",
         "fingerprint": fingerprint(draft),
         "checked_at": datetime.now(UTC).isoformat(),
-        "provider": "Wiktionary",
+        "provider": PROVIDERS.get(provider, provider),
         "searched_words": words(draft["incantation"]),
         "sources": [],
         "note": SCOPE,
@@ -209,7 +294,13 @@ async def verify_language(draft, demo=False, transport=None):
             "status": "demo",
             "note": "fake 데모는 웹 검색을 수행하지 않습니다. 실제 모드에서 출처를 확인하세요.",
         }
-    language = SECTIONS.get(draft["language"], draft["language"])
+    if provider not in PROVIDERS:
+        return {**result, "status": "unavailable", "note": "사전 제공자 설정 오류입니다. SPELL_DICTIONARY_PROVIDER를 wiktionary 또는 wiktapi로 설정하세요."}
+    if provider == "wiktapi":
+        result["note"] = "WiktAPI가 배포하는 Kaikki/Wiktextract 사전 데이터를 조회했습니다. 최신 Wiktionary 판본을 직접 확인한 결과가 아닙니다. " + SCOPE
+    scope = result["note"]
+    record = CATALOG.get(draft["language"])
+    language = (record["dictionary_section"] or record["english_name"]) if record else SECTIONS.get(canonical_language(draft["language"]), draft["language"])
     collected = []
     try:
         async with asyncio.timeout(25):
@@ -223,14 +314,15 @@ async def verify_language(draft, demo=False, transport=None):
                 semaphore = asyncio.Semaphore(2)
 
                 async def cached_lookup(word):
-                    key = (language, word)
+                    key = (provider, language, word)
                     cached = _CACHE.get(key) if transport is None else None
                     if cached and time.monotonic() - cached[0] < 600:
                         if cached[1]:
                             collected.append(deepcopy(cached[1]))
                         return deepcopy(cached[1])
                     async with semaphore:
-                        evidence = await lookup(client, word, language)
+                        evidence = await (lookup_wiktapi(client, word, record["code"] if record else language)
+                                          if provider == "wiktapi" else lookup(client, word, language))
                     if transport is None:
                         _CACHE[key] = (time.monotonic(), deepcopy(evidence))
                         _CACHE.move_to_end(key)
@@ -254,16 +346,11 @@ async def verify_language(draft, demo=False, transport=None):
             else "not_found"
         )
         if errors:
-            remaining = max(0, int(_BACKOFF_UNTIL - time.monotonic()) + 1)
-            result["note"] = (
-                f"웹 사전 요청 제한입니다. 약 {remaining}초 뒤 다시 확인해 주세요. "
-                if remaining
-                else "일부 웹 검색 요청에 실패했습니다. "
-            ) + SCOPE
-    except (TimeoutError, httpx.HTTPError, ValueError, KeyError):
+            result["note"] = failure_note([x for x in found if isinstance(x, Exception)]) + scope
+    except (TimeoutError, httpx.HTTPError, ValueError, KeyError, TypeError) as exc:
         result.update(
             status="references_found" if collected else "unavailable",
             sources=collected,
-            note="일부 웹 조회를 시간 내 완료하지 못했습니다. " + SCOPE,
+            note=failure_note([exc]) + scope,
         )
     return result

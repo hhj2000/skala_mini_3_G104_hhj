@@ -15,3 +15,6 @@ os.environ["SPELL_VECTOR_ENABLED"] = "0"
 # The TestClient uses HTTP. Do not inherit HTTPS-only cookies from deployment .env.
 os.environ['KHARAKTERES_COOKIE_SECURE'] = '0'
 os.environ['REQUIRE_SESSION_SECRET'] = '0'
+
+# Real dictionary provider is selected explicitly by provider-specific tests.
+os.environ['SPELL_DICTIONARY_PROVIDER'] = 'wiktionary'

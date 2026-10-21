@@ -46,3 +46,10 @@ test('partial structured fields decode escapes without needing complete JSON', (
   assert.equal(output[1].value, '빛이여,');
   assert.equal(client.fields('{"name":"\\uBE')[0], undefined);
 });
+
+test('revoked session status reaches the UI without retrying generation', async () => {
+  let calls = 0;
+  global.fetch = async () => { calls++; return new Response(JSON.stringify({detail:'다른 기기에서 로그인했습니다.'}), {status:401, headers:{'Content-Type':'application/json'}}); };
+  await assert.rejects(client.generate({}, undefined, () => {}), error => error.status === 401 && /다른 기기/.test(error.message));
+  assert.equal(calls, 1);
+});

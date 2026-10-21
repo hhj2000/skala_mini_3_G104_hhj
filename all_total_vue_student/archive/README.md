@@ -39,3 +39,5 @@ RAG_MIN_SCORE=0.30
 MCP_STARTUP_TIMEOUT_SECONDS=20
 REQUEST_TIMEOUT_SECONDS=180
 ```
+
+현재 Kharakteres는 로컬 `bash sh/run_kharakteres.sh openai`, Docker `docker compose up --build -d`로 실행합니다. 계정별 서고·영구 단일 로그인·229개 언어의 최신 안내는 [현재 문서](../doc/README.md)를 사용합니다. 이 보관 폴더와 `doc/archive/base/`, `data/runbooks/`의 원본 설명은 BASE 당시 동작/재현 자료로 보존합니다.

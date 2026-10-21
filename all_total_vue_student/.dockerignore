@@ -14,3 +14,12 @@ __pycache__
 *.db-*
 eval/results
 node_modules
+
+# Runtime account/session/order databases must never be baked into an image.
+**/*.sqlite
+**/*.sqlite-*
+**/*.db
+**/*.db-*
+/data/users/
+/data/language_catalog.json
+/data/.language-catalog-*.tmp

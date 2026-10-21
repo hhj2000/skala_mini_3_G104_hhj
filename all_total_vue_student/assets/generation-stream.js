@@ -8,9 +8,11 @@
     if (!response.ok) {
       const body = await response.json().catch(() => null);
       const detail = body?.detail;
-      throw new Error(typeof detail === 'string' ? detail : Array.isArray(detail)
+      const error=new Error(typeof detail === 'string' ? detail : Array.isArray(detail)
         ? detail.map(x => `${x.loc.at(-1)}: ${x.msg}`).join(' / ')
         : detail?.message || '주문 생성 요청을 처리하지 못했습니다.');
+      error.status=response.status;
+      throw error;
     }
     if (!response.body || !response.headers.get('content-type')?.includes('text/event-stream'))
       throw new Error('실시간 연결을 열지 못했습니다. 서버를 재시작하고 다시 시도해 주세요.');

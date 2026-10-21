@@ -1,4 +1,10 @@
-"""The lexicon's public schemas and classification vocabulary."""
+"""공개 스키마와 공통 언어 목록.
+
+내부 핵심 별칭은 language_defaults, 한국어 이름 기반 지원 목록과 정규화는
+language_catalog가 제공한다. 화면/API의 전체 지원 수와 내부 후보 수를 구분한다.
+언어 선택·사전 연결은 모델의 번역 품질 인증이 아니다.
+언어 생성·발음·외부 사전 표제어의 존재는 각각 별도로 확인한다(doc/LANGUAGES.md).
+"""
 
 from typing import Literal
 
@@ -11,46 +17,8 @@ from pydantic import (
     ValidationInfo,
 )
 
-LANGUAGES = [
-    {"code": "ko", "name": "한국어", "family": "현대 언어"},
-    {"code": "en", "name": "영어", "family": "현대 언어"},
-    {"code": "ja", "name": "일본어", "family": "현대 언어"},
-    {"code": "zh", "name": "중국어", "family": "현대 언어"},
-    {"code": "fr", "name": "프랑스어", "family": "현대 언어"},
-    {"code": "de", "name": "독일어", "family": "현대 언어"},
-    {"code": "es", "name": "스페인어", "family": "현대 언어"},
-    {"code": "ar", "name": "아랍어", "family": "현대 언어"},
-    {"code": "la", "name": "라틴어", "family": "고전 언어"},
-    {"code": "grc", "name": "고전 그리스어", "family": "고전 언어"},
-    {"code": "sa", "name": "산스크리트어", "family": "고전 언어"},
-]
-LANGUAGE_SECTIONS = dict(
-    zip(
-        ["ko", "en", "ja", "zh", "fr", "de", "es", "ar", "la", "grc", "sa"],
-        [
-            "Korean",
-            "English",
-            "Japanese",
-            "Chinese",
-            "French",
-            "German",
-            "Spanish",
-            "Arabic",
-            "Latin",
-            "Ancient Greek",
-            "Sanskrit",
-        ],
-    )
-)
-
-
-def canonical_language(value):
-    value = value.strip()
-    aliases = {l["name"].casefold(): l["code"] for l in LANGUAGES}
-    aliases.update({name.casefold(): code for code, name in LANGUAGE_SECTIONS.items()})
-    aliases.update({code: code for code in LANGUAGE_SECTIONS})
-    aliases.update({"고대 그리스어": "grc", "고전 라틴어": "la", "산스크리트": "sa"})
-    return aliases.get(value.casefold(), value)
+from .language_defaults import LANGUAGES, LANGUAGE_SECTIONS, LANGUAGE_ALIASES
+from .language_catalog import canonical_language, language_name
 
 
 ELEMENTS = {
@@ -84,18 +52,16 @@ TONES = {
 }
 
 
-def language_name(code):
-    return next((l["name"] for l in LANGUAGES if l["code"] == code), code)
-
 
 class SourceEvidence(BaseModel):
     model_config = ConfigDict(extra="forbid")
     word: str = Field(max_length=120)
     title: str = Field(max_length=200)
     url: str = Field(
-        pattern=r"^https://en\.wiktionary\.org/w/index\.php\?oldid=\d+#",
+        pattern=r"^https://(?:en\.wiktionary\.org/w/index\.php\?oldid=\d+#|api\.wiktapi\.dev/v1/en/word/[^?#]+/definitions\?lang=[a-z][a-z0-9-]*$)",
         max_length=1000,
     )
+    origin_url: str | None = Field(default=None, pattern=r"^https://en\.wiktionary\.org/wiki/[^?#]+#[^#]+$", max_length=1000)
     language: str = Field(max_length=80)
     excerpt: str = Field(max_length=400)
     ipa: list[str] = Field(default_factory=list, max_length=8)

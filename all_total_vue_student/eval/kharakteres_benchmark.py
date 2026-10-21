@@ -254,7 +254,8 @@ async def run(args):
     args.output.mkdir(parents=True, exist_ok=True)
     snapshot = args.output / 'source'
     snapshot.mkdir(exist_ok=True)
-    sources = [Path(__file__), ROOT/'eval/benchmark_metrics.py', *sorted((ROOT/'kharakteres').glob('*.py'))]
+    sources = [Path(__file__), ROOT/'eval/benchmark_metrics.py', *sorted((ROOT/'kharakteres').glob('*.py')),
+               *sorted(p for p in (ROOT/'kharakteres/data').iterdir() if p.is_file())]
     manifest['source_sha256'] = {}
     for source in sources:
         relative = source.relative_to(ROOT)

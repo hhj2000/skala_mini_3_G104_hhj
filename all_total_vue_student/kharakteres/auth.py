@@ -1,4 +1,8 @@
-"""Account login, signed sessions and per-user/secret workspaces."""
+"""Persistent single-session login, cookie renewal and account/secret workspaces.
+
+The newest successful login replaces the previous grant in SQLite. Browser cookies
+renew on authenticated responses; logout/reset revoke grants. Secret content stays
+temporary even though the login and secret-mode choice survive a restart."""
 
 from collections import defaultdict, deque
 from dataclasses import dataclass
@@ -13,11 +17,11 @@ from fastapi import HTTPException, Request
 from pydantic import BaseModel, Field
 from starlette.responses import JSONResponse
 
-from .accounts import AccountStore
+from .accounts import AccountStore, SessionReplaced
 from .workspace import active_workspace, create_secret_workspace, create_user_workspace
 
 COOKIE = "kharakteres_session"
-SESSION_TTL = 8 * 60 * 60
+COOKIE_MAX_AGE = 400 * 24 * 60 * 60 # Cookie lifetime, renewed on authenticated responses; server grants have no time expiry.
 PUBLIC_AUTH_PATHS = {
     "/api/auth/session", "/api/auth/login", "/api/auth/register",
     "/api/auth/check-id", "/api/auth/find-id", "/api/auth/reset-password",
@@ -26,7 +30,7 @@ PUBLIC_AUTH_PATHS = {
 
 @dataclass
 class AuthSession:
-    expires_at: int
+    expires_at: int # Zero marks a revocable session with no server-side time limit.
     user_id: int
     username: str
     secret_workspace: object = None
@@ -63,7 +67,7 @@ class AuthManager:
         key = os.getenv("KHARAKTERES_SESSION_SECRET", "")
         if os.getenv("REQUIRE_SESSION_SECRET", "0").lower() in {"1", "true", "yes"} and len(key.encode()) < 32:
             raise ValueError("32바이트 이상의 KHARAKTERES_SESSION_SECRET을 설정하세요.")
-        self.key = key.encode() if key else secrets.token_bytes(32)
+        self.key = key.encode() if key else accounts.session_key()
         self.sessions: dict[str, AuthSession] = {}
         self.workspaces = {}
         self.attempts = defaultdict(deque)
@@ -82,16 +86,34 @@ class AuthManager:
             expiry = int(expiry_text)
         except (ValueError, AttributeError):
             return None, None
-        if expiry <= int(time.time()) or not hmac.compare_digest(signature, self._signature(sid, expiry)):
+        if expiry != 0 or not hmac.compare_digest(signature, self._signature(sid, expiry)):
             return None, None
+        account = self.accounts.load_session(sid)
         session = self.sessions.get(sid)
-        if session is None or session.expires_at != expiry or session.destroy_pending:
-            return None, None
+        if account is None:
+            if session is not None: self.remove(sid,session)
+            return None,None
+        if session is None:
+            session = AuthSession(0,account["id"],account["username"])
+            if account["secret_mode"]:
+                # Restart discards secret content, but never exposes the normal library as secret.
+                app=self.app
+                session.secret_workspace=create_secret_workspace(app.state.backend,app.state.quality,app.state.guard,app.state.retrieval.enabled)
+            self.sessions[sid]=session
+        if session.destroy_pending:
+            return None,None
         return sid, session
 
-    def create(self, account):
+    def create(self, account, previous_sid=None):
         sid = secrets.token_urlsafe(32)
-        session = AuthSession(int(time.time()) + SESSION_TTL, account["id"], account["username"])
+        session = AuthSession(0, account["id"], account["username"])
+        try:
+            revoked=self.accounts.save_session(sid,account["id"],previous_sid)
+        except SessionReplaced:
+            raise HTTPException(401,"다른 기기에서 로그인했거나 로그인이 해제되었습니다. 다시 로그인해 주세요.") from None
+        for old_sid,old_session in list(self.sessions.items()):
+            if self.accounts.session_hash(old_sid) in revoked:
+                self.remove(old_sid,old_session)
         self.sessions[sid] = session
         return sid, session
 
@@ -104,19 +126,14 @@ class AuthManager:
             )
         return self.workspaces[user_id]
 
-    def prune(self):
-        now = int(time.time())
-        for sid, session in list(self.sessions.items()):
-            if session.expires_at <= now and not session.destroy_pending:
-                self.remove(sid, session)
-
     def cookie(self, response, request, sid, session):
-        response.set_cookie(COOKIE, self.token(sid, session), max_age=SESSION_TTL,
+        response.set_cookie(COOKIE, self.token(sid, session), max_age=COOKIE_MAX_AGE,
                             httponly=True, secure=self.secure_cookie or request.url.scheme == "https",
                             samesite="strict", path="/")
         return response
 
     def remove(self, sid, session):
+        self.accounts.revoke_session(sid)
         session.destroy_pending = True
         if session.in_flight == 0:
             self._destroy(sid, session)
@@ -127,6 +144,14 @@ class AuthManager:
             session.secret_workspace = None
         self.sessions.pop(sid, None)
 
+    def close(self):
+        """Release temporary content while preserving durable login grants."""
+        for sid,session in list(self.sessions.items()):
+            self._destroy(sid,session)
+        for workspace in self.workspaces.values():
+            workspace.close()
+        self.workspaces.clear()
+
     def finish_request(self, sid, session):
         session.in_flight = max(0, session.in_flight - 1)
         if session.destroy_pending and session.in_flight == 0:
@@ -135,8 +160,8 @@ class AuthManager:
     def require(self, request):
         session = getattr(request.state, "auth_session", None)
         sid = getattr(request.state, "auth_session_id", None)
-        if session is None:
-            raise HTTPException(401, "로그인이 필요합니다.")
+        if session is None or session.destroy_pending or self.accounts.load_session(sid) is None:
+            raise HTTPException(401, "다른 기기에서 로그인했거나 로그인이 해제되었습니다. 다시 로그인해 주세요.")
         return sid, session
 
     def check_rate(self, request, bucket, limit=8):
@@ -171,8 +196,6 @@ class AuthMiddleware:
             return
         app = scope["app"]
         manager = getattr(app.state, "auth", None)
-        if manager:
-            manager.prune()
         path = scope.get("path", "")
         headers = dict(scope.get("headers", []))
         cookies = {}
@@ -183,7 +206,7 @@ class AuthMiddleware:
         sid, session = manager.identify(cookies.get(COOKIE, "")) if manager else (None, None)
         if manager and path.startswith("/api/") and path not in PUBLIC_AUTH_PATHS:
             if session is None:
-                response = JSONResponse({"detail": "로그인이 필요합니다."}, status_code=401)
+                response = JSONResponse({"detail": "다른 기기에서 로그인했거나 로그인이 해제되었습니다. 다시 로그인해 주세요."}, status_code=401)
                 await response(scope, receive, send)
                 return
             session.in_flight += 1
@@ -195,13 +218,23 @@ class AuthMiddleware:
         scope.setdefault("state", {})["auth_session"] = session
         scope["state"]["auth_session_id"] = sid
         context_token = active_workspace.set(workspace)
+        async def persistent_send(message):
+            if (message["type"]=="http.response.start" and session is not None
+                and not session.destroy_pending and message["status"]<400):
+                headers=list(message.get("headers",[]))
+                # Login/logout/secret-exit explicitly set their own cookie; never overwrite it.
+                if not any(k.lower()==b"set-cookie" and v.startswith((COOKIE+"=").encode()) for k,v in headers):
+                    cookie_response=manager.cookie(JSONResponse({}),Request(scope),sid,session)
+                    headers.extend((k,v) for k,v in cookie_response.raw_headers if k==b"set-cookie")
+                    message={**message,"headers":headers}
+            await send(message)
         try:
             if session is not None and session.secret_workspace is not None:
                 from langsmith import tracing_context
                 with tracing_context(enabled=False):
-                    await self.app(scope, receive, send)
+                    await self.app(scope, receive, persistent_send)
             else:
-                await self.app(scope, receive, send)
+                await self.app(scope, receive, persistent_send)
         finally:
             active_workspace.reset(context_token)
             if session is not None and path.startswith("/api/") and path not in PUBLIC_AUTH_PATHS:
@@ -271,6 +304,7 @@ async def reset_password(request: Request, data: ResetPasswordBody):
         raise HTTPException(422, str(exc)) from None
     if not updated:
         raise HTTPException(404, "가입 정보와 일치하는 계정을 찾지 못했습니다.")
+    manager.accounts.revoke_user_sessions(data.username)
     for sid, session in list(manager.sessions.items()):
         if session.username.casefold() == data.username.casefold():
             manager.remove(sid, session)
@@ -279,13 +313,16 @@ async def reset_password(request: Request, data: ResetPasswordBody):
 
 async def enter_secret_mode(request: Request):
     manager = request.app.state.auth
-    _, session = manager.require(request)
+    sid, session = manager.require(request)
     if session.secret_workspace is None:
         app = request.app
         session.secret_workspace = create_secret_workspace(
             app.state.backend, app.state.quality, app.state.guard,
             app.state.retrieval.enabled,
         )
+    if not manager.accounts.set_session_secret(sid,True):
+        manager.remove(sid,session)
+        raise HTTPException(401,"다른 기기에서 로그인했거나 로그인이 해제되었습니다. 다시 로그인해 주세요.")
     return {"secret_mode": True, "total_spells": 0}
 
 
@@ -296,8 +333,7 @@ async def exit_secret_mode(request: Request):
         raise HTTPException(409, "시크릿 모드가 켜져 있지 않습니다.")
     if session.in_flight > 1:
         raise HTTPException(409, "진행 중인 요청이 끝난 뒤 시크릿 모드를 종료해 주세요.")
-    manager.remove(sid, session)
-    new_sid, new_session = manager.create({"id": session.user_id, "username": session.username})
+    new_sid, new_session = manager.create({"id": session.user_id, "username": session.username},previous_sid=sid)
     response = JSONResponse({"secret_mode": False, "discarded": True})
     return manager.cookie(response, request, new_sid, new_session)
 
