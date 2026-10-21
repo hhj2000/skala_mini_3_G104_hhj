@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-10-21T01:46:18.174754+00:00",
+  "pytest": {
+    "command": ".venv/bin/python -m pytest -q",
+    "passed": 105,
+    "failed": 0,
+    "duration_seconds": 10.37
+  },
+  "node": {
+    "command": "node --test tests/test_stream_client.cjs",
+    "passed": 4,
+    "failed": 0
+  },
+  "scope": "Core/API mock-provider regression, metric contracts and real auth flow; not live audio, browser UI or public security certification"
+}

@@ -1,0 +1,1 @@
+{"container": "read-only filesystem with isolated tmpfs", "health": true, "auth": true, "crud": true, "secret_disposal": true, "fake_sse": true, "real_model_in_container": "not tested"}

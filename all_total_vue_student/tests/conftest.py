@@ -12,3 +12,6 @@ os.environ["AGENT_MODE"] = "improved"
 # Tests exercising the model guard or vectors explicitly override these values.
 os.environ["CONTENT_FILTER_MODE"] = "rules"
 os.environ["SPELL_VECTOR_ENABLED"] = "0"
+# The TestClient uses HTTP. Do not inherit HTTPS-only cookies from deployment .env.
+os.environ['KHARAKTERES_COOKIE_SECURE'] = '0'
+os.environ['REQUIRE_SESSION_SECRET'] = '0'

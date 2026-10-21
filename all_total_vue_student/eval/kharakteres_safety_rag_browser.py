@@ -1,4 +1,9 @@
-"""Actual ONNX semantic search and content-block UI in an isolated fake-LLM server."""
+"""Actual ONNX semantic search and content-block UI in an isolated fake-LLM server.
+
+Historical experiment: predates account-aware regression coverage. Review login
+handling before rerunning; old results do not certify the current full UI flow.
+For current fixed-data quantitative evaluation use kharakteres_benchmark.py.
+"""
 
 import os
 import socket

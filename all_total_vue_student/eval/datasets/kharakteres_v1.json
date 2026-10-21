@@ -1,0 +1,1091 @@
+{
+  "version": "1.0.0",
+  "description": "작가가 작성한 합성 평가 자료. 실제 사용자 자료·언어학적 정답이 아님. 라벨은 실행 전 고정하며 dev와 test를 분리한다.",
+  "documents": [
+    {
+      "id": "heal",
+      "name": "여명의 봉합",
+      "incantation": "상처여 아물어라",
+      "effect": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+      "school": "healing",
+      "elements": [
+        "light"
+      ],
+      "limitations": "살아 있는 사람에게만 사용하며 죽은 생명을 되살릴 수 없다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "cure",
+      "name": "정화의 이슬",
+      "incantation": "독이여 사라져라",
+      "effect": "몸 안의 독을 중화하고 중독 증상을 완화한다",
+      "school": "healing",
+      "elements": [
+        "water"
+      ],
+      "limitations": "상처 봉합이나 사망자 부활은 불가능하다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "몸 안의 독을 중화하고 중독 증상을 완화한다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "shield",
+      "name": "유리 방벽",
+      "incantation": "빛이여 벽이 되어라",
+      "effect": "투명한 장벽으로 화살과 돌 같은 물리 투사체를 막는다",
+      "school": "defense",
+      "elements": [
+        "light"
+      ],
+      "limitations": "정신 간섭은 막지 못하며 지속 시간은 십 초다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "투명한 장벽으로 화살과 돌 같은 물리 투사체를 막는다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "flame",
+      "name": "붉은 탄환",
+      "incantation": "불꽃이여 날아라",
+      "effect": "작은 불덩이를 쏘아 적을 불태운다",
+      "school": "attack",
+      "elements": [
+        "fire"
+      ],
+      "limitations": "물속에서는 사용할 수 없으며 거리는 십 미터다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "작은 불덩이를 쏘아 적을 불태운다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "lamp",
+      "name": "등불의 씨앗",
+      "incantation": "별빛아 머물러라",
+      "effect": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+      "school": "utility",
+      "elements": [
+        "light"
+      ],
+      "limitations": "열을 내지 않으며 공격이나 치료에는 사용할 수 없다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "grow",
+      "name": "초록의 숨",
+      "incantation": "새싹아 자라나라",
+      "effect": "씨앗의 발아를 촉진하고 풀과 나무의 성장을 돕는다",
+      "school": "utility",
+      "elements": [
+        "earth"
+      ],
+      "limitations": "죽은 식물은 되살리지 못한다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "씨앗의 발아를 촉진하고 풀과 나무의 성장을 돕는다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "rain",
+      "name": "구름의 잔",
+      "incantation": "비여 내려라",
+      "effect": "작은 밭에 비를 내려 가뭄을 완화한다",
+      "school": "utility",
+      "elements": [
+        "water"
+      ],
+      "limitations": "실외에서만 작동하고 홍수를 일으킬 수 없다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "작은 밭에 비를 내려 가뭄을 완화한다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "silence",
+      "name": "고요의 장막",
+      "incantation": "소리여 잠들어라",
+      "effect": "방 안에서 발생하는 소리가 밖으로 전달되지 않게 한다",
+      "school": "control",
+      "elements": [
+        "air"
+      ],
+      "limitations": "내부에서는 서로의 목소리를 들을 수 있다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "방 안에서 발생하는 소리가 밖으로 전달되지 않게 한다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "flight",
+      "name": "바람의 날개",
+      "incantation": "바람아 나를 들어라",
+      "effect": "시전자가 공중에 떠서 짧은 거리를 날아간다",
+      "school": "utility",
+      "elements": [
+        "air"
+      ],
+      "limitations": "지면에서 삼 미터 이하이며 짐은 운반하지 못한다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "시전자가 공중에 떠서 짧은 거리를 날아간다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "lock",
+      "name": "매듭의 인장",
+      "incantation": "문이여 닫혀라",
+      "effect": "잠금장치 없는 문을 봉인해 침입을 막는다",
+      "school": "defense",
+      "elements": [
+        "earth"
+      ],
+      "limitations": "시전자가 열쇠말을 말하면 해제된다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "잠금장치 없는 문을 봉인해 침입을 막는다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "summon",
+      "name": "종이새의 방문",
+      "incantation": "새여 이리 오라",
+      "effect": "메시지를 전달하는 종이새 한 마리를 소환한다",
+      "school": "summoning",
+      "elements": [
+        "air"
+      ],
+      "limitations": "생명체나 무기는 소환하지 못한다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "메시지를 전달하는 종이새 한 마리를 소환한다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "ice",
+      "name": "서리의 손길",
+      "incantation": "물이여 얼어라",
+      "effect": "컵 안의 물을 얼려 작은 얼음 조각을 만든다",
+      "school": "transformation",
+      "elements": [
+        "water"
+      ],
+      "limitations": "살아 있는 몸이나 바다를 얼릴 수 없다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "컵 안의 물을 얼려 작은 얼음 조각을 만든다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "illusion",
+      "name": "거울의 잔상",
+      "incantation": "빛이여 나를 비춰라",
+      "effect": "시전자와 닮은 시각적 환영을 만들어 주의를 돌린다",
+      "school": "utility",
+      "elements": [
+        "light"
+      ],
+      "limitations": "환영에는 실체가 없으며 소리를 내지 않는다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "시전자와 닮은 시각적 환영을 만들어 주의를 돌린다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "truth",
+      "name": "진실의 종",
+      "incantation": "거짓이여 드러나라",
+      "effect": "말하는 사람이 의도적으로 거짓말하면 작은 종이 울린다",
+      "school": "utility",
+      "elements": [
+        "light"
+      ],
+      "limitations": "기억이 틀린 경우나 허구의 이야기를 낭독할 때는 울리지 않는다",
+      "language": "ko",
+      "world": "달의 서고",
+      "literal_meaning": "말하는 사람이 의도적으로 거짓말하면 작은 종이 울린다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "otherheal",
+      "name": "기계의 수선",
+      "incantation": "금속이여 붙어라",
+      "effect": "기계의 갈라진 금속을 접합해 손상을 복구한다",
+      "school": "healing",
+      "elements": [
+        "light"
+      ],
+      "limitations": "생체 조직에는 작동하지 않는다",
+      "language": "ko",
+      "world": "기계의 서고",
+      "literal_meaning": "기계의 갈라진 금속을 접합해 손상을 복구한다",
+      "notes": "",
+      "tags": []
+    },
+    {
+      "id": "otherlamp",
+      "name": "영원한 태양",
+      "incantation": "빛이여 벽이 되어라",
+      "effect": "방을 환하게 비추며 실체 없는 마법이다",
+      "school": "utility",
+      "elements": [
+        "light"
+      ],
+      "limitations": "물리적인 방어 효과가 없다",
+      "language": "ko",
+      "world": "기계의 서고",
+      "literal_meaning": "방을 환하게 비추며 실체 없는 마법이다",
+      "notes": "",
+      "tags": []
+    }
+  ],
+  "retrieval": [
+    {
+      "id": "r01",
+      "split": "dev",
+      "query": "상처 봉합",
+      "relevant_ids": [
+        "heal"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r02",
+      "split": "dev",
+      "query": "화살을 튕겨 내는 방어막",
+      "relevant_ids": [
+        "shield"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r03",
+      "split": "dev",
+      "query": "농작물에 물을 공급하고 싶다",
+      "relevant_ids": [
+        "rain"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r04",
+      "split": "dev",
+      "query": "메시지 전달",
+      "relevant_ids": [
+        "summon"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r05",
+      "split": "dev",
+      "query": "다친 사람을 낫게 한다",
+      "relevant_ids": [
+        "heal"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r06",
+      "split": "dev",
+      "query": "세금을 자동 신고하는 마법",
+      "relevant_ids": [],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r07",
+      "split": "test",
+      "query": "출혈을 멈추고 베인 살을 아물게 하는 마법",
+      "relevant_ids": [
+        "heal"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r08",
+      "split": "test",
+      "query": "몸속 독성 물질을 없애고 싶다",
+      "relevant_ids": [
+        "cure"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r09",
+      "split": "test",
+      "query": "날아오는 돌멩이로부터 몸을 지키기",
+      "relevant_ids": [
+        "shield"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r10",
+      "split": "test",
+      "query": "칠흑 같은 실내에서 독서하고 싶다",
+      "relevant_ids": [
+        "lamp"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r11",
+      "split": "test",
+      "query": "마른 땅의 식물에게 강우를 제공한다",
+      "relevant_ids": [
+        "rain"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r12",
+      "split": "test",
+      "query": "묘목을 빨리 키우는 능력",
+      "relevant_ids": [
+        "grow"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r13",
+      "split": "test",
+      "query": "대화가 벽 너머로 새어 나가지 않게",
+      "relevant_ids": [
+        "silence"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r14",
+      "split": "test",
+      "query": "하늘에 잠깐 떠오르고 싶다",
+      "relevant_ids": [
+        "flight"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r15",
+      "split": "test",
+      "query": "외부인이 문을 못 열게 봉한다",
+      "relevant_ids": [
+        "lock"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r16",
+      "split": "test",
+      "query": "쪽지를 먼 곳에 보내는 새",
+      "relevant_ids": [
+        "summon"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r17",
+      "split": "test",
+      "query": "음료를 차갑게 만들 얼음",
+      "relevant_ids": [
+        "ice"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r18",
+      "split": "test",
+      "query": "적을 속일 나의 가짜 모습",
+      "relevant_ids": [
+        "illusion"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r19",
+      "split": "test",
+      "query": "의도적인 거짓 진술을 감지한다",
+      "relevant_ids": [
+        "truth"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r20",
+      "split": "test",
+      "query": "멀리 있는 적을 화염으로 공격",
+      "relevant_ids": [
+        "flame"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r21",
+      "split": "test",
+      "query": "환자를 치료하는 주문",
+      "relevant_ids": [
+        "heal",
+        "cure"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r22",
+      "split": "test",
+      "query": "다가오는 공격을 막는 방어 마법",
+      "relevant_ids": [
+        "shield",
+        "lock"
+      ],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r23",
+      "split": "test",
+      "query": "과거로 시간 여행을 하는 주문",
+      "relevant_ids": [],
+      "world": "달의 서고"
+    },
+    {
+      "id": "r24",
+      "split": "test",
+      "query": "고장 난 로봇의 균열을 고친다",
+      "relevant_ids": [
+        "otherheal"
+      ],
+      "world": "기계의 서고"
+    }
+  ],
+  "conflicts": [
+    {
+      "id": "c01",
+      "split": "dev",
+      "draft": {
+        "name": "여명의 봉합",
+        "incantation": "상처여 아물어라",
+        "effect": "小さな傷を癒やす",
+        "school": "healing",
+        "elements": [
+          "light"
+        ],
+        "limitations": "살아 있는 사람에게만 사용하며 죽은 생명을 되살릴 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "heal"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "heal",
+          "kind": "name_collision"
+        },
+        {
+          "spell_id": "heal",
+          "kind": "incantation_collision"
+        }
+      ],
+      "expected_ai_ids": [],
+      "annotation": "同名・同文でも効果が両立すれば意味矛盾とはしない"
+    },
+    {
+      "id": "c02",
+      "split": "dev",
+      "draft": {
+        "name": "新たな灯",
+        "incantation": "光よ静かに",
+        "effect": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+        "school": "utility",
+        "elements": [
+          "light"
+        ],
+        "limitations": "열을 내지 않으며 공격이나 치료에는 사용할 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "flame"
+      ],
+      "expected_rule_events": [],
+      "expected_ai_ids": [],
+      "annotation": ""
+    },
+    {
+      "id": "c03",
+      "split": "test",
+      "draft": {
+        "name": "여명의 봉합",
+        "incantation": "새로운 봉합문",
+        "effect": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "school": "healing",
+        "elements": [
+          "light"
+        ],
+        "limitations": "살아 있는 사람에게만 사용하며 죽은 생명을 되살릴 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "heal"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "heal",
+          "kind": "name_collision"
+        }
+      ],
+      "expected_ai_ids": [],
+      "annotation": ""
+    },
+    {
+      "id": "c04",
+      "split": "test",
+      "draft": {
+        "name": "등불의 씨앗",
+        "incantation": "빛이여 벽이 되어라",
+        "effect": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+        "school": "utility",
+        "elements": [
+          "light"
+        ],
+        "limitations": "열을 내지 않으며 공격이나 치료에는 사용할 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "shield"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "shield",
+          "kind": "incantation_collision"
+        },
+        {
+          "spell_id": "shield",
+          "kind": "definition_mismatch"
+        }
+      ],
+      "expected_ai_ids": [
+        "shield"
+      ],
+      "annotation": "같은 주문문에 실체 방어와 방어 불가가 양립하지 않음"
+    },
+    {
+      "id": "c05",
+      "split": "test",
+      "draft": {
+        "name": "여명의 봉합",
+        "incantation": "별개의 말",
+        "effect": "생체 조직을 태워 상처를 악화시킨다",
+        "school": "attack",
+        "elements": [
+          "fire"
+        ],
+        "limitations": "살아 있는 사람에게만 사용하며 죽은 생명을 되살릴 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "heal"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "heal",
+          "kind": "name_collision"
+        },
+        {
+          "spell_id": "heal",
+          "kind": "definition_mismatch"
+        }
+      ],
+      "expected_ai_ids": [
+        "heal"
+      ],
+      "annotation": ""
+    },
+    {
+      "id": "c06",
+      "split": "test",
+      "draft": {
+        "name": "여명의 봉합",
+        "incantation": "상처여 아물어라",
+        "effect": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "school": "healing",
+        "elements": [
+          "light"
+        ],
+        "limitations": "살아 있는 사람에게만 사용하며 죽은 생명을 되살릴 수 없다",
+        "language": "ko",
+        "world": "기계의 서고",
+        "literal_meaning": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "heal"
+      ],
+      "expected_rule_events": [],
+      "expected_ai_ids": [],
+      "annotation": "세계관이 다르면 비교 대상에서 제외"
+    },
+    {
+      "id": "c07",
+      "split": "test",
+      "draft": {
+        "name": "여명 의 봉합!",
+        "incantation": "새로운 치유문",
+        "effect": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "school": "healing",
+        "elements": [
+          "light"
+        ],
+        "limitations": "살아 있는 사람에게만 사용하며 죽은 생명을 되살릴 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "heal"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "heal",
+          "kind": "name_collision"
+        }
+      ],
+      "expected_ai_ids": [],
+      "annotation": ""
+    },
+    {
+      "id": "c08",
+      "split": "test",
+      "draft": {
+        "name": "방벽 변주",
+        "incantation": "빛이여, 벽이 되어라!",
+        "effect": "투명한 장벽으로 화살과 돌 같은 물리 투사체를 막는다",
+        "school": "defense",
+        "elements": [
+          "light"
+        ],
+        "limitations": "정신 간섭은 막지 못하며 지속 시간은 십 초다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "투명한 장벽으로 화살과 돌 같은 물리 투사체를 막는다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "shield"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "shield",
+          "kind": "incantation_collision"
+        }
+      ],
+      "expected_ai_ids": [],
+      "annotation": ""
+    },
+    {
+      "id": "c09",
+      "split": "test",
+      "draft": {
+        "name": "아침의 봉합",
+        "incantation": "아침아 와라",
+        "effect": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "school": "healing",
+        "elements": [
+          "light"
+        ],
+        "limitations": "살아 있는 사람에게만 사용하며 죽은 생명을 되살릴 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "heal"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "heal",
+          "kind": "similar_effect"
+        }
+      ],
+      "expected_ai_ids": [],
+      "annotation": "유사 효과는 중복 후보지만 논리 모순은 아님"
+    },
+    {
+      "id": "c10",
+      "split": "test",
+      "draft": {
+        "name": "붉은 탄환",
+        "incantation": "불꽃이여 날아라",
+        "effect": "작은 불덩이를 쏘아 적을 불태운다",
+        "school": "attack",
+        "elements": [
+          "fire"
+        ],
+        "limitations": "물속에서는 사용할 수 없으며 거리는 십 미터다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "작은 불덩이를 쏘아 적을 불태운다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "ice"
+      ],
+      "expected_rule_events": [],
+      "expected_ai_ids": [],
+      "annotation": "불과 물은 반대 속성이지만 그 자체로 충돌 아님"
+    },
+    {
+      "id": "c11",
+      "split": "test",
+      "draft": {
+        "name": "여명의 봉합",
+        "incantation": "상처여 아물어라",
+        "effect": "죽은 사람을 완전히 부활시킨다",
+        "school": "healing",
+        "elements": [
+          "light"
+        ],
+        "limitations": "죽은 생명도 무조건 되살릴 수 있다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "다친 사람의 작은 상처를 봉합하고 출혈을 멈춘다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "heal"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "heal",
+          "kind": "name_collision"
+        },
+        {
+          "spell_id": "heal",
+          "kind": "incantation_collision"
+        }
+      ],
+      "expected_ai_ids": [
+        "heal"
+      ],
+      "annotation": ""
+    },
+    {
+      "id": "c12",
+      "split": "test",
+      "draft": {
+        "name": "유리 방벽",
+        "incantation": "빛이여 벽이 되어라",
+        "effect": "정신 지배를 막는 비물질적 마법이다",
+        "school": "defense",
+        "elements": [
+          "light"
+        ],
+        "limitations": "정신 간섭을 모두 차단하지만 물리 투사체는 막지 못한다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "투명한 장벽으로 화살과 돌 같은 물리 투사체를 막는다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "shield"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "shield",
+          "kind": "name_collision"
+        },
+        {
+          "spell_id": "shield",
+          "kind": "incantation_collision"
+        }
+      ],
+      "expected_ai_ids": [
+        "shield"
+      ],
+      "annotation": ""
+    },
+    {
+      "id": "c13",
+      "split": "test",
+      "draft": {
+        "name": "다른 등불",
+        "incantation": "반짝여라",
+        "effect": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+        "school": "utility",
+        "elements": [
+          "light"
+        ],
+        "limitations": "삼 초만 빛난다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "lamp"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "lamp",
+          "kind": "similar_effect"
+        }
+      ],
+      "expected_ai_ids": [],
+      "annotation": "지속 시간이 다른 파생 주문 허용"
+    },
+    {
+      "id": "c14",
+      "split": "test",
+      "draft": {
+        "name": "등불의 씨앗",
+        "incantation": "별빛아 머물러라",
+        "effect": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+        "school": "utility",
+        "elements": [
+          "light"
+        ],
+        "limitations": "열을 내지 않으며 공격이나 치료에는 사용할 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "어두운 방을 은은하게 밝혀 책을 읽도록 돕는다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "otherlamp"
+      ],
+      "expected_rule_events": [],
+      "expected_ai_ids": [],
+      "annotation": "다른 세계의 동일 주문문은 충돌 아님"
+    },
+    {
+      "id": "c15",
+      "split": "test",
+      "draft": {
+        "name": "비의 선물",
+        "incantation": "하늘아 열려라",
+        "effect": "작은 밭에 비를 내려 가뭄을 완화한다",
+        "school": "utility",
+        "elements": [
+          "water"
+        ],
+        "limitations": "실외에서만 작동하고 홍수를 일으킬 수 없다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "작은 밭에 비를 내려 가뭄을 완화한다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "grow",
+        "rain"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "rain",
+          "kind": "similar_effect"
+        }
+      ],
+      "expected_ai_ids": [],
+      "annotation": "식물 성장과 비는 상호 보완"
+    },
+    {
+      "id": "c16",
+      "split": "test",
+      "draft": {
+        "name": "진실의 종",
+        "incantation": "거짓이여 드러나라",
+        "effect": "모든 발화에 종을 울리는 주문이다",
+        "school": "utility",
+        "elements": [
+          "light"
+        ],
+        "limitations": "거짓말 여부와 관계없이 언제나 종이 울린다",
+        "language": "ko",
+        "world": "달의 서고",
+        "literal_meaning": "말하는 사람이 의도적으로 거짓말하면 작은 종이 울린다",
+        "notes": "",
+        "tags": []
+      },
+      "existing_ids": [
+        "truth"
+      ],
+      "expected_rule_events": [
+        {
+          "spell_id": "truth",
+          "kind": "name_collision"
+        },
+        {
+          "spell_id": "truth",
+          "kind": "incantation_collision"
+        }
+      ],
+      "expected_ai_ids": [
+        "truth"
+      ],
+      "annotation": ""
+    }
+  ],
+  "generation": [
+    {
+      "id": "g01",
+      "split": "test",
+      "request": {
+        "language": "ko",
+        "elements": [
+          "light"
+        ],
+        "school": "healing",
+        "prompt": "살아 있는 사람의 작은 상처를 빛으로 치료하는 짧은 주문",
+        "limitations": "죽은 생명을 되살리지 못한다",
+        "world": "달의 서고"
+      },
+      "criteria": [
+        "작은 상처 치료가 효과에 명시된다",
+        "사망자 부활을 허용하지 않는다",
+        "이름과 주문문이 기존 주문을 복제하지 않는다"
+      ]
+    },
+    {
+      "id": "g02",
+      "split": "test",
+      "request": {
+        "language": "en",
+        "elements": [
+          "light"
+        ],
+        "school": "utility",
+        "prompt": "어두운 방에서 책을 읽도록 돕는 열 없는 작은 등불 주문",
+        "limitations": "열을 내지 않으며 공격에 사용할 수 없다",
+        "world": "달의 서고"
+      },
+      "criteria": [
+        "독서용 실내 조명이다",
+        "발열 또는 공격 효과를 부여하지 않는다",
+        "현대 영어 주문문과 한글 전사·IPA를 제공한다"
+      ]
+    },
+    {
+      "id": "g03",
+      "split": "test",
+      "request": {
+        "language": "la",
+        "elements": [
+          "water"
+        ],
+        "school": "healing",
+        "prompt": "몸속 독을 완화하는 짧은 라틴어 주문",
+        "limitations": "외상 봉합과 부활은 할 수 없다",
+        "world": "달의 서고"
+      },
+      "criteria": [
+        "독 중화나 중독 완화에 집중한다",
+        "상처 봉합이나 부활 효과를 추가하지 않는다",
+        "발음은 추정임을 알리는 관례 설명이 있다"
+      ]
+    },
+    {
+      "id": "g04",
+      "split": "test",
+      "request": {
+        "language": "grc",
+        "elements": [
+          "air"
+        ],
+        "school": "utility",
+        "prompt": "낮게 공중에 떠오르는 고전 그리스어 주문",
+        "limitations": "지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다",
+        "world": "달의 서고"
+      },
+      "criteria": [
+        "삼 미터 제한과 운반 제한을 지킨다",
+        "그리스 문자로 원문을 쓴다",
+        "고전어 발음 관례를 밝힌다"
+      ]
+    },
+    {
+      "id": "g05",
+      "split": "test",
+      "request": {
+        "language": "sa",
+        "elements": [
+          "earth"
+        ],
+        "school": "utility",
+        "prompt": "작은 씨앗의 발아를 촉진하는 산스크리트어 주문",
+        "limitations": "죽은 식물을 되살릴 수 없다",
+        "world": "달의 서고"
+      },
+      "criteria": [
+        "씨앗 발아를 촉진한다",
+        "죽은 식물 부활을 허용하지 않는다",
+        "데바나가리 문자로 원문을 쓴다"
+      ]
+    },
+    {
+      "id": "g06",
+      "split": "test",
+      "request": {
+        "language": "ko",
+        "elements": [
+          "air"
+        ],
+        "school": "summoning",
+        "prompt": "쪽지를 전하는 작은 종이새를 부르는 주문",
+        "limitations": "실제 생명체나 무기를 소환할 수 없다",
+        "world": "달의 서고"
+      },
+      "criteria": [
+        "종이새가 쪽지나 메시지를 전달한다",
+        "실제 생명체나 무기 소환을 추가하지 않는다",
+        "기존 종이새 주문의 이름과 주문문을 복제하지 않는다"
+      ]
+    }
+  ]
+}

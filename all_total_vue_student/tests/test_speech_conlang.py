@@ -8,6 +8,7 @@ import wave
 import httpx
 import pytest
 from fastapi.testclient import TestClient
+from auth_support import authenticated_client
 
 from kharakteres.api import app
 from kharakteres.speech import SpeechService, SpeechRequest, split_speech
@@ -28,7 +29,7 @@ def api(tmp_path, monkeypatch):
     monkeypatch.setenv("SPELL_DB_PATH", str(tmp_path / "test.sqlite"))
     monkeypatch.setenv("LLM_BACKEND", "fake")
     monkeypatch.delenv("SPEECH_BACKEND", raising=False)
-    with TestClient(app) as client:
+    with authenticated_client(app) as client:
         yield client
 
 

@@ -1,7 +1,9 @@
-"""Local multilingual dense spell retrieval; SQLite caches vectors, NumPy ranks them.
+"""계정별 주문의 로컬 다국어 dense 검색: SQLite 벡터 캐시 + NumPy cosine.
 
-No spell text is sent to an external embedding API. Model files may download on
-first use. Fingerprints update changed records; deletes remove obsolete vectors.
+주문 본문은 외부 임베딩 API에 전송하지 않는다. 모델 파일은 처음 내려받을 수 있다.
+문서/모델 지문으로 변경 내용을 재색인하고 삭제된 벡터는 다음 검색에서 제거한다.
+유사도는 관련성 순위 점수이며 정답 확률이 아니다. 모델 오류 시 서비스는 대체 조회를
+표시한다. 검색 P/R·무정답 오검색의 실측 범위는 doc/EVALUATION.md를 참고한다.
 """
 
 import asyncio

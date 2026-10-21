@@ -55,6 +55,12 @@ Docker Desktop에서는 `host.docker.internal`로 호스트 Ollama에 접근합�
 
 시크릿 임시 DB는 운영체제 임시 폴더의 제한된 권한 디렉터리에 작성됩니다. 전원 강제 차단·프로세스 강제 종료 때 즉시 정리되지 못할 가능성이 있습니다. 따라서 디스크 forensic 수준의 비밀 저장소로 쓰면 안 됩니다. 이 모드는 앱에서 시크릿 종료를 눌렀을 때 기록을 폐기하는 개인용 작업 공간입니다.
 
+## 검증 범위
+
+2026-10-21에 이미지 빌드와 read-only + 임시 /app/data 컨테이너에서 health·가입/로그인·주문 저장·시크릿 폐기·fake SSE를 확인했습니다. 사용자 볼륨이나 외부 모델 API를 사용하지 않은 격리 검증이며 운영 Compose 배포나 컨테이너의 실제 음성/LLM 품질 검증과는 구분합니다. [재현 명령](EVALUATION.md#docker-격리-스모크-재현)과 [기록](../eval/results/kharakteres-benchmark-20261021/container-smoke.json)을 참고합니다.
+
+계정 중복·복구·접근 격리·이전 세션 취소·재시작 보존은 pytest로 확인했습니다. 이 동작 검증이 공개 서비스용 보안 인증을 의미하지는 않습니다.
+
 ## 기존 로컬 주문을 컨테이너에 복사
 
 Docker named volume은 로컬 프로젝트의 계정 DB와 주문 DB와 별도입니다. 예전 공용 주문 DB는 첫 계정 가입 시 자동 복사됩니다. 기존 계정 DB를 Docker에 옮기는 경우 `accounts.sqlite`와 `users/` 디렉터리를 백업 후 컨테이너를 중지한 상태에서 `/app/data/`에 복사하세요. SQLite 파일을 실행 중인 앱에 덮어쓰지 마세요.

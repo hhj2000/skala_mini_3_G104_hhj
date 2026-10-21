@@ -1,6 +1,7 @@
 import json
 import pytest
 from fastapi.testclient import TestClient
+from auth_support import authenticated_client
 from kharakteres.api import app
 from kharakteres.models import SpellInput
 from kharakteres.store import SpellStore, StaleVersion
@@ -32,7 +33,7 @@ def spell(**changes):
 def api(tmp_path, monkeypatch):
     monkeypatch.setenv("SPELL_DB_PATH", str(tmp_path / "spells.sqlite"))
     monkeypatch.setenv("LLM_BACKEND", "fake")
-    with TestClient(app) as client:
+    with authenticated_client(app) as client:
         yield client
 
 

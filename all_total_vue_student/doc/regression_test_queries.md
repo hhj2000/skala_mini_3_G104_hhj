@@ -98,3 +98,10 @@ LLM_BACKEND=openai .venv/bin/python eval/kharakteres_rag_live.py
 | E10 | LangSmith 추적 활성 상태에서 실제 생성 | Run ID로 생성 요청·그래프·검사·모델 호출·`new_token` 기록 확인 |
 
 검증: `.venv/bin/python -m pytest -q tests/test_streaming.py`, `node --test tests/test_stream_client.cjs`, `.venv/bin/python eval/kharakteres_stream_smoke.py`. 실제 모델은 `eval/kharakteres_stream_live.py {openai,ollama}`로 별도 확인합니다.
+
+
+## 고정 데이터셋 정량 비교
+
+현재 평가 체계는 미니 프로젝트에서 기능 유무에 따른 효과와 한계를 설명할 수준입니다. 동일 고정 입력을 비교하고 오류도 공개하며, 평가 절차 통과와 서비스 품질 목표 달성을 구분합니다. 실제 사용자의 다양한 질의·독립 검수자·실제 음성 장치의 검증은 별도로 필요합니다.
+
+검색 정밀도·재현율·nDCG, 규칙/AI 충돌 P/R/F1, 생성 형식·의미 품질의 반복 비교는 [정량 평가 절차](EVALUATION.md)를 사용합니다. 정답표는 `eval/datasets/kharakteres_v1.json`이며, 사용자 주문 DB를 사용하지 않습니다. `report.json`의 사례별 오류·오탐과 `audit.json`의 완전성을 함께 확인합니다.

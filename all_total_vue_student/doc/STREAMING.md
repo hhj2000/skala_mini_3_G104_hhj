@@ -76,6 +76,10 @@ LangSmith 추적을 활성화하면 `kharakteres.generate_stream_request` 아래
 
 ## 검증
 
+2026-10-21 기준 실제 가입을 거치는 pytest 105개와 JavaScript 스트림 클라이언트 4개가 통과했습니다. 격리 컨테이너에서도 fake SSE 완료 흐름을 확인했습니다. [최신 검증 기록](../eval/results/kharakteres-benchmark-20261021/validation.json)과 [평가 범위](EVALUATION.md)를 참고합니다. 정량 벤치마크의 생성 시간은 핵심 함수 경로이며 전체 SSE/웹 조회/안전 검사 시간과 다릅니다.
+
+아래 브라우저·실제 모델 SSE 실험은 계정 도입 이전 기록입니다. 브라우저 스크립트는 로그인 흐름 수정 전에는 최신 검증 명령으로 사용하지 않습니다.
+
 ```bash
 .venv/bin/python -m pytest -q
 node --test tests/test_stream_client.cjs
@@ -85,14 +89,14 @@ node --test tests/test_stream_client.cjs
 .venv/bin/python eval/kharakteres_stream_live.py ollama
 ```
 
-- pytest 94개, JavaScript 스트림 파서 4개 통과
+- 당시 pytest 94개, JavaScript 스트림 파서 4개 통과
 - 브라우저: 완료 전 필드 표시, 단계별 갱신, 완료 전 저장 차단, 생성 중단, 연결 끊김, 모바일 확인
 - 모의 공급자 검증은 지연된 응답을 사용한 제어 흐름 검사이며 실제 LLM 성능 측정이 아님
 - 실제 OpenAI(gpt-4o): 응답 조각 251개, 첫 토큰 약 1.80초, 완료 약 7.30초
 - 실제 Ollama(qwen3:8b): 응답 조각 276개, 첫 토큰 약 10.13초, 완료 약 31.85초
 - 두 실제 요청 모두 SSE 조각 수와 LangSmith `new_token` 수 일치. 5개 단계 완료 및 최종 형식 일치 확인
 
-위 시간은 이 머신에서 한 요청씩 확인한 결과이며 네트워크·모델 로딩·검사·사전 조회 상태에 따라 달라집니다. 실제 검증은 임시 DB와 벡터 조회 비활성 설정을 사용해 스트리밍 경로를 확인했습니다. RAG 품질 검증은 별도 기존 실험을 사용합니다.
+위 시간은 이 머신에서 한 요청씩 확인한 결과이며 네트워크·모델 로딩·검사·사전 조회 상태에 따라 달라집니다. 실제 검증은 임시 DB와 벡터 조회 비활성 설정을 사용해 스트리밍 경로를 확인했습니다. 현재 검색·생성·충돌 검토의 정량 비교는 [고정 데이터셋 평가](EVALUATION.md)를 사용합니다.
 
 결과: `eval/results/kharakteres-stream-{openai,ollama}-live.json`, `kharakteres-stream-smoke.json`, 화면 `kharakteres-streaming.png`.
 

@@ -1,0 +1,6940 @@
+{
+  "manifest": {
+    "started_at": "2026-10-21T01:36:24.389902+00:00",
+    "dataset_version": "1.0.0",
+    "dataset_sha256": "7ee87ae82607778145dc10764242e886a1d39ba35ec2783958ba6b59295bdc44",
+    "git_commit": "a7699bb1680c05b6669d6805334a456f3a2b5a2f",
+    "git_dirty": true,
+    "backend": "openai",
+    "split": "test",
+    "repeat": 2,
+    "seed": 104,
+    "k": 3,
+    "min_score": 0.25,
+    "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "tasks": [
+      "generation",
+      "conflicts"
+    ],
+    "judge_enabled": true,
+    "max_model_calls": 80,
+    "scope": "production retrieval rank / retrieve + compose + rule check / ai_review; no web source, audio, auth or HTTP UI measurement",
+    "cost_basis": "adapter total_tokens * synthetic blended rate; NOT provider billing; local compute/model downloads unpriced",
+    "retries": "runner=0; each failed attempt retained; provider-internal attempts unknown",
+    "env": {
+      "SPELL_GENERATION_TIMEOUT_SECONDS": "120",
+      "OLLAMA_THINK": "false",
+      "OLLAMA_NUM_PREDICT": "768",
+      "SPELL_MAX_TOKENS": "1536"
+    },
+    "generation_model": "openai:gpt-4o",
+    "judge_model": "openai:gpt-4o-mini",
+    "index_build_ms": 931.7244160001792,
+    "vector_error": null,
+    "finished_at": "2026-10-21T01:38:19.698950+00:00"
+  },
+  "complete": true,
+  "summary": {
+    "conflict_ai": {
+      "model": {
+        "runs": 28,
+        "cases": 14,
+        "error_rate": 0,
+        "latency_ms_mean": 899.6158511785585,
+        "latency_ms_p95": 1432.2784169999068,
+        "tokens": 11318,
+        "estimated_usd": 0.05659,
+        "macro": {
+          "accuracy": 0.7916666666666666,
+          "exact_match": 0.7857142857142857,
+          "f1": 0.35714285714285715,
+          "fn": 0,
+          "fp": 0.21428571428571427,
+          "precision": 0.35714285714285715,
+          "recall": 0.35714285714285715,
+          "specificity": 0.6428571428571429,
+          "tn": 0.35714285714285715,
+          "tp": 0.35714285714285715
+        },
+        "micro": {
+          "tp": 10,
+          "fp": 6,
+          "fn": 0,
+          "tn": 10,
+          "precision": 0.625,
+          "recall": 1.0,
+          "f1": 0.7692307692307693,
+          "accuracy": 0.7692307692307693,
+          "specificity": 0.625
+        }
+      },
+      "no_findings": {
+        "runs": 28,
+        "cases": 14,
+        "error_rate": 0,
+        "latency_ms_mean": 0.009714285722241454,
+        "latency_ms_p95": 0.013083999874652363,
+        "tokens": 0,
+        "estimated_usd": 0,
+        "macro": {
+          "accuracy": 0.5833333333333334,
+          "exact_match": 0.6428571428571429,
+          "f1": 0.0,
+          "fn": 0.35714285714285715,
+          "fp": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "specificity": 1.0,
+          "tn": 0.5714285714285714,
+          "tp": 0
+        },
+        "micro": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 10,
+          "tn": 16,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "accuracy": 0.6153846153846154,
+          "specificity": 1.0
+        }
+      }
+    },
+    "conflict_rules": {
+      "name_only": {
+        "runs": 28,
+        "cases": 14,
+        "error_rate": 0,
+        "latency_ms_mean": 0.011546107154052672,
+        "latency_ms_p95": 0.016375000086554792,
+        "tokens": 0,
+        "estimated_usd": 0,
+        "macro": {
+          "accuracy": 0.78125,
+          "exact_match": 0.2857142857142857,
+          "f1": 0.2619047619047619,
+          "fn": 0.7857142857142857,
+          "fp": 0,
+          "precision": 0.35714285714285715,
+          "recall": 0.21428571428571427,
+          "specificity": 1.0,
+          "tn": 2.5714285714285716,
+          "tp": 0.35714285714285715
+        },
+        "micro": {
+          "tp": 10,
+          "fp": 0,
+          "fn": 22,
+          "tn": 72,
+          "precision": 1.0,
+          "recall": 0.3125,
+          "f1": 0.47619047619047616,
+          "accuracy": 0.7884615384615384,
+          "specificity": 1.0
+        }
+      },
+      "rules": {
+        "runs": 28,
+        "cases": 14,
+        "error_rate": 0,
+        "latency_ms_mean": 0.07563699984660031,
+        "latency_ms_p95": 0.1150839998445008,
+        "tokens": 0,
+        "estimated_usd": 0,
+        "macro": {
+          "accuracy": 1.0,
+          "exact_match": 1.0,
+          "f1": 0.7857142857142857,
+          "fn": 0,
+          "fp": 0,
+          "precision": 0.7857142857142857,
+          "recall": 0.7857142857142857,
+          "specificity": 1.0,
+          "tn": 2.5714285714285716,
+          "tp": 1.1428571428571428
+        },
+        "micro": {
+          "tp": 32,
+          "fp": 0,
+          "fn": 0,
+          "tn": 72,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "accuracy": 1.0,
+          "specificity": 1.0
+        }
+      }
+    },
+    "generation": {
+      "no_context": {
+        "runs": 12,
+        "cases": 6,
+        "error_rate": 0,
+        "latency_ms_mean": 2408.028895916535,
+        "latency_ms_p95": 3291.255957999965,
+        "tokens": 15561,
+        "estimated_usd": 0.07780500000000001,
+        "macro": {
+          "author_fields_preserved": 1,
+          "constraint_text_retained": 1,
+          "contract_pass": 1,
+          "judge_criteria_rate": 1,
+          "judge_score": 3.875,
+          "metadata_preserved": 1,
+          "no_exact_duplicate": 1,
+          "pronunciation_present": 1,
+          "schema_valid": 1,
+          "script_present": 1
+        },
+        "judge_coverage": 1.0,
+        "judge_mean_score": 3.875,
+        "judge_criteria_rate": 1,
+        "judge_pass_rate": 0.9166666666666666
+      },
+      "vector": {
+        "runs": 12,
+        "cases": 6,
+        "error_rate": 0,
+        "latency_ms_mean": 2185.6212187498536,
+        "latency_ms_p95": 3345.5587919997924,
+        "tokens": 21954,
+        "estimated_usd": 0.10977000000000002,
+        "macro": {
+          "author_fields_preserved": 1,
+          "constraint_text_retained": 1,
+          "contract_pass": 1,
+          "judge_criteria_rate": 1,
+          "judge_score": 3.8958333333333335,
+          "metadata_preserved": 1,
+          "no_exact_duplicate": 1,
+          "pronunciation_present": 1,
+          "schema_valid": 1,
+          "script_present": 1
+        },
+        "judge_coverage": 1.0,
+        "judge_mean_score": 3.8958333333333335,
+        "judge_criteria_rate": 1,
+        "judge_pass_rate": 1
+      }
+    }
+  },
+  "paired_comparisons": [
+    {
+      "task": "conflict_rules",
+      "before": "name_only",
+      "after": "rules",
+      "metric": "exact_match",
+      "after_minus_before": 0.7142857142857143,
+      "ci95": [
+        0.42857142857142855,
+        0.9285714285714286
+      ],
+      "paired_cases": 14,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "conflict_rules",
+      "before": "name_only",
+      "after": "rules",
+      "metric": "f1",
+      "after_minus_before": 0.5238095238095238,
+      "ci95": [
+        0.28571428571428575,
+        0.7619047619047619
+      ],
+      "paired_cases": 14,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "conflict_ai",
+      "before": "no_findings",
+      "after": "model",
+      "metric": "exact_match",
+      "after_minus_before": 0.14285714285714285,
+      "ci95": [
+        -0.25,
+        0.5
+      ],
+      "paired_cases": 14,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "conflict_ai",
+      "before": "no_findings",
+      "after": "model",
+      "metric": "f1",
+      "after_minus_before": 0.35714285714285715,
+      "ci95": [
+        0.14285714285714285,
+        0.6428571428571429
+      ],
+      "paired_cases": 14,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "generation",
+      "before": "no_context",
+      "after": "vector",
+      "metric": "contract_pass",
+      "after_minus_before": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "paired_cases": 6,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "generation",
+      "before": "no_context",
+      "after": "vector",
+      "metric": "judge_score",
+      "after_minus_before": 0.020833333333333332,
+      "ci95": [
+        0.0,
+        0.0625
+      ],
+      "paired_cases": 6,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "generation",
+      "before": "no_context",
+      "after": "vector",
+      "metric": "judge_criteria_rate",
+      "after_minus_before": 0,
+      "ci95": [
+        0,
+        0
+      ],
+      "paired_cases": 6,
+      "resamples": 2000,
+      "seed": 104
+    }
+  ],
+  "model_calls": [
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 429,
+      "estimated_usd": 0.002145,
+      "error": null,
+      "latency_ms": 810.4532080005811
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 527,
+      "estimated_usd": 0.002635,
+      "error": null,
+      "latency_ms": 1298.313333999431
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 471,
+      "estimated_usd": 0.002355,
+      "error": null,
+      "latency_ms": 1341.6282910002337
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 430,
+      "estimated_usd": 0.00215,
+      "error": null,
+      "latency_ms": 774.4515829999727
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 490,
+      "estimated_usd": 0.00245,
+      "error": null,
+      "latency_ms": 1118.6242499998116
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 430,
+      "estimated_usd": 0.00215,
+      "error": null,
+      "latency_ms": 729.1059579993089
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 415,
+      "estimated_usd": 0.002075,
+      "error": null,
+      "latency_ms": 838.3434170000328
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 482,
+      "estimated_usd": 0.00241,
+      "error": null,
+      "latency_ms": 1088.8126250001733
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 529,
+      "estimated_usd": 0.002645,
+      "error": null,
+      "latency_ms": 1245.0960839996696
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 411,
+      "estimated_usd": 0.002055,
+      "error": null,
+      "latency_ms": 682.2337079993304
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 534,
+      "estimated_usd": 0.00267,
+      "error": null,
+      "latency_ms": 989.7023339999578
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 486,
+      "estimated_usd": 0.00243,
+      "error": null,
+      "latency_ms": 1429.6097500000542
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1853,
+      "estimated_usd": 0.009265,
+      "error": null,
+      "latency_ms": 2090.774541999963
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1259,
+      "estimated_usd": 0.006295,
+      "error": null,
+      "latency_ms": 2344.784707999679
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4004,
+      "estimated_usd": 0.000601,
+      "error": null,
+      "latency_ms": 1819.8288749999847
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1842,
+      "estimated_usd": 0.00921,
+      "error": null,
+      "latency_ms": 1666.9015830002536
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1294,
+      "estimated_usd": 0.00647,
+      "error": null,
+      "latency_ms": 2144.284291999611
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 3999,
+      "estimated_usd": 0.0006,
+      "error": null,
+      "latency_ms": 1838.9458749998084
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1254,
+      "estimated_usd": 0.00627,
+      "error": null,
+      "latency_ms": 2252.7264170003036
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1707,
+      "estimated_usd": 0.008535,
+      "error": null,
+      "latency_ms": 1998.5894159999589
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 3997,
+      "estimated_usd": 0.0006,
+      "error": null,
+      "latency_ms": 1895.7162500000777
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1898,
+      "estimated_usd": 0.00949,
+      "error": null,
+      "latency_ms": 2277.1619590002956
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1340,
+      "estimated_usd": 0.0067,
+      "error": null,
+      "latency_ms": 2616.805083000145
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4140,
+      "estimated_usd": 0.000621,
+      "error": null,
+      "latency_ms": 1982.6691250000295
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1911,
+      "estimated_usd": 0.009555,
+      "error": null,
+      "latency_ms": 2612.5108750002255
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1320,
+      "estimated_usd": 0.0066,
+      "error": null,
+      "latency_ms": 2626.94829100019
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4091,
+      "estimated_usd": 0.000614,
+      "error": null,
+      "latency_ms": 1775.9347090004667
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1733,
+      "estimated_usd": 0.008665,
+      "error": null,
+      "latency_ms": 2121.3686250002866
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1281,
+      "estimated_usd": 0.006405,
+      "error": null,
+      "latency_ms": 2134.0275000002293
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4077,
+      "estimated_usd": 0.000612,
+      "error": null,
+      "latency_ms": 1987.293000000136
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 429,
+      "estimated_usd": 0.002145,
+      "error": null,
+      "latency_ms": 793.9882500004387
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 524,
+      "estimated_usd": 0.00262,
+      "error": null,
+      "latency_ms": 1474.0469589996792
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 511,
+      "estimated_usd": 0.002555,
+      "error": null,
+      "latency_ms": 1304.0928749996965
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 455,
+      "estimated_usd": 0.002275,
+      "error": null,
+      "latency_ms": 958.4330409998074
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 494,
+      "estimated_usd": 0.00247,
+      "error": null,
+      "latency_ms": 1362.9591670005539
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 468,
+      "estimated_usd": 0.00234,
+      "error": null,
+      "latency_ms": 992.5054160003128
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 415,
+      "estimated_usd": 0.002075,
+      "error": null,
+      "latency_ms": 840.5967079997936
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 473,
+      "estimated_usd": 0.002365,
+      "error": null,
+      "latency_ms": 1086.479665999832
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 498,
+      "estimated_usd": 0.00249,
+      "error": null,
+      "latency_ms": 1094.6599170001718
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 411,
+      "estimated_usd": 0.002055,
+      "error": null,
+      "latency_ms": 817.7732919994014
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 534,
+      "estimated_usd": 0.00267,
+      "error": null,
+      "latency_ms": 1124.575083000309
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 472,
+      "estimated_usd": 0.00236,
+      "error": null,
+      "latency_ms": 916.2682080004743
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1853,
+      "estimated_usd": 0.009265,
+      "error": null,
+      "latency_ms": 1859.288125000603
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1264,
+      "estimated_usd": 0.00632,
+      "error": null,
+      "latency_ms": 2599.6397079998133
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 3971,
+      "estimated_usd": 0.000596,
+      "error": null,
+      "latency_ms": 1640.1382920003016
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1294,
+      "estimated_usd": 0.00647,
+      "error": null,
+      "latency_ms": 2130.6684160008444
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1855,
+      "estimated_usd": 0.009275,
+      "error": null,
+      "latency_ms": 2065.2793750005003
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4012,
+      "estimated_usd": 0.000602,
+      "error": null,
+      "latency_ms": 1667.7365409996128
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1694,
+      "estimated_usd": 0.00847,
+      "error": null,
+      "latency_ms": 1569.3128330003674
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1278,
+      "estimated_usd": 0.00639,
+      "error": null,
+      "latency_ms": 1886.989249999715
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4014,
+      "estimated_usd": 0.000602,
+      "error": null,
+      "latency_ms": 1768.545124999946
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1329,
+      "estimated_usd": 0.006645,
+      "error": null,
+      "latency_ms": 2381.548790999659
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1949,
+      "estimated_usd": 0.009745,
+      "error": null,
+      "latency_ms": 2294.7998339996047
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4180,
+      "estimated_usd": 0.000627,
+      "error": null,
+      "latency_ms": 2148.2387500000186
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1902,
+      "estimated_usd": 0.00951,
+      "error": null,
+      "latency_ms": 3331.029834000219
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1373,
+      "estimated_usd": 0.006865,
+      "error": null,
+      "latency_ms": 3285.356999999749
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4133,
+      "estimated_usd": 0.00062,
+      "error": null,
+      "latency_ms": 1637.2542500002965
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1275,
+      "estimated_usd": 0.006375,
+      "error": null,
+      "latency_ms": 2455.613207999704
+    },
+    {
+      "role": "subject",
+      "model": "openai:gpt-4o",
+      "tokens": 1757,
+      "estimated_usd": 0.008785,
+      "error": null,
+      "latency_ms": 2150.91533299983
+    },
+    {
+      "role": "judge",
+      "model": "openai:gpt-4o-mini",
+      "tokens": 4088,
+      "estimated_usd": 0.000613,
+      "error": null,
+      "latency_ms": 1830.0988330001928
+    }
+  ],
+  "rows": [
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c03",
+      "repeat": 0,
+      "latency_ms": 0.00850000014906982,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c03",
+      "repeat": 0,
+      "latency_ms": 0.09316599971498363,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c03",
+      "repeat": 0,
+      "latency_ms": 0.009750000572239514,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c03",
+      "repeat": 0,
+      "latency_ms": 813.7785409999196,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 429,
+      "estimated_usd": 0.002145,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c04",
+      "repeat": 0,
+      "latency_ms": 0.013582999599748291,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.5,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c04",
+      "repeat": 0,
+      "latency_ms": 0.10633400052029174,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c04",
+      "repeat": 0,
+      "latency_ms": 0.007499999810534064,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "shield"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c04",
+      "repeat": 0,
+      "latency_ms": 1301.5476250002393,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "shield"
+      ],
+      "returned": [
+        {
+          "spell_id": "shield",
+          "spell_name": "유리 방벽",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "두 주문 모두 '빛이여 벽이 되어라'라는 동일한 주문을 사용하지만, 효과가 완전히 다르다. '등불의 씨앗'은 방을 밝히는 용도이고, '유리 방벽'은 물리 투사체를 막는 방어용이다. 동일한 주문으로 전혀 다른 효과를 발휘하는 것은 논리적으로 양립 불가능할 수 있다."
+        }
+      ],
+      "tokens": 527,
+      "estimated_usd": 0.002635,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c05",
+      "repeat": 0,
+      "latency_ms": 0.013625000065076165,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c05",
+      "repeat": 0,
+      "latency_ms": 0.10225000005448237,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c05",
+      "repeat": 0,
+      "latency_ms": 0.007208999704744201,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "heal"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c05",
+      "repeat": 0,
+      "latency_ms": 1344.4562499998938,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "heal"
+      ],
+      "returned": [
+        {
+          "spell_id": "heal",
+          "spell_name": "여명의 봉합",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "주문 이름과 문자적 의미는 치유 효과를 암시하지만, 실제 효과는 상처를 악화시키는 공격 주문으로 설정되어 있어 논리적 충돌이 발생합니다."
+        }
+      ],
+      "tokens": 471,
+      "estimated_usd": 0.002355,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c06",
+      "repeat": 0,
+      "latency_ms": 0.009833999683905859,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c06",
+      "repeat": 0,
+      "latency_ms": 0.018415999875287525,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c06",
+      "repeat": 0,
+      "latency_ms": 0.009500000487605575,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c06",
+      "repeat": 0,
+      "latency_ms": 2.9112089996488066,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c07",
+      "repeat": 0,
+      "latency_ms": 0.01024999983201269,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c07",
+      "repeat": 0,
+      "latency_ms": 0.06800000028306386,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c07",
+      "repeat": 0,
+      "latency_ms": 0.01237499964190647,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c07",
+      "repeat": 0,
+      "latency_ms": 777.0307080008934,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 430,
+      "estimated_usd": 0.00215,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c08",
+      "repeat": 0,
+      "latency_ms": 0.011042000551242381,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c08",
+      "repeat": 0,
+      "latency_ms": 0.07958299920574063,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c08",
+      "repeat": 0,
+      "latency_ms": 0.012000000424450263,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c08",
+      "repeat": 0,
+      "latency_ms": 1121.0584580003342,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": 0.0,
+        "exact_match": 0.0
+      },
+      "expected": [],
+      "returned": [
+        {
+          "spell_id": "shield",
+          "spell_name": "유리 방벽",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "주문 '방벽 변주'와 '유리 방벽'은 효과와 제한 사항이 동일하며, 주문의 이름과 주술의 차이만 존재한다. 이는 동일한 주문일 가능성이 높다."
+        }
+      ],
+      "tokens": 490,
+      "estimated_usd": 0.00245,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c09",
+      "repeat": 0,
+      "latency_ms": 0.01287500072066905,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c09",
+      "repeat": 0,
+      "latency_ms": 0.08608299958723364,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c09",
+      "repeat": 0,
+      "latency_ms": 0.01091599915525876,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c09",
+      "repeat": 0,
+      "latency_ms": 732.2367500000837,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 430,
+      "estimated_usd": 0.00215,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c10",
+      "repeat": 0,
+      "latency_ms": 0.01183299991680542,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c10",
+      "repeat": 0,
+      "latency_ms": 0.08399999933317304,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c10",
+      "repeat": 0,
+      "latency_ms": 0.012541999240056612,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c10",
+      "repeat": 0,
+      "latency_ms": 841.238708999299,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 415,
+      "estimated_usd": 0.002075,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c11",
+      "repeat": 0,
+      "latency_ms": 0.016666000192344654,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c11",
+      "repeat": 0,
+      "latency_ms": 0.10424999982205918,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c11",
+      "repeat": 0,
+      "latency_ms": 0.0078330003816518,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "heal"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c11",
+      "repeat": 0,
+      "latency_ms": 1091.369666999526,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "heal"
+      ],
+      "returned": [
+        {
+          "spell_id": "heal",
+          "spell_name": "여명의 봉합",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "기존 주문은 살아 있는 사람에게만 사용 가능하며 죽은 생명을 되살릴 수 없다고 명시되어 있지만, 새로운 주문은 죽은 사람을 완전히 부활시킬 수 있다고 되어 있어 논리적 충돌이 발생할 수 있다."
+        }
+      ],
+      "tokens": 482,
+      "estimated_usd": 0.00241,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c12",
+      "repeat": 0,
+      "latency_ms": 0.010540999937802553,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c12",
+      "repeat": 0,
+      "latency_ms": 0.07575000017823186,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c12",
+      "repeat": 0,
+      "latency_ms": 0.01141600023402134,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "shield"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c12",
+      "repeat": 0,
+      "latency_ms": 1247.5835840004947,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "shield"
+      ],
+      "returned": [
+        {
+          "spell_id": "shield",
+          "spell_name": "유리 방벽",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "두 주문 모두 '유리 방벽'이라는 이름과 '빛이여 벽이 되어라'라는 주문을 사용하지만, 효과와 제한 사항이 서로 상충됩니다. 하나는 정신 지배를 막고 물리 투사체를 막지 못한다고 하고, 다른 하나는 물리 투사체를 막고 정신 간섭을 막지 못한다고 합니다. 이는 논리적으로 양립할 수 없습니다."
+        }
+      ],
+      "tokens": 529,
+      "estimated_usd": 0.002645,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c13",
+      "repeat": 0,
+      "latency_ms": 0.011209000149392523,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c13",
+      "repeat": 0,
+      "latency_ms": 0.08241699924838031,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c13",
+      "repeat": 0,
+      "latency_ms": 0.009209000381815713,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c13",
+      "repeat": 0,
+      "latency_ms": 684.9527080003099,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 411,
+      "estimated_usd": 0.002055,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c14",
+      "repeat": 0,
+      "latency_ms": 0.011791000360972248,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c14",
+      "repeat": 0,
+      "latency_ms": 0.009708999641588889,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c14",
+      "repeat": 0,
+      "latency_ms": 0.005417000465968158,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c14",
+      "repeat": 0,
+      "latency_ms": 2.7205000005778857,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c15",
+      "repeat": 0,
+      "latency_ms": 0.006416999895009212,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 7
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.875,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c15",
+      "repeat": 0,
+      "latency_ms": 0.09970899918698706,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c15",
+      "repeat": 0,
+      "latency_ms": 0.005916000191064086,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c15",
+      "repeat": 0,
+      "latency_ms": 992.5859169998148,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.5,
+        "specificity": 0.5,
+        "exact_match": 0.0
+      },
+      "expected": [],
+      "returned": [
+        {
+          "spell_id": "rain",
+          "spell_name": "구름의 잔",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "'비의 선물'과 '구름의 잔'은 효과와 제한 사항이 동일하여 중복된 주문으로 보입니다."
+        }
+      ],
+      "tokens": 534,
+      "estimated_usd": 0.00267,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c16",
+      "repeat": 0,
+      "latency_ms": 0.011750000339816324,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "truth",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c16",
+      "repeat": 0,
+      "latency_ms": 0.07662500047445064,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c16",
+      "repeat": 0,
+      "latency_ms": 0.007125000593077857,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "truth"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c16",
+      "repeat": 0,
+      "latency_ms": 1432.2784169999068,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "truth"
+      ],
+      "returned": [
+        {
+          "spell_id": "truth",
+          "spell_name": "진실의 종",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "두 주문은 같은 이름과 주문을 가지고 있지만, 효과와 제한 사항이 상충된다. 초안에서는 모든 발화에 종이 울린다고 명시되어 있지만, 기존 주문에서는 의도적인 거짓말에만 종이 울린다고 명시되어 있다."
+        }
+      ],
+      "tokens": 486,
+      "estimated_usd": 0.00243,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g01",
+      "repeat": 0,
+      "latency_ms": 2108.7600419996306,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "빛의 손길",
+        "incantation": "빛이여 상처를 감싸라",
+        "language_kind": "natural",
+        "language": "ko",
+        "elements": [
+          "light"
+        ],
+        "school": "healing",
+        "romanization": "Bichi-yeo sangcheoreul gamssara",
+        "hangul_pronunciation": "비치여 상처를 감싸라",
+        "ipa": "pitɕʰijʌ saŋtɕʰʌɾɯl kams͈aɾa",
+        "pronunciation_note": "현대 한국어 발음에 기반한 추정",
+        "verification": null,
+        "literal_meaning": "빛이여 상처를 감싸라",
+        "effect": "작은 상처를 부드러운 빛으로 감싸 빠르게 치유한다.",
+        "target": "",
+        "limitations": "죽은 생명을 되살리지 못한다\n죽은 생명을 되살리지 못한다.",
+        "world": "달의 서고",
+        "notes": "",
+        "tags": [
+          "light",
+          "healing",
+          "wounds"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "heal",
+        "cure",
+        "shield",
+        "flame",
+        "lamp",
+        "illusion",
+        "truth",
+        "summon",
+        "lock",
+        "ice",
+        "grow",
+        "rain"
+      ],
+      "tokens": 1853,
+      "estimated_usd": 0.009265,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 기존 주문과의 일관성을 유지하고, 독창적인 이름과 주문문을 제시하였다. 표현도 명확하고 읽기 쉬워 요청 언어에 적합하다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4004,
+          "usd": 0.000601
+        },
+        "latency_ms": 1821.0719589997098,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g01",
+      "repeat": 0,
+      "latency_ms": 2347.7138329999434,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "빛의 손길",
+        "incantation": "빛의 손길로 상처를 감싸라",
+        "language_kind": "natural",
+        "language": "ko",
+        "elements": [
+          "light"
+        ],
+        "school": "healing",
+        "romanization": "Bich-ui Songillo Sangcheoreul Gamssara",
+        "hangul_pronunciation": "비치의 송길로 상처를 감싸라",
+        "ipa": "pitɕʰi.e soŋɡillo saŋtɕʰʌɾɯl ɡams͈aɾa",
+        "pronunciation_note": "현대 한국어 발음에 기반한 추정",
+        "verification": null,
+        "literal_meaning": "빛의 손길로 상처를 감싸라",
+        "effect": "작은 상처를 빛으로 감싸 빠르게 치유한다.",
+        "target": "",
+        "limitations": "죽은 생명을 되살리지 못한다\n죽은 생명을 되살리지 못한다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 작은 상처에만 효과적이며, 심각한 부상에는 사용할 수 없다.",
+        "tags": [
+          "light",
+          "healing",
+          "minor wounds"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1259,
+      "estimated_usd": 0.006295,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 기존 주문과의 일관성을 유지하고, 독창적인 이름과 주문문을 제시하였다. 표현도 명확하고 읽기 쉬워 요청 언어에 적합하다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4004,
+          "usd": 0.000601
+        },
+        "latency_ms": 1821.0719589997098,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g02",
+      "repeat": 0,
+      "latency_ms": 1683.8899159993161,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "달빛의 속삭임",
+        "incantation": "Moonlight, whisper softly",
+        "language_kind": "natural",
+        "language": "en",
+        "elements": [
+          "light"
+        ],
+        "school": "utility",
+        "romanization": "Moonlight, whisper softly",
+        "hangul_pronunciation": "문라이트, 위스퍼 소프트리",
+        "ipa": "/ˈmuːnlaɪt, ˈwɪspər ˈsɒftli/",
+        "pronunciation_note": "현대 영어 발음 기준, 미국식 발음에 근사",
+        "verification": null,
+        "literal_meaning": "달빛이여, 부드럽게 속삭여라",
+        "effect": "어두운 방에서 책을 읽을 수 있도록 열 없는 작은 등불을 만든다.",
+        "target": "",
+        "limitations": "열을 내지 않으며 공격에 사용할 수 없다\n열을 내지 않으며 공격에 사용할 수 없다.",
+        "world": "달의 서고",
+        "notes": "",
+        "tags": [
+          "light",
+          "reading",
+          "utility"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "lamp",
+        "lock",
+        "flame",
+        "silence",
+        "shield",
+        "illusion",
+        "truth",
+        "heal",
+        "cure",
+        "summon",
+        "rain",
+        "ice"
+      ],
+      "tokens": 1842,
+      "estimated_usd": 0.00921,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "The spell meets all the requirements: it provides light for reading, does not generate heat or have offensive capabilities, and includes both modern English incantation and Korean transcription.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 3999,
+          "usd": 0.0006
+        },
+        "latency_ms": 1839.9694159998035,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g02",
+      "repeat": 0,
+      "latency_ms": 2146.627709000313,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Moonlit Whisper",
+        "incantation": "Luna's gentle glow, guide my sight in shadow's embrace.",
+        "language_kind": "natural",
+        "language": "en",
+        "elements": [
+          "light"
+        ],
+        "school": "utility",
+        "romanization": "",
+        "hangul_pronunciation": "루나즈 젠틀 글로우, 가이드 마이 사이트 인 섀도우즈 엠브레이스.",
+        "ipa": "/ˈluːnəz ˈʤɛntəl ɡloʊ, ɡaɪd maɪ saɪt ɪn ˈʃædoʊz ɛmˈbreɪs/",
+        "pronunciation_note": "Modern English, General American accent.",
+        "verification": null,
+        "literal_meaning": "루나의 부드러운 빛, 그림자의 포옹 속에서 내 시야를 인도하라.",
+        "effect": "어두운 방에서 열을 내지 않는 작은 등불을 만들어 책을 읽을 수 있게 한다.",
+        "target": "",
+        "limitations": "열을 내지 않으며 공격에 사용할 수 없다\n열을 내지 않으며 공격에 사용할 수 없다.",
+        "world": "달의 서고",
+        "notes": "달의 서고에서 유래한 주문으로, 독서에 최적화되어 있다.",
+        "tags": [
+          "light",
+          "reading",
+          "utility"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1294,
+      "estimated_usd": 0.00647,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "The spell fulfills all criteria: it serves as a reading light, does not produce heat or have offensive uses, and provides both a modern English incantation and Korean transcription.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 3999,
+          "usd": 0.0006
+        },
+        "latency_ms": 1839.9694159998035,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g03",
+      "repeat": 0,
+      "latency_ms": 2255.607707999843,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Aqua Purificans",
+        "incantation": "Aqua purifica venenum intus.",
+        "language_kind": "natural",
+        "language": "la",
+        "elements": [
+          "water"
+        ],
+        "school": "healing",
+        "romanization": "Aqua purifica venenum intus.",
+        "hangul_pronunciation": "아쿠아 푸리피카 베네눔 인투스.",
+        "ipa": "/ˈa.kʷa puˈri.fi.ka veˈne.num ˈin.tus/",
+        "pronunciation_note": "Classical Latin pronunciation is used, with 'v' pronounced as /w/ and 'c' as /k/.",
+        "verification": null,
+        "literal_meaning": "물은 내부의 독을 정화한다.",
+        "effect": "몸속의 독을 완화하여 중독 증상을 줄여준다.",
+        "target": "",
+        "limitations": "외상 봉합과 부활은 할 수 없다\n외상 봉합과 부활은 할 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 물의 정화력을 빌려 독을 완화하는 데 사용된다.",
+        "tags": [
+          "water",
+          "healing",
+          "purification"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1254,
+      "estimated_usd": 0.00627,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 기존 주문과의 일관성을 유지하고 독창적인 표현을 사용하였다. 발음 설명도 포함되어 있어 명확하다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 3997,
+          "usd": 0.0006
+        },
+        "latency_ms": 1896.344040999793,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g03",
+      "repeat": 0,
+      "latency_ms": 2013.3269999996628,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Aqua Veneni Lenire",
+        "incantation": "Aqua veneni lenire",
+        "language_kind": "natural",
+        "language": "la",
+        "elements": [
+          "water"
+        ],
+        "school": "healing",
+        "romanization": "Aqua veneni lenire",
+        "hangul_pronunciation": "아쿠아 베네니 레니레",
+        "ipa": "/ˈa.kʷa veˈne.ni leˈni.re/",
+        "pronunciation_note": "고전 라틴어 재구음에 따라 발음. 'aqua'는 '아쿠아', 'veneni'는 '베네니', 'lenire'는 '레니레'로 발음.",
+        "verification": null,
+        "literal_meaning": "물로 독을 완화하다",
+        "effect": "몸속의 독을 완화하고 중독 증상을 줄여준다.",
+        "target": "",
+        "limitations": "외상 봉합과 부활은 할 수 없다\n외상 봉합과 부활은 할 수 없다.",
+        "world": "달의 서고",
+        "notes": "",
+        "tags": [
+          "water",
+          "healing",
+          "detoxification"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "cure",
+        "heal",
+        "flame",
+        "summon",
+        "lock",
+        "shield",
+        "ice",
+        "illusion",
+        "truth"
+      ],
+      "tokens": 1707,
+      "estimated_usd": 0.008535,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 기존 주문과의 일관성을 유지하고 독창적인 표현을 사용하였다. 발음 설명도 포함되어 있어 명확하다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 3997,
+          "usd": 0.0006
+        },
+        "latency_ms": 1896.344040999793,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g04",
+      "repeat": 0,
+      "latency_ms": 2294.8958749993835,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Ἀήρ Ἀναβάτης",
+        "incantation": "Ἀήρ, ἄνεμος, ἄρτι με ἄγε",
+        "language_kind": "natural",
+        "language": "grc",
+        "elements": [
+          "air"
+        ],
+        "school": "utility",
+        "romanization": "Aēr, anemos, arti me age",
+        "hangul_pronunciation": "아이르, 아네모스, 아르티 메 아게",
+        "ipa": "/a.ɛːr, a.ne.mos, ar.ti me a.ɡe/",
+        "pronunciation_note": "고전 그리스어 재구음에 따라 발음. 현대 그리스어와 다름.",
+        "verification": null,
+        "literal_meaning": "공기여, 바람이여, 이제 나를 들어 올려라",
+        "effect": "시전자가 지면에서 최대 삼 미터 높이로 부드럽게 떠오른다.",
+        "target": "",
+        "limitations": "지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다\n지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다.",
+        "world": "달의 서고",
+        "notes": "",
+        "tags": [
+          "air",
+          "levitation",
+          "utility"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "flight",
+        "lock",
+        "ice",
+        "summon",
+        "flame",
+        "rain",
+        "shield",
+        "cure",
+        "heal",
+        "truth",
+        "illusion",
+        "grow"
+      ],
+      "tokens": 1898,
+      "estimated_usd": 0.00949,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 고전 그리스어로 작성되었고 발음 관례도 명시되어 있다. 다만, 기존 주문과 유사한 점이 있어 originality에서 약간 감점하였다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4140,
+          "usd": 0.000621
+        },
+        "latency_ms": 1983.596375000161,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g04",
+      "repeat": 0,
+      "latency_ms": 2619.569791999311,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Αἰθέριον Ἀνάβασις",
+        "incantation": "Αἰθέριον ἄνεμε, ἄρθητι καὶ φέρε με ἐλαφρῶς.",
+        "language_kind": "natural",
+        "language": "grc",
+        "elements": [
+          "air"
+        ],
+        "school": "utility",
+        "romanization": "Aitherion aneme, arthēti kai phere me elaphrōs.",
+        "hangul_pronunciation": "아이테리온 아네메, 아르테티 카이 페레 메 엘라프로스.",
+        "ipa": "/ai̯.tʰé.ri.on á.ne.me, ár.tʰɛː.ti kai̯ pʰé.re me e.la.pʰrɔ̂ːs/",
+        "pronunciation_note": "Reconstructed pronunciation based on 5th century BCE Attic Greek.",
+        "verification": null,
+        "literal_meaning": "하늘의 바람이여, 일어나 나를 가볍게 들어 올려라.",
+        "effect": "사용자를 지면에서 최대 삼 미터까지 부드럽게 떠오르게 한다.",
+        "target": "",
+        "limitations": "지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다\n지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 주로 짧은 거리 이동이나 장애물 회피에 유용하다.",
+        "tags": [
+          "air",
+          "levitation",
+          "movement"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1340,
+      "estimated_usd": 0.0067,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 고전 그리스어로 작성되었고 발음 관례도 명시되어 있다. 다만, 기존 주문과 유사한 점이 있어 originality에서 약간 감점하였다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4140,
+          "usd": 0.000621
+        },
+        "latency_ms": 1983.596375000161,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g05",
+      "repeat": 0,
+      "latency_ms": 2628.2203750006374,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "प्रस्फुटनं बीजस्य",
+        "incantation": "भूमेः गर्भे प्रस्फुटतु बीजम्",
+        "language_kind": "natural",
+        "language": "sa",
+        "elements": [
+          "earth"
+        ],
+        "school": "utility",
+        "romanization": "bhūmeḥ garbhe prasphuṭatu bījam",
+        "hangul_pronunciation": "부메흐 가르베 프라스푸타투 비잠",
+        "ipa": "/bʱuː.meːɦ ɡər.bʱeː prəs.pʰu.ʈə.t̪u biː.d͡ʒəm/",
+        "pronunciation_note": "산스크리트 재구음에 따라 발음되며, 현대 힌디어와 유사한 발음으로 추정됨.",
+        "verification": null,
+        "literal_meaning": "땅의 태중에서 씨앗이 발아하라",
+        "effect": "작은 씨앗의 발아를 촉진하여 식물의 성장을 시작하게 한다.",
+        "target": "",
+        "limitations": "죽은 식물을 되살릴 수 없다\n죽은 식물을 되살릴 수 없다.",
+        "world": "달의 서고",
+        "notes": "",
+        "tags": [
+          "earth",
+          "growth",
+          "seed"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "grow",
+        "flame",
+        "lock",
+        "summon",
+        "lamp",
+        "rain",
+        "ice",
+        "cure",
+        "heal",
+        "flight",
+        "shield",
+        "illusion"
+      ],
+      "tokens": 1911,
+      "estimated_usd": 0.009555,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과를 충족하며, 기존 주문과 일관성이 있고, 독창적인 표현을 사용하였으며, 읽기 쉽고 요청 언어에 적합하다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4091,
+          "usd": 0.000614
+        },
+        "latency_ms": 1776.6001660002075,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g05",
+      "repeat": 0,
+      "latency_ms": 2629.9595419995967,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "वृक्षबीजप्रस्फुटनम्",
+        "incantation": "ओम् पृथिव्याः बीजं प्रस्फुटतु",
+        "language_kind": "natural",
+        "language": "sa",
+        "elements": [
+          "earth"
+        ],
+        "school": "utility",
+        "romanization": "Om pṛthivyāḥ bījaṃ prasphuṭatu",
+        "hangul_pronunciation": "옴 프리티비야 비잠 프라스푸타투",
+        "ipa": "/oːm pɽ̩.t̪ʰiːˈʋjaːh biː.d͡ʑəm prəs.pʰʊˈʈə.t̪u/",
+        "pronunciation_note": "산스크리트어 재구음에 기반한 발음으로, 현대 힌디어와 유사한 발음 체계를 사용.",
+        "verification": null,
+        "literal_meaning": "오, 대지의 씨앗이 발아하라",
+        "effect": "작은 씨앗의 발아를 촉진하여 빠르게 싹을 틔운다.",
+        "target": "",
+        "limitations": "죽은 식물을 되살릴 수 없다\n죽은 식물을 되살릴 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 건강한 씨앗에만 효과가 있으며, 발아에 필요한 환경적 조건은 여전히 필요하다.",
+        "tags": [
+          "earth",
+          "growth",
+          "nature"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1320,
+      "estimated_usd": 0.0066,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과를 충족하며, 기존 주문과 일관성이 있고, 독창적인 표현을 사용하였으며, 읽기 쉽고 요청 언어에 적합하다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4091,
+          "usd": 0.000614
+        },
+        "latency_ms": 1776.6001660002075,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g06",
+      "repeat": 0,
+      "latency_ms": 2134.539667000354,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "종이새의 노래",
+        "incantation": "바람이여, 종이새를 불러라",
+        "language_kind": "natural",
+        "language": "ko",
+        "elements": [
+          "air"
+        ],
+        "school": "summoning",
+        "romanization": "Barami-yeo, jongisaereul bulleora",
+        "hangul_pronunciation": "바라미여, 종이새를 불러라",
+        "ipa": "paɾami.jʌ, t͡ɕoŋisaeɾɯl pulːʌɾa",
+        "pronunciation_note": "현대 한국어 발음에 기반하여 작성됨.",
+        "verification": null,
+        "literal_meaning": "바람이여, 종이새를 불러라",
+        "effect": "쪽지를 전하는 작은 종이새를 소환하여 원하는 대상에게 메시지를 전달한다.",
+        "target": "",
+        "limitations": "실제 생명체나 무기를 소환할 수 없다\n실제 생명체나 무기를 소환할 수 없다.",
+        "world": "달의 서고",
+        "notes": "종이새는 바람의 힘을 빌려 날아가며, 메시지를 전달한 후 사라진다.",
+        "tags": [
+          "air",
+          "message",
+          "summoning"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "summon",
+        "lock",
+        "flame",
+        "flight",
+        "truth",
+        "heal",
+        "cure",
+        "ice",
+        "illusion"
+      ],
+      "tokens": 1733,
+      "estimated_usd": 0.008665,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과를 충족하며, 기존 주문과의 모순이 없고, 독창적인 이름과 주문문을 제시하였다. 표현도 명확하고 읽기 쉬운 문장으로 작성되었다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4077,
+          "usd": 0.000612
+        },
+        "latency_ms": 1988.2622499999343,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g06",
+      "repeat": 0,
+      "latency_ms": 2137.6847089995863,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "바람의 종이새",
+        "incantation": "바람에 실려 날아가라, 작은 종이새여",
+        "language_kind": "natural",
+        "language": "ko",
+        "elements": [
+          "air"
+        ],
+        "school": "summoning",
+        "romanization": "Barame silyeo naragara, jageun jongisaeyeo",
+        "hangul_pronunciation": "바라메 실려 나라가라, 작은 종이새여",
+        "ipa": "paɾame ɕiljʌ naɾaɡaɾa, tɕaɡɯn tɕoŋisaijʌ",
+        "pronunciation_note": "현대 한국어 발음에 기반하여 작성됨.",
+        "verification": null,
+        "literal_meaning": "바람에 실려 날아가라, 작은 종이새여",
+        "effect": "작은 종이새가 소환되어 쪽지를 원하는 대상에게 전달한다.",
+        "target": "",
+        "limitations": "실제 생명체나 무기를 소환할 수 없다\n실제 생명체나 무기를 소환할 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 주로 비밀 메시지를 전달할 때 사용된다.",
+        "tags": [
+          "소환",
+          "쪽지",
+          "바람",
+          "종이새"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1281,
+      "estimated_usd": 0.006405,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과를 충족하며, 기존 주문과의 모순이 없고, 독창적인 이름과 주문문을 제시하였다. 표현도 명확하고 읽기 쉬운 문장으로 작성되었다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4077,
+          "usd": 0.000612
+        },
+        "latency_ms": 1988.2622499999343,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c03",
+      "repeat": 1,
+      "latency_ms": 0.01279199932469055,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c03",
+      "repeat": 1,
+      "latency_ms": 0.14116700003796723,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c03",
+      "repeat": 1,
+      "latency_ms": 0.010583000403130427,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c03",
+      "repeat": 1,
+      "latency_ms": 796.8457499991928,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 429,
+      "estimated_usd": 0.002145,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c04",
+      "repeat": 1,
+      "latency_ms": 0.01329099995928118,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.5,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c04",
+      "repeat": 1,
+      "latency_ms": 0.09341599979961757,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c04",
+      "repeat": 1,
+      "latency_ms": 0.012333000086073298,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "shield"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c04",
+      "repeat": 1,
+      "latency_ms": 1476.5358750000814,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "shield"
+      ],
+      "returned": [
+        {
+          "spell_id": "shield",
+          "spell_name": "유리 방벽",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "두 주문 모두 동일한 주문어 '빛이여 벽이 되어라'를 사용하지만, 효과가 완전히 다르다. '등불의 씨앗'은 방을 밝히는 용도이고, '유리 방벽'은 물리적 방어를 위한 것이다. 동일한 주문어로 전혀 다른 효과를 발휘하는 것은 논리적으로 양립 불가능할 수 있다."
+        }
+      ],
+      "tokens": 524,
+      "estimated_usd": 0.00262,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c05",
+      "repeat": 1,
+      "latency_ms": 0.012250000509084202,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c05",
+      "repeat": 1,
+      "latency_ms": 0.08420900030614575,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c05",
+      "repeat": 1,
+      "latency_ms": 0.010875000043597538,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "heal"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c05",
+      "repeat": 1,
+      "latency_ms": 1307.5184999997873,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "heal"
+      ],
+      "returned": [
+        {
+          "spell_id": "heal",
+          "spell_name": "여명의 봉합",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "두 주문 모두 '여명의 봉합'이라는 이름을 가지고 있지만, 효과가 서로 반대입니다. 하나는 상처를 봉합하고 출혈을 멈추는 치유 효과를 가지며, 다른 하나는 생체 조직을 태워 상처를 악화시키는 공격 효과를 가집니다. 이러한 효과의 차이는 논리적으로 양립할 수 없습니다."
+        }
+      ],
+      "tokens": 511,
+      "estimated_usd": 0.002555,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c06",
+      "repeat": 1,
+      "latency_ms": 0.008708999303053133,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c06",
+      "repeat": 1,
+      "latency_ms": 0.009624999620427843,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c06",
+      "repeat": 1,
+      "latency_ms": 0.00587499926041346,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c06",
+      "repeat": 1,
+      "latency_ms": 1.9133750001856242,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c07",
+      "repeat": 1,
+      "latency_ms": 0.01091699959943071,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c07",
+      "repeat": 1,
+      "latency_ms": 0.05933299962634919,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c07",
+      "repeat": 1,
+      "latency_ms": 0.007874999937484972,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c07",
+      "repeat": 1,
+      "latency_ms": 961.1725830000069,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": 0.0,
+        "exact_match": 0.0
+      },
+      "expected": [],
+      "returned": [
+        {
+          "spell_id": "heal",
+          "spell_name": "여명의 봉합",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "주문 효과와 제한 사항이 동일하여 중복된 주문으로 보입니다."
+        }
+      ],
+      "tokens": 455,
+      "estimated_usd": 0.002275,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c08",
+      "repeat": 1,
+      "latency_ms": 0.00995900063571753,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c08",
+      "repeat": 1,
+      "latency_ms": 0.06362499971146462,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c08",
+      "repeat": 1,
+      "latency_ms": 0.00904199987417087,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c08",
+      "repeat": 1,
+      "latency_ms": 1365.3387919994202,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": 0.0,
+        "exact_match": 0.0
+      },
+      "expected": [],
+      "returned": [
+        {
+          "spell_id": "shield",
+          "spell_name": "유리 방벽",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "주문 '방벽 변주'와 '유리 방벽'은 효과와 제한 사항이 동일하며, 주문의 이름과 주술만 약간 다릅니다. 이는 두 주문이 동일한 주문일 가능성을 시사합니다."
+        }
+      ],
+      "tokens": 494,
+      "estimated_usd": 0.00247,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c09",
+      "repeat": 1,
+      "latency_ms": 0.009499999578110874,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c09",
+      "repeat": 1,
+      "latency_ms": 0.06145799943624297,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c09",
+      "repeat": 1,
+      "latency_ms": 0.009499999578110874,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c09",
+      "repeat": 1,
+      "latency_ms": 994.8868340006811,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": 0.0,
+        "exact_match": 0.0
+      },
+      "expected": [],
+      "returned": [
+        {
+          "spell_id": "heal",
+          "spell_name": "여명의 봉합",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "'아침의 봉합'과 '여명의 봉합'은 효과와 제한 사항이 동일하여 중복된 주문으로 보입니다."
+        }
+      ],
+      "tokens": 468,
+      "estimated_usd": 0.00234,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c10",
+      "repeat": 1,
+      "latency_ms": 0.009041000339493621,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c10",
+      "repeat": 1,
+      "latency_ms": 0.06020900036673993,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c10",
+      "repeat": 1,
+      "latency_ms": 0.00879099934536498,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c10",
+      "repeat": 1,
+      "latency_ms": 843.105915999331,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 415,
+      "estimated_usd": 0.002075,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c11",
+      "repeat": 1,
+      "latency_ms": 0.01383299968438223,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c11",
+      "repeat": 1,
+      "latency_ms": 0.09558399960951647,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c11",
+      "repeat": 1,
+      "latency_ms": 0.010042000212706625,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "heal"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c11",
+      "repeat": 1,
+      "latency_ms": 1088.9926250001736,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "heal"
+      ],
+      "returned": [
+        {
+          "spell_id": "heal",
+          "spell_name": "여명의 봉합",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "기존 주문은 살아 있는 사람의 작은 상처를 치료하는 반면, 초안 주문은 죽은 사람을 완전히 부활시키는 효과를 가지고 있어 서로의 제한 사항과 효과가 충돌합니다."
+        }
+      ],
+      "tokens": 473,
+      "estimated_usd": 0.002365,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c12",
+      "repeat": 1,
+      "latency_ms": 0.011875000382133294,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c12",
+      "repeat": 1,
+      "latency_ms": 0.08183299996744609,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c12",
+      "repeat": 1,
+      "latency_ms": 0.010708999980124645,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "shield"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c12",
+      "repeat": 1,
+      "latency_ms": 1098.1581249998271,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "shield"
+      ],
+      "returned": [
+        {
+          "spell_id": "shield",
+          "spell_name": "유리 방벽",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "두 주문은 같은 이름과 주문을 가지고 있지만 효과와 제한 사항이 상충됩니다. 하나는 정신 지배를 막고 물리 투사체를 막지 못하며, 다른 하나는 물리 투사체를 막고 정신 간섭을 막지 못합니다."
+        }
+      ],
+      "tokens": 498,
+      "estimated_usd": 0.00249,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c13",
+      "repeat": 1,
+      "latency_ms": 0.009541000508761499,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c13",
+      "repeat": 1,
+      "latency_ms": 0.06037500043021282,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c13",
+      "repeat": 1,
+      "latency_ms": 0.008166000043274835,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c13",
+      "repeat": 1,
+      "latency_ms": 820.205291000093,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 411,
+      "estimated_usd": 0.002055,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c14",
+      "repeat": 1,
+      "latency_ms": 0.010416999430162832,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c14",
+      "repeat": 1,
+      "latency_ms": 0.018708999959926587,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c14",
+      "repeat": 1,
+      "latency_ms": 0.013083999874652363,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c14",
+      "repeat": 1,
+      "latency_ms": 2.432541000416677,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c15",
+      "repeat": 1,
+      "latency_ms": 0.016375000086554792,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 7
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.875,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c15",
+      "repeat": 1,
+      "latency_ms": 0.1150839998445008,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c15",
+      "repeat": 1,
+      "latency_ms": 0.012792000234185252,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c15",
+      "repeat": 1,
+      "latency_ms": 1127.3064999995768,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 1
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "tn": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.5,
+        "specificity": 0.5,
+        "exact_match": 0.0
+      },
+      "expected": [],
+      "returned": [
+        {
+          "spell_id": "rain",
+          "spell_name": "구름의 잔",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "'비의 선물'과 '구름의 잔'은 효과와 제한 사항이 동일하여 중복된 주문으로 보입니다."
+        }
+      ],
+      "tokens": 534,
+      "estimated_usd": 0.00267,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c16",
+      "repeat": 1,
+      "latency_ms": 0.014874999578751158,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "truth",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c16",
+      "repeat": 1,
+      "latency_ms": 0.0869169998622965,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "no_findings",
+      "case_id": "c16",
+      "repeat": 1,
+      "latency_ms": 0.013625000065076165,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.0,
+        "specificity": null,
+        "exact_match": 0.0
+      },
+      "expected": [
+        "truth"
+      ],
+      "returned": [],
+      "tokens": 0,
+      "estimated_usd": 0,
+      "model_calls": 0,
+      "retries": 0
+    },
+    {
+      "task": "conflict_ai",
+      "variant": "model",
+      "case_id": "c16",
+      "repeat": 1,
+      "latency_ms": 919.0820829999211,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [
+        "truth"
+      ],
+      "returned": [
+        {
+          "spell_id": "truth",
+          "spell_name": "진실의 종",
+          "severity": "medium",
+          "kind": "ai_possible_conflict",
+          "source": "ai",
+          "message": "기존 주문은 의도적인 거짓말에만 반응하여 종이 울리지만, 초안 주문은 모든 발화에 종이 울린다고 명시되어 있어 효과가 상충됩니다."
+        }
+      ],
+      "tokens": 472,
+      "estimated_usd": 0.00236,
+      "model_calls": 1,
+      "retries": 0
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g01",
+      "repeat": 1,
+      "latency_ms": 1875.5708329999834,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "빛의 손길",
+        "incantation": "빛이여 상처를 감싸라",
+        "language_kind": "natural",
+        "language": "ko",
+        "elements": [
+          "light"
+        ],
+        "school": "healing",
+        "romanization": "Bichi-yeo sangcheoreul gamssara",
+        "hangul_pronunciation": "비치여 상처를 감싸라",
+        "ipa": "pitɕʰijʌ saŋtɕʰʌɾɯl kams͈aɾa",
+        "pronunciation_note": "현대 한국어 발음에 기반한 추정",
+        "verification": null,
+        "literal_meaning": "빛이여 상처를 감싸라",
+        "effect": "작은 상처를 부드러운 빛으로 감싸 빠르게 치유한다.",
+        "target": "",
+        "limitations": "죽은 생명을 되살리지 못한다\n죽은 생명을 되살리지 못한다.",
+        "world": "달의 서고",
+        "notes": "",
+        "tags": [
+          "light",
+          "healing",
+          "wounds"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "heal",
+        "cure",
+        "shield",
+        "flame",
+        "lamp",
+        "illusion",
+        "truth",
+        "summon",
+        "lock",
+        "ice",
+        "grow",
+        "rain"
+      ],
+      "tokens": 1853,
+      "estimated_usd": 0.009265,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 기존 주문과의 중복이 없고, 읽기 쉬운 표현으로 작성되었다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 3971,
+          "usd": 0.000596
+        },
+        "latency_ms": 1641.0473750001984,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g01",
+      "repeat": 1,
+      "latency_ms": 2602.514584000346,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "빛의 손길",
+        "incantation": "빛의 손길로 상처를 감싸라",
+        "language_kind": "natural",
+        "language": "ko",
+        "elements": [
+          "light"
+        ],
+        "school": "healing",
+        "romanization": "Bich-ui Songil-lo Sangcheo-reul Gamssara",
+        "hangul_pronunciation": "비치의 손길로 상처를 감싸라",
+        "ipa": "pitɕʰɯi soŋɡilɭo saŋtɕʰʌɾɯ ɡams͈aɾa",
+        "pronunciation_note": "현대 한국어 발음에 기반하여 작성되었습니다.",
+        "verification": null,
+        "literal_meaning": "빛의 손길로 상처를 감싸라",
+        "effect": "작은 상처를 빛으로 감싸 빠르게 치유한다.",
+        "target": "",
+        "limitations": "죽은 생명을 되살리지 못한다\n죽은 생명을 되살리지 못한다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 작은 상처에만 효과적이며, 심각한 부상에는 사용되지 않는다.",
+        "tags": [
+          "치유",
+          "빛",
+          "상처"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1264,
+      "estimated_usd": 0.00632,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 기존 주문과의 중복이 없고, 읽기 쉬운 표현으로 작성되었다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 3971,
+          "usd": 0.000596
+        },
+        "latency_ms": 1641.0473750001984,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g02",
+      "repeat": 1,
+      "latency_ms": 2133.381333000216,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Moonlit Whisper",
+        "incantation": "Luna's gentle glow, guide my sight in shadow's embrace.",
+        "language_kind": "natural",
+        "language": "en",
+        "elements": [
+          "light"
+        ],
+        "school": "utility",
+        "romanization": "",
+        "hangul_pronunciation": "루나즈 젠틀 글로우, 가이드 마이 사이트 인 섀도우즈 엠브레이스.",
+        "ipa": "/ˈluːnəz ˈʤɛntəl ɡloʊ, ɡaɪd maɪ saɪt ɪn ˈʃædoʊz ɛmˈbreɪs/",
+        "pronunciation_note": "Modern English pronunciation, General American accent.",
+        "verification": null,
+        "literal_meaning": "루나의 부드러운 빛, 그림자의 포옹 속에서 내 시야를 안내하라.",
+        "effect": "어두운 방에서 열을 내지 않는 작은 등불을 만들어 책을 읽을 수 있게 한다.",
+        "target": "",
+        "limitations": "열을 내지 않으며 공격에 사용할 수 없다\n열을 내지 않으며 공격에 사용할 수 없다.",
+        "world": "달의 서고",
+        "notes": "달의 서고에서 유래한 주문으로, 독서에 최적화되어 있다.",
+        "tags": [
+          "light",
+          "reading",
+          "utility"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1294,
+      "estimated_usd": 0.00647,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "The spell fulfills all criteria: it serves as a reading light, does not produce heat or have offensive uses, and provides a modern English incantation along with Korean transcription.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4012,
+          "usd": 0.000602
+        },
+        "latency_ms": 1668.4807500005263,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g02",
+      "repeat": 1,
+      "latency_ms": 2080.34141600001,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "달빛의 속삭임",
+        "incantation": "Moonlight, softly glow",
+        "language_kind": "natural",
+        "language": "en",
+        "elements": [
+          "light"
+        ],
+        "school": "utility",
+        "romanization": "Moonlight, softly glow",
+        "hangul_pronunciation": "문라이트, 소프트리 글로우",
+        "ipa": "/ˈmuːnlaɪt ˈsɒftli ɡloʊ/",
+        "pronunciation_note": "현대 영어 발음 기준, 미국식 발음에 근사",
+        "verification": null,
+        "literal_meaning": "달빛이여, 부드럽게 빛나라",
+        "effect": "어두운 방에서 열을 내지 않고 책을 읽을 수 있도록 작은 등불을 만든다.",
+        "target": "",
+        "limitations": "열을 내지 않으며 공격에 사용할 수 없다\n열을 내지 않으며 공격에 사용할 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 달의 서고에서 자주 사용된다.",
+        "tags": [
+          "light",
+          "reading",
+          "utility"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "lamp",
+        "lock",
+        "flame",
+        "silence",
+        "shield",
+        "illusion",
+        "truth",
+        "heal",
+        "cure",
+        "summon",
+        "rain",
+        "ice"
+      ],
+      "tokens": 1855,
+      "estimated_usd": 0.009275,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "The spell meets all the requirements: it provides light for reading, does not generate heat or have offensive capabilities, and includes both modern English incantation and Korean transcription.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4012,
+          "usd": 0.000602
+        },
+        "latency_ms": 1668.4807500005263,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g03",
+      "repeat": 1,
+      "latency_ms": 1584.1201670000373,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Aqua Veneni Lenire",
+        "incantation": "Aqua veneni lenire",
+        "language_kind": "natural",
+        "language": "la",
+        "elements": [
+          "water"
+        ],
+        "school": "healing",
+        "romanization": "Aqua veneni lenire",
+        "hangul_pronunciation": "아쿠아 베네니 레니레",
+        "ipa": "/ˈa.kʷa veˈne.ni leˈni.re/",
+        "pronunciation_note": "고전 라틴어 재구음에 따라 발음하며, 'v'는 /w/로 발음되지 않고 /v/로 발음된다.",
+        "verification": null,
+        "literal_meaning": "물로 독을 완화하다",
+        "effect": "몸속의 독을 완화하고 중독 증상을 줄여준다.",
+        "target": "",
+        "limitations": "외상 봉합과 부활은 할 수 없다\n외상 봉합과 부활은 할 수 없다.",
+        "world": "달의 서고",
+        "notes": "",
+        "tags": [
+          "water",
+          "healing",
+          "detoxification"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "cure",
+        "heal",
+        "flame",
+        "summon",
+        "lock",
+        "shield",
+        "ice",
+        "illusion",
+        "truth"
+      ],
+      "tokens": 1694,
+      "estimated_usd": 0.00847,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 기존 주문과의 일관성을 유지하고 독창적인 표현을 사용하였다. 발음 설명도 포함되어 있어 기준을 모두 충족한다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4014,
+          "usd": 0.000602
+        },
+        "latency_ms": 1769.2431659997965,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g03",
+      "repeat": 1,
+      "latency_ms": 1889.5267500001864,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Purificatio Aquae",
+        "incantation": "Aqua purificet venenum, corpus sanet.",
+        "language_kind": "natural",
+        "language": "la",
+        "elements": [
+          "water"
+        ],
+        "school": "healing",
+        "romanization": "Aqua purificet venenum, corpus sanet.",
+        "hangul_pronunciation": "아쿠아 푸리피켓 베네눔, 코르푸스 사넷.",
+        "ipa": "/ˈa.kʷa puˈri.fi.ket veˈne.num ˈkor.pus ˈsa.net/",
+        "pronunciation_note": "고전 라틴어 재구음에 따라 발음. 'Aqua'의 'q'는 /kʷ/로 발음.",
+        "verification": null,
+        "literal_meaning": "물은 독을 정화하고, 몸을 치유하라.",
+        "effect": "몸속의 독을 완화하여 건강을 회복시킨다.",
+        "target": "",
+        "limitations": "외상 봉합과 부활은 할 수 없다\n외상 봉합과 부활은 할 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 물의 정화력을 빌려 독을 제거하는 데 사용된다.",
+        "tags": [
+          "water",
+          "healing",
+          "purification"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1278,
+      "estimated_usd": 0.00639,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 기존 주문과의 일관성을 유지하고 독창적인 표현을 사용하였다. 발음 설명도 포함되어 있어 기준을 모두 충족한다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4014,
+          "usd": 0.000602
+        },
+        "latency_ms": 1769.2431659997965,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g04",
+      "repeat": 1,
+      "latency_ms": 2384.6399579997524,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Αἰθέριον Ἀνάβασις",
+        "incantation": "Αἰθέριον ἄνεμε, ἄγε με ἐπὶ τὸν αἰθέρα.",
+        "language_kind": "natural",
+        "language": "grc",
+        "elements": [
+          "air"
+        ],
+        "school": "utility",
+        "romanization": "Aitherion aneme, age me epi ton aitheran.",
+        "hangul_pronunciation": "아이테리온 아네메, 아게 메 에피 톤 아이테란.",
+        "ipa": "/ai.tʰe.ri.on a.ne.me, a.ɡe me e.pi ton ai.tʰe.ran/",
+        "pronunciation_note": "고전 그리스어 재구음에 따라 발음. 'αι'는 /ai/로 발음되며, 'γ'는 /ɡ/로 발음됨.",
+        "verification": null,
+        "literal_meaning": "공기의 바람이여, 나를 공중으로 데려가라.",
+        "effect": "사용자를 낮게 공중에 떠오르게 하여 이동할 수 있게 한다.",
+        "target": "",
+        "limitations": "지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다\n지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 주로 짧은 거리 이동에 유용하다.",
+        "tags": [
+          "air",
+          "levitation",
+          "movement"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1329,
+      "estimated_usd": 0.006645,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 고전 그리스어로 작성되었고 발음 관례도 명시되어 있다. 다만, 기존 주문과 유사한 점이 있어 originality에서 약간 감점하였다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4180,
+          "usd": 0.000627
+        },
+        "latency_ms": 2149.043874999734,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g04",
+      "repeat": 1,
+      "latency_ms": 2313.026582999555,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "Ἀήρ Ἀναβάτης",
+        "incantation": "Ἀήρ, ἄνεμος, ἐπαίρετέ με",
+        "language_kind": "natural",
+        "language": "grc",
+        "elements": [
+          "air"
+        ],
+        "school": "utility",
+        "romanization": "Aēr, anemos, epairete me",
+        "hangul_pronunciation": "아이르, 아네모스, 에파이레테 메",
+        "ipa": "/a.ɛːr, a.ne.mos, e.pai.re.te me/",
+        "pronunciation_note": "고전 그리스어 재구음에 따라 발음. 'Ἀήρ'는 '아이르', 'ἄνεμος'는 '아네모스', 'ἐπαίρετέ με'는 '에파이레테 메'로 발음.",
+        "verification": null,
+        "literal_meaning": "공기여, 바람이여, 나를 들어 올려라",
+        "effect": "시전자가 지면에서 최대 삼 미터 높이로 부드럽게 떠오른다.",
+        "target": "",
+        "limitations": "지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다\n지면 삼 미터 이하이며 무거운 짐을 운반할 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 주로 짧은 거리 이동이나 장애물 넘기에 유용하다.",
+        "tags": [
+          "air",
+          "levitation",
+          "movement"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "flight",
+        "lock",
+        "ice",
+        "summon",
+        "flame",
+        "rain",
+        "shield",
+        "cure",
+        "heal",
+        "truth",
+        "illusion",
+        "grow"
+      ],
+      "tokens": 1949,
+      "estimated_usd": 0.009745,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과와 제약을 충족하며, 고전 그리스어로 작성되었고 발음 관례도 명시되어 있다. 다만, 기존 주문과 유사한 점이 있어 originality에서 약간 감점하였다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4180,
+          "usd": 0.000627
+        },
+        "latency_ms": 2149.043874999734,
+        "mapping": {
+          "A": "no_context",
+          "B": "vector"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g05",
+      "repeat": 1,
+      "latency_ms": 3345.5587919997924,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "प्रस्फुटनं बीजस्य",
+        "incantation": "भूमेः गर्भे बीजं जाग्रय",
+        "language_kind": "natural",
+        "language": "sa",
+        "elements": [
+          "earth"
+        ],
+        "school": "utility",
+        "romanization": "bhūmeḥ garbhe bījaṃ jāgraya",
+        "hangul_pronunciation": "부메흐 가르베 비잠 자그라야",
+        "ipa": "/bʱuː.meːɦ ɡər.bʱeː biː.d͡ʑəm d͡ʑɑː.ɡrɐ.jɐ/",
+        "pronunciation_note": "재구음 관례에 따라 고전 산스크리트 발음을 근사치로 표기함.",
+        "verification": null,
+        "literal_meaning": "땅의 태중에서 씨앗을 깨우다",
+        "effect": "작은 씨앗의 발아를 촉진하여 식물의 성장을 시작하게 한다.",
+        "target": "",
+        "limitations": "죽은 식물을 되살릴 수 없다\n죽은 식물을 되살릴 수 없다.",
+        "world": "달의 서고",
+        "notes": "",
+        "tags": [
+          "earth",
+          "growth",
+          "seed"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "grow",
+        "flame",
+        "lock",
+        "summon",
+        "lamp",
+        "rain",
+        "ice",
+        "cure",
+        "heal",
+        "flight",
+        "shield",
+        "illusion"
+      ],
+      "tokens": 1902,
+      "estimated_usd": 0.00951,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과를 충족하며, 기존 주문과의 일관성을 유지하고, 독창적인 표현을 사용하며, 읽기 쉬운 문장으로 작성되었다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4133,
+          "usd": 0.00062
+        },
+        "latency_ms": 1637.836290999985,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g05",
+      "repeat": 1,
+      "latency_ms": 3291.255957999965,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 4,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "वृक्षबीजप्रस्फुटनम्",
+        "incantation": "वृक्षबीजं जाग्रयतु, पृथिव्याः गर्भे स्फुरतु।",
+        "language_kind": "natural",
+        "language": "sa",
+        "elements": [
+          "earth"
+        ],
+        "school": "utility",
+        "romanization": "Vṛkṣabījaṃ jāgrayatu, pṛthivyāḥ garbhe sphuratu.",
+        "hangul_pronunciation": "브릭샤비잠 자그라야투, 프리티비야 가르베 스푸라투.",
+        "ipa": "ʋr̩kʂəbiːd͡ʒəm d͡ʒɑːɡrɐjɐt̪u, pr̩t̪ʰiʋjɑːɦ ɡɐrbʰe spʰurɐt̪u.",
+        "pronunciation_note": "재구음 관례에 따라 고전 산스크리트어 발음에 근사하게 표기함.",
+        "verification": null,
+        "literal_meaning": "나무 씨앗을 깨우고, 대지의 태중에서 움트게 하라.",
+        "effect": "작은 씨앗의 발아를 촉진하여 빠르게 싹이 트게 한다.",
+        "target": "",
+        "limitations": "죽은 식물을 되살릴 수 없다\n죽은 식물을 되살릴 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 건강한 씨앗에만 효과가 있으며, 발아에 필요한 환경 조건이 충족되어야 한다.",
+        "tags": [
+          "earth",
+          "growth",
+          "nature"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1373,
+      "estimated_usd": 0.006865,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 4,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과를 충족하며, 기존 주문과의 일관성을 유지하고, 독창적인 표현을 사용하며, 읽기 쉬운 문장으로 작성되었다.",
+        "mean_score": 4,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4133,
+          "usd": 0.00062
+        },
+        "latency_ms": 1637.836290999985,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "B"
+    },
+    {
+      "task": "generation",
+      "variant": "no_context",
+      "case_id": "g06",
+      "repeat": 1,
+      "latency_ms": 2457.864874999359,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.5,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "바람의 종이새",
+        "incantation": "바람에 실려 날아가라, 작은 종이새여",
+        "language_kind": "natural",
+        "language": "ko",
+        "elements": [
+          "air"
+        ],
+        "school": "summoning",
+        "romanization": "Barame silyeo naragara, jageun jongisaeyeo",
+        "hangul_pronunciation": "바라메 실려 나라가라, 작은 종이새여",
+        "ipa": "paɾame ɕiljʌ naɾaɡaɾa, tɕaɡɯn tɕoŋisaejʌ",
+        "pronunciation_note": "현대 한국어 발음에 기반하여 작성됨.",
+        "verification": null,
+        "literal_meaning": "바람에 실려 날아가라, 작은 종이새여",
+        "effect": "작은 종이새가 소환되어 쪽지를 원하는 대상에게 전달한다.",
+        "target": "",
+        "limitations": "실제 생명체나 무기를 소환할 수 없다\n실제 생명체나 무기를 소환할 수 없다.",
+        "world": "달의 서고",
+        "notes": "이 주문은 주로 메시지를 전달하는 데 사용된다.",
+        "tags": [
+          "소환",
+          "메시지",
+          "바람"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [],
+      "tokens": 1275,
+      "estimated_usd": 0.006375,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 2,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과를 충족하며, 기존 주문과의 모순이 없지만, 이름이 기존 주문과 유사하여 독창성이 다소 부족하다. 표현은 명확하고 읽기 쉽다.",
+        "mean_score": 3.5,
+        "criteria_rate": 1,
+        "passed": false
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4088,
+          "usd": 0.000613
+        },
+        "latency_ms": 1830.9287499996572,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "A"
+    },
+    {
+      "task": "generation",
+      "variant": "vector",
+      "case_id": "g06",
+      "repeat": 1,
+      "latency_ms": 2165.203958999882,
+      "error": null,
+      "metrics": {
+        "schema_valid": true,
+        "metadata_preserved": true,
+        "constraint_text_retained": true,
+        "pronunciation_present": true,
+        "script_present": true,
+        "no_exact_duplicate": true,
+        "author_fields_preserved": true,
+        "contract_pass": true,
+        "judge_score": 3.75,
+        "judge_criteria_rate": 1
+      },
+      "draft": {
+        "name": "종이새의 노래",
+        "incantation": "바람에 실려 날아가라, 작은 종이새여",
+        "language_kind": "natural",
+        "language": "ko",
+        "elements": [
+          "air"
+        ],
+        "school": "summoning",
+        "romanization": "Barame silyeo naragara, jageun jongisaeyeo",
+        "hangul_pronunciation": "바람에 실려 날아가라, 작은 종이새여",
+        "ipa": "paɾame ɕiljʌ naɾaɡaɾa, tɕaɡɯn tɕoŋisaijʌ",
+        "pronunciation_note": "현대 한국어 발음에 기반한 추정",
+        "verification": null,
+        "literal_meaning": "바람에 실려 날아가라, 작은 종이새여",
+        "effect": "메시지를 전달하는 작은 종이새를 소환하여 원하는 대상에게 보낸다.",
+        "target": "",
+        "limitations": "실제 생명체나 무기를 소환할 수 없다\n실제 생명체나 무기를 소환할 수 없다.",
+        "world": "달의 서고",
+        "notes": "종이새는 바람의 흐름을 타고 날아가며, 메시지를 전달한 후 사라진다.",
+        "tags": [
+          "소환",
+          "메시지",
+          "바람"
+        ],
+        "language_status": "ai_unverified",
+        "origin": "ai"
+      },
+      "context_ids": [
+        "summon",
+        "lock",
+        "flame",
+        "flight",
+        "truth",
+        "heal",
+        "cure",
+        "ice",
+        "illusion"
+      ],
+      "tokens": 1757,
+      "estimated_usd": 0.008785,
+      "model_calls": 1,
+      "retries": 0,
+      "judge": {
+        "instruction": 4,
+        "consistency": 4,
+        "originality": 3,
+        "expression": 4,
+        "criteria": [
+          true,
+          true,
+          true
+        ],
+        "reason": "주문은 요청된 효과를 충족하며, 기존 주문과의 모순이 없고, 독창적인 이름과 주문문을 제시하고 있다. 표현도 명확하고 읽기 쉽다.",
+        "mean_score": 3.75,
+        "criteria_rate": 1,
+        "passed": true
+      },
+      "judge_metadata": {
+        "usage": {
+          "model": "openai:gpt-4o-mini",
+          "tokens": 4088,
+          "usd": 0.000613
+        },
+        "latency_ms": 1830.9287499996572,
+        "mapping": {
+          "A": "vector",
+          "B": "no_context"
+        }
+      },
+      "human_label": "B"
+    }
+  ]
+}

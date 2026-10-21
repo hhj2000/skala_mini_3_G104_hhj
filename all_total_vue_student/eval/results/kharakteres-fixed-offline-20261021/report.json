@@ -1,0 +1,4360 @@
+{
+  "manifest": {
+    "started_at": "2026-10-21T01:35:55.194185+00:00",
+    "dataset_version": "1.0.0",
+    "dataset_sha256": "7ee87ae82607778145dc10764242e886a1d39ba35ec2783958ba6b59295bdc44",
+    "git_commit": "a7699bb1680c05b6669d6805334a456f3a2b5a2f",
+    "git_dirty": true,
+    "backend": "fake",
+    "split": "test",
+    "repeat": 2,
+    "seed": 104,
+    "k": 3,
+    "min_score": 0.25,
+    "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "tasks": [
+      "retrieval",
+      "conflicts"
+    ],
+    "judge_enabled": false,
+    "max_model_calls": 80,
+    "scope": "production retrieval rank / retrieve + compose + rule check / ai_review; no web source, audio, auth or HTTP UI measurement",
+    "cost_basis": "adapter total_tokens * synthetic blended rate; NOT provider billing; local compute/model downloads unpriced",
+    "retries": "runner=0; each failed attempt retained; provider-internal attempts unknown",
+    "env": {
+      "SPELL_GENERATION_TIMEOUT_SECONDS": "120",
+      "OLLAMA_THINK": "false",
+      "OLLAMA_NUM_PREDICT": "768",
+      "SPELL_MAX_TOKENS": "1536"
+    },
+    "generation_model": "fake-preview",
+    "judge_model": null,
+    "index_build_ms": 1143.1293750001714,
+    "vector_error": null,
+    "finished_at": "2026-10-21T01:36:10.017967+00:00"
+  },
+  "complete": true,
+  "summary": {
+    "conflict_rules": {
+      "name_only": {
+        "runs": 28,
+        "cases": 14,
+        "error_rate": 0,
+        "latency_ms_mean": 0.00911174996482649,
+        "latency_ms_p95": 0.012125000466767233,
+        "tokens": 0,
+        "estimated_usd": 0,
+        "macro": {
+          "accuracy": 0.78125,
+          "exact_match": 0.2857142857142857,
+          "f1": 0.2619047619047619,
+          "fn": 0.7857142857142857,
+          "fp": 0,
+          "precision": 0.35714285714285715,
+          "recall": 0.21428571428571427,
+          "specificity": 1.0,
+          "tn": 2.5714285714285716,
+          "tp": 0.35714285714285715
+        },
+        "micro": {
+          "tp": 10,
+          "fp": 0,
+          "fn": 22,
+          "tn": 72,
+          "precision": 1.0,
+          "recall": 0.3125,
+          "f1": 0.47619047619047616,
+          "accuracy": 0.7884615384615384,
+          "specificity": 1.0
+        }
+      },
+      "rules": {
+        "runs": 28,
+        "cases": 14,
+        "error_rate": 0,
+        "latency_ms_mean": 0.0742531071864505,
+        "latency_ms_p95": 0.16212500031542731,
+        "tokens": 0,
+        "estimated_usd": 0,
+        "macro": {
+          "accuracy": 1.0,
+          "exact_match": 1.0,
+          "f1": 0.7857142857142857,
+          "fn": 0,
+          "fp": 0,
+          "precision": 0.7857142857142857,
+          "recall": 0.7857142857142857,
+          "specificity": 1.0,
+          "tn": 2.5714285714285716,
+          "tp": 1.1428571428571428
+        },
+        "micro": {
+          "tp": 32,
+          "fp": 0,
+          "fn": 0,
+          "tn": 72,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "accuracy": 1.0,
+          "specificity": 1.0
+        }
+      }
+    },
+    "retrieval": {
+      "keyword": {
+        "runs": 36,
+        "cases": 18,
+        "error_rate": 0,
+        "latency_ms_mean": 0.1621088055748664,
+        "latency_ms_p95": 0.19758300004468765,
+        "tokens": 0,
+        "estimated_usd": 0,
+        "macro": {
+          "exact_set": 0.05555555555555555,
+          "mrr": 0.0,
+          "ndcg_at_k": 0.0,
+          "no_answer_correct": 1.0,
+          "precision_at_k": 0.0,
+          "recall_at_k": 0.0,
+          "returned_precision": 0.05555555555555555,
+          "world_leak_rate": 0.0
+        }
+      },
+      "vector": {
+        "runs": 36,
+        "cases": 18,
+        "error_rate": 0,
+        "latency_ms_mean": 7.357060194458932,
+        "latency_ms_p95": 8.764707999944221,
+        "tokens": 0,
+        "estimated_usd": 0,
+        "macro": {
+          "exact_set": 0.0,
+          "mrr": 0.6078431372549019,
+          "ndcg_at_k": 0.6113405447479042,
+          "no_answer_correct": 0.0,
+          "precision_at_k": 0.24074074074074073,
+          "recall_at_k": 0.7058823529411765,
+          "returned_precision": 0.25,
+          "world_leak_rate": 0.0
+        }
+      }
+    }
+  },
+  "paired_comparisons": [
+    {
+      "task": "retrieval",
+      "before": "keyword",
+      "after": "vector",
+      "metric": "recall_at_k",
+      "after_minus_before": 0.7058823529411765,
+      "ci95": [
+        0.5,
+        0.8823529411764706
+      ],
+      "paired_cases": 17,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "retrieval",
+      "before": "keyword",
+      "after": "vector",
+      "metric": "precision_at_k",
+      "after_minus_before": 0.24074074074074073,
+      "ci95": [
+        0.16666666666666666,
+        0.2962962962962963
+      ],
+      "paired_cases": 18,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "retrieval",
+      "before": "keyword",
+      "after": "vector",
+      "metric": "ndcg_at_k",
+      "after_minus_before": 0.6113405447479042,
+      "ci95": [
+        0.41315994201681355,
+        0.7955128831932842
+      ],
+      "paired_cases": 17,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "retrieval",
+      "before": "keyword",
+      "after": "vector",
+      "metric": "mrr",
+      "after_minus_before": 0.6078431372549019,
+      "ci95": [
+        0.4019607843137255,
+        0.7941176470588235
+      ],
+      "paired_cases": 17,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "retrieval",
+      "before": "keyword",
+      "after": "vector",
+      "metric": "no_answer_correct",
+      "after_minus_before": -1.0,
+      "ci95": [
+        -1.0,
+        -1.0
+      ],
+      "paired_cases": 1,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "conflict_rules",
+      "before": "name_only",
+      "after": "rules",
+      "metric": "exact_match",
+      "after_minus_before": 0.7142857142857143,
+      "ci95": [
+        0.42857142857142855,
+        0.9285714285714286
+      ],
+      "paired_cases": 14,
+      "resamples": 2000,
+      "seed": 104
+    },
+    {
+      "task": "conflict_rules",
+      "before": "name_only",
+      "after": "rules",
+      "metric": "f1",
+      "after_minus_before": 0.5238095238095238,
+      "ci95": [
+        0.28571428571428575,
+        0.7619047619047619
+      ],
+      "paired_cases": 14,
+      "resamples": 2000,
+      "seed": 104
+    }
+  ],
+  "model_calls": [],
+  "rows": [
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r07",
+      "repeat": 0,
+      "latency_ms": 8.764707999944221,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "cure",
+          "score": 0.6207
+        },
+        {
+          "id": "heal",
+          "score": 0.6181
+        },
+        {
+          "id": "lock",
+          "score": 0.5578
+        }
+      ],
+      "expected": [
+        "heal"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r07",
+      "repeat": 0,
+      "latency_ms": 0.2776670007733628,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "heal"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r08",
+      "repeat": 0,
+      "latency_ms": 7.023500000286731,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "cure",
+          "score": 0.665
+        },
+        {
+          "id": "summon",
+          "score": 0.5383
+        },
+        {
+          "id": "lock",
+          "score": 0.5376
+        }
+      ],
+      "expected": [
+        "cure"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r08",
+      "repeat": 0,
+      "latency_ms": 0.16474999938509427,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "cure"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r09",
+      "repeat": 0,
+      "latency_ms": 7.256874999256979,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "lock",
+          "score": 0.625
+        },
+        {
+          "id": "summon",
+          "score": 0.6219
+        },
+        {
+          "id": "illusion",
+          "score": 0.5857
+        }
+      ],
+      "expected": [
+        "shield"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r09",
+      "repeat": 0,
+      "latency_ms": 0.1700409993645735,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "shield"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r10",
+      "repeat": 0,
+      "latency_ms": 0.15345799965871265,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "lamp"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r10",
+      "repeat": 0,
+      "latency_ms": 8.332417000019632,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "illusion",
+          "score": 0.6111
+        },
+        {
+          "id": "summon",
+          "score": 0.5773
+        },
+        {
+          "id": "lock",
+          "score": 0.5569
+        }
+      ],
+      "expected": [
+        "lamp"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r11",
+      "repeat": 0,
+      "latency_ms": 0.19758300004468765,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "rain"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r11",
+      "repeat": 0,
+      "latency_ms": 7.721167000454443,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "grow",
+          "score": 0.6327
+        },
+        {
+          "id": "rain",
+          "score": 0.6051
+        },
+        {
+          "id": "ice",
+          "score": 0.4275
+        }
+      ],
+      "expected": [
+        "rain"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r12",
+      "repeat": 0,
+      "latency_ms": 6.036457999471168,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_k": 0.5,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "flight",
+          "score": 0.4371
+        },
+        {
+          "id": "lock",
+          "score": 0.436
+        },
+        {
+          "id": "grow",
+          "score": 0.3921
+        }
+      ],
+      "expected": [
+        "grow"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r12",
+      "repeat": 0,
+      "latency_ms": 0.1617500001884764,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "grow"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r13",
+      "repeat": 0,
+      "latency_ms": 7.745249999970838,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "lock",
+          "score": 0.6144
+        },
+        {
+          "id": "summon",
+          "score": 0.5913
+        },
+        {
+          "id": "illusion",
+          "score": 0.5733
+        }
+      ],
+      "expected": [
+        "silence"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r13",
+      "repeat": 0,
+      "latency_ms": 0.16024999968067277,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "silence"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r14",
+      "repeat": 0,
+      "latency_ms": 6.632708000324783,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "illusion",
+          "score": 0.6179
+        },
+        {
+          "id": "summon",
+          "score": 0.5652
+        },
+        {
+          "id": "lock",
+          "score": 0.5436
+        }
+      ],
+      "expected": [
+        "flight"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r14",
+      "repeat": 0,
+      "latency_ms": 0.15800000073795673,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "flight"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r15",
+      "repeat": 0,
+      "latency_ms": 7.400208000035491,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "lock",
+          "score": 0.6841
+        },
+        {
+          "id": "silence",
+          "score": 0.4961
+        },
+        {
+          "id": "illusion",
+          "score": 0.4948
+        }
+      ],
+      "expected": [
+        "lock"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r15",
+      "repeat": 0,
+      "latency_ms": 0.15862500004004687,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "lock"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r16",
+      "repeat": 0,
+      "latency_ms": 7.147291999899608,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "summon",
+          "score": 0.6355
+        },
+        {
+          "id": "flight",
+          "score": 0.625
+        },
+        {
+          "id": "lock",
+          "score": 0.5683
+        }
+      ],
+      "expected": [
+        "summon"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r16",
+      "repeat": 0,
+      "latency_ms": 0.1588750001246808,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "summon"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r17",
+      "repeat": 0,
+      "latency_ms": 7.279750000634522,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "ice",
+          "score": 0.6629
+        },
+        {
+          "id": "flame",
+          "score": 0.5392
+        },
+        {
+          "id": "lock",
+          "score": 0.5196
+        }
+      ],
+      "expected": [
+        "ice"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r17",
+      "repeat": 0,
+      "latency_ms": 0.16062499980762368,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "ice"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r18",
+      "repeat": 0,
+      "latency_ms": 6.86433400005626,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "summon",
+          "score": 0.6271
+        },
+        {
+          "id": "illusion",
+          "score": 0.5958
+        },
+        {
+          "id": "lock",
+          "score": 0.5452
+        }
+      ],
+      "expected": [
+        "illusion"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r18",
+      "repeat": 0,
+      "latency_ms": 0.18612499934533844,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "illusion"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r19",
+      "repeat": 0,
+      "latency_ms": 6.8627919999926235,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "truth",
+          "score": 0.6282
+        },
+        {
+          "id": "illusion",
+          "score": 0.612
+        },
+        {
+          "id": "summon",
+          "score": 0.6111
+        }
+      ],
+      "expected": [
+        "truth"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r19",
+      "repeat": 0,
+      "latency_ms": 0.16304200016747927,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "truth"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r20",
+      "repeat": 0,
+      "latency_ms": 0.1508330005890457,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "flame"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r20",
+      "repeat": 0,
+      "latency_ms": 7.370125000306871,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "flame",
+          "score": 0.6242
+        },
+        {
+          "id": "summon",
+          "score": 0.5749
+        },
+        {
+          "id": "lock",
+          "score": 0.5568
+        }
+      ],
+      "expected": [
+        "flame"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r21",
+      "repeat": 0,
+      "latency_ms": 0.17262500023207394,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "heal",
+        "cure"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r21",
+      "repeat": 0,
+      "latency_ms": 5.788125000435684,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 0.5,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.38685280723454163,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "summon",
+          "score": 0.5787
+        },
+        {
+          "id": "cure",
+          "score": 0.5545
+        },
+        {
+          "id": "illusion",
+          "score": 0.5223
+        }
+      ],
+      "expected": [
+        "heal",
+        "cure"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r22",
+      "repeat": 0,
+      "latency_ms": 7.2533749998910935,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "lock",
+          "score": 0.5657
+        },
+        {
+          "id": "cure",
+          "score": 0.4899
+        },
+        {
+          "id": "flame",
+          "score": 0.4808
+        }
+      ],
+      "expected": [
+        "shield",
+        "lock"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r22",
+      "repeat": 0,
+      "latency_ms": 0.18104199989465997,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "shield",
+        "lock"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r23",
+      "repeat": 0,
+      "latency_ms": 6.956125000215252,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": null,
+        "mrr": null,
+        "ndcg_at_k": null,
+        "no_answer_correct": 0.0,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "summon",
+          "score": 0.5384
+        },
+        {
+          "id": "lock",
+          "score": 0.513
+        },
+        {
+          "id": "illusion",
+          "score": 0.5082
+        }
+      ],
+      "expected": []
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r23",
+      "repeat": 0,
+      "latency_ms": 0.17079099961847533,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 1.0,
+        "recall_at_k": null,
+        "mrr": null,
+        "ndcg_at_k": null,
+        "no_answer_correct": 1.0,
+        "exact_set": 1.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": []
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r24",
+      "repeat": 0,
+      "latency_ms": 0.042499999835854396,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "otherheal"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r24",
+      "repeat": 0,
+      "latency_ms": 7.882916999733425,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.5,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "otherheal",
+          "score": 0.5326
+        },
+        {
+          "id": "otherlamp",
+          "score": 0.4815
+        }
+      ],
+      "expected": [
+        "otherheal"
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c03",
+      "repeat": 0,
+      "latency_ms": 0.03508299960230943,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c03",
+      "repeat": 0,
+      "latency_ms": 0.16212500031542731,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c04",
+      "repeat": 0,
+      "latency_ms": 0.005583000529441051,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.5,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c04",
+      "repeat": 0,
+      "latency_ms": 0.06920900068507763,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c05",
+      "repeat": 0,
+      "latency_ms": 0.011582999832171481,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c05",
+      "repeat": 0,
+      "latency_ms": 0.09358300030726241,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c06",
+      "repeat": 0,
+      "latency_ms": 0.01079199955711374,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c06",
+      "repeat": 0,
+      "latency_ms": 0.023749999854771886,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c07",
+      "repeat": 0,
+      "latency_ms": 0.01104199964174768,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c07",
+      "repeat": 0,
+      "latency_ms": 0.07570900015707593,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c08",
+      "repeat": 0,
+      "latency_ms": 0.00758399983169511,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c08",
+      "repeat": 0,
+      "latency_ms": 0.051916999836976174,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c09",
+      "repeat": 0,
+      "latency_ms": 0.010708999980124645,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c09",
+      "repeat": 0,
+      "latency_ms": 0.10791700060508447,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c10",
+      "repeat": 0,
+      "latency_ms": 0.010624999958963599,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c10",
+      "repeat": 0,
+      "latency_ms": 0.07562500013591489,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c11",
+      "repeat": 0,
+      "latency_ms": 0.012083000001439359,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c11",
+      "repeat": 0,
+      "latency_ms": 0.29150000045774505,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c12",
+      "repeat": 0,
+      "latency_ms": 0.009832999239733908,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c12",
+      "repeat": 0,
+      "latency_ms": 0.07704200015723472,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c13",
+      "repeat": 0,
+      "latency_ms": 0.009499999578110874,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c13",
+      "repeat": 0,
+      "latency_ms": 0.06725000002916204,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c14",
+      "repeat": 0,
+      "latency_ms": 0.004667000212066341,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c14",
+      "repeat": 0,
+      "latency_ms": 0.007582999387523159,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c15",
+      "repeat": 0,
+      "latency_ms": 0.006332999873848166,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 7
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.875,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c15",
+      "repeat": 0,
+      "latency_ms": 0.09566699918650556,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c16",
+      "repeat": 0,
+      "latency_ms": 0.006332999873848166,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "truth",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c16",
+      "repeat": 0,
+      "latency_ms": 0.08829199941828847,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r07",
+      "repeat": 1,
+      "latency_ms": 0.18295900008524768,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "heal"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r07",
+      "repeat": 1,
+      "latency_ms": 10.809666999193723,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "cure",
+          "score": 0.6207
+        },
+        {
+          "id": "heal",
+          "score": 0.6181
+        },
+        {
+          "id": "lock",
+          "score": 0.5578
+        }
+      ],
+      "expected": [
+        "heal"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r08",
+      "repeat": 1,
+      "latency_ms": 0.16512499951204518,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "cure"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r08",
+      "repeat": 1,
+      "latency_ms": 7.700083000599989,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "cure",
+          "score": 0.665
+        },
+        {
+          "id": "summon",
+          "score": 0.5383
+        },
+        {
+          "id": "lock",
+          "score": 0.5376
+        }
+      ],
+      "expected": [
+        "cure"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r09",
+      "repeat": 1,
+      "latency_ms": 7.521083000028739,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "lock",
+          "score": 0.625
+        },
+        {
+          "id": "summon",
+          "score": 0.6219
+        },
+        {
+          "id": "illusion",
+          "score": 0.5857
+        }
+      ],
+      "expected": [
+        "shield"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r09",
+      "repeat": 1,
+      "latency_ms": 0.16629199944873108,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "shield"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r10",
+      "repeat": 1,
+      "latency_ms": 0.15162500039878068,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "lamp"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r10",
+      "repeat": 1,
+      "latency_ms": 8.088000000498141,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "illusion",
+          "score": 0.6111
+        },
+        {
+          "id": "summon",
+          "score": 0.5773
+        },
+        {
+          "id": "lock",
+          "score": 0.5569
+        }
+      ],
+      "expected": [
+        "lamp"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r11",
+      "repeat": 1,
+      "latency_ms": 0.16233399946941063,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "rain"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r11",
+      "repeat": 1,
+      "latency_ms": 7.669833000363724,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "grow",
+          "score": 0.6327
+        },
+        {
+          "id": "rain",
+          "score": 0.6051
+        },
+        {
+          "id": "ice",
+          "score": 0.4275
+        }
+      ],
+      "expected": [
+        "rain"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r12",
+      "repeat": 1,
+      "latency_ms": 6.646249999903375,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 0.3333333333333333,
+        "ndcg_at_k": 0.5,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "flight",
+          "score": 0.4371
+        },
+        {
+          "id": "lock",
+          "score": 0.436
+        },
+        {
+          "id": "grow",
+          "score": 0.3921
+        }
+      ],
+      "expected": [
+        "grow"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r12",
+      "repeat": 1,
+      "latency_ms": 0.16358300035790307,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "grow"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r13",
+      "repeat": 1,
+      "latency_ms": 0.15366700063168537,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "silence"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r13",
+      "repeat": 1,
+      "latency_ms": 7.159208999837574,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "lock",
+          "score": 0.6144
+        },
+        {
+          "id": "summon",
+          "score": 0.5913
+        },
+        {
+          "id": "illusion",
+          "score": 0.5733
+        }
+      ],
+      "expected": [
+        "silence"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r14",
+      "repeat": 1,
+      "latency_ms": 0.16512499951204518,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "flight"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r14",
+      "repeat": 1,
+      "latency_ms": 8.30466599927604,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "illusion",
+          "score": 0.6179
+        },
+        {
+          "id": "summon",
+          "score": 0.5652
+        },
+        {
+          "id": "lock",
+          "score": 0.5436
+        }
+      ],
+      "expected": [
+        "flight"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r15",
+      "repeat": 1,
+      "latency_ms": 7.217334000415576,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "lock",
+          "score": 0.6841
+        },
+        {
+          "id": "silence",
+          "score": 0.4961
+        },
+        {
+          "id": "illusion",
+          "score": 0.4948
+        }
+      ],
+      "expected": [
+        "lock"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r15",
+      "repeat": 1,
+      "latency_ms": 0.16358300035790307,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "lock"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r16",
+      "repeat": 1,
+      "latency_ms": 0.1515829999334528,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "summon"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r16",
+      "repeat": 1,
+      "latency_ms": 6.982416000028024,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "summon",
+          "score": 0.6355
+        },
+        {
+          "id": "flight",
+          "score": 0.625
+        },
+        {
+          "id": "lock",
+          "score": 0.5683
+        }
+      ],
+      "expected": [
+        "summon"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r17",
+      "repeat": 1,
+      "latency_ms": 6.295916999988549,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "ice",
+          "score": 0.6629
+        },
+        {
+          "id": "flame",
+          "score": 0.5392
+        },
+        {
+          "id": "lock",
+          "score": 0.5196
+        }
+      ],
+      "expected": [
+        "ice"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r17",
+      "repeat": 1,
+      "latency_ms": 0.16649999997753184,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "ice"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r18",
+      "repeat": 1,
+      "latency_ms": 8.166625000740169,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "summon",
+          "score": 0.6271
+        },
+        {
+          "id": "illusion",
+          "score": 0.5958
+        },
+        {
+          "id": "lock",
+          "score": 0.5452
+        }
+      ],
+      "expected": [
+        "illusion"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r18",
+      "repeat": 1,
+      "latency_ms": 0.1682089996393188,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "illusion"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r19",
+      "repeat": 1,
+      "latency_ms": 7.370166000328027,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "truth",
+          "score": 0.6282
+        },
+        {
+          "id": "illusion",
+          "score": 0.612
+        },
+        {
+          "id": "summon",
+          "score": 0.6111
+        }
+      ],
+      "expected": [
+        "truth"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r19",
+      "repeat": 1,
+      "latency_ms": 0.1705840004433412,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "truth"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r20",
+      "repeat": 1,
+      "latency_ms": 6.84724999973696,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "flame",
+          "score": 0.6242
+        },
+        {
+          "id": "summon",
+          "score": 0.5749
+        },
+        {
+          "id": "lock",
+          "score": 0.5568
+        }
+      ],
+      "expected": [
+        "flame"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r20",
+      "repeat": 1,
+      "latency_ms": 0.1756250003381865,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "flame"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r21",
+      "repeat": 1,
+      "latency_ms": 7.557791999715846,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 0.5,
+        "mrr": 0.5,
+        "ndcg_at_k": 0.38685280723454163,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "summon",
+          "score": 0.5787
+        },
+        {
+          "id": "cure",
+          "score": 0.5545
+        },
+        {
+          "id": "illusion",
+          "score": 0.5223
+        }
+      ],
+      "expected": [
+        "heal",
+        "cure"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r21",
+      "repeat": 1,
+      "latency_ms": 0.16995900023175636,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "heal",
+        "cure"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r22",
+      "repeat": 1,
+      "latency_ms": 6.982958999287803,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.3333333333333333,
+        "recall_at_k": 0.5,
+        "mrr": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "lock",
+          "score": 0.5657
+        },
+        {
+          "id": "cure",
+          "score": 0.4899
+        },
+        {
+          "id": "flame",
+          "score": 0.4808
+        }
+      ],
+      "expected": [
+        "shield",
+        "lock"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r22",
+      "repeat": 1,
+      "latency_ms": 0.16166600016731536,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "shield",
+        "lock"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r23",
+      "repeat": 1,
+      "latency_ms": 0.15929100027278764,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 1.0,
+        "recall_at_k": null,
+        "mrr": null,
+        "ndcg_at_k": null,
+        "no_answer_correct": 1.0,
+        "exact_set": 1.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": []
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r23",
+      "repeat": 1,
+      "latency_ms": 5.516582999916864,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": null,
+        "mrr": null,
+        "ndcg_at_k": null,
+        "no_answer_correct": 0.0,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "summon",
+          "score": 0.5384
+        },
+        {
+          "id": "lock",
+          "score": 0.513
+        },
+        {
+          "id": "illusion",
+          "score": 0.5082
+        }
+      ],
+      "expected": []
+    },
+    {
+      "task": "retrieval",
+      "variant": "keyword",
+      "case_id": "r24",
+      "repeat": 1,
+      "latency_ms": 0.04962500042893225,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.0,
+        "returned_precision": 0.0,
+        "recall_at_k": 0.0,
+        "mrr": 0.0,
+        "ndcg_at_k": 0.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [],
+      "expected": [
+        "otherheal"
+      ]
+    },
+    {
+      "task": "retrieval",
+      "variant": "vector",
+      "case_id": "r24",
+      "repeat": 1,
+      "latency_ms": 7.700207999732811,
+      "error": null,
+      "metrics": {
+        "precision_at_k": 0.3333333333333333,
+        "returned_precision": 0.5,
+        "recall_at_k": 1.0,
+        "mrr": 1.0,
+        "ndcg_at_k": 1.0,
+        "no_answer_correct": null,
+        "exact_set": 0.0,
+        "world_leak_rate": 0.0
+      },
+      "returned": [
+        {
+          "id": "otherheal",
+          "score": 0.5326
+        },
+        {
+          "id": "otherlamp",
+          "score": 0.4815
+        }
+      ],
+      "expected": [
+        "otherheal"
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c03",
+      "repeat": 1,
+      "latency_ms": 0.009208999472321011,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c03",
+      "repeat": 1,
+      "latency_ms": 0.06475000009231735,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c04",
+      "repeat": 1,
+      "latency_ms": 0.011584000276343431,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 2,
+        "tn": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.5,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c04",
+      "repeat": 1,
+      "latency_ms": 0.08287499986181501,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "definition_mismatch"
+        ],
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c05",
+      "repeat": 1,
+      "latency_ms": 0.00783400082582375,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c05",
+      "repeat": 1,
+      "latency_ms": 0.05666699962603161,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "definition_mismatch"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c06",
+      "repeat": 1,
+      "latency_ms": 0.009084000339498743,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c06",
+      "repeat": 1,
+      "latency_ms": 0.008957999853009824,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c07",
+      "repeat": 1,
+      "latency_ms": 0.006166999810375273,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c07",
+      "repeat": 1,
+      "latency_ms": 0.062458999309455976,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c08",
+      "repeat": 1,
+      "latency_ms": 0.007499999810534064,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c08",
+      "repeat": 1,
+      "latency_ms": 0.06304199996520765,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "incantation_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c09",
+      "repeat": 1,
+      "latency_ms": 0.012125000466767233,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c09",
+      "repeat": 1,
+      "latency_ms": 0.07387500045297202,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c10",
+      "repeat": 1,
+      "latency_ms": 0.005582999619946349,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c10",
+      "repeat": 1,
+      "latency_ms": 0.05941700055700494,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c11",
+      "repeat": 1,
+      "latency_ms": 0.005292000423651189,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c11",
+      "repeat": 1,
+      "latency_ms": 0.06787500024074689,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "heal",
+          "incantation_collision"
+        ],
+        [
+          "heal",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c12",
+      "repeat": 1,
+      "latency_ms": 0.007417000233544968,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c12",
+      "repeat": 1,
+      "latency_ms": 0.05200000032345997,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "shield",
+          "incantation_collision"
+        ],
+        [
+          "shield",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c13",
+      "repeat": 1,
+      "latency_ms": 0.005582999619946349,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 3,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c13",
+      "repeat": 1,
+      "latency_ms": 0.05279200013319496,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "lamp",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c14",
+      "repeat": 1,
+      "latency_ms": 0.003667000783025287,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c14",
+      "repeat": 1,
+      "latency_ms": 0.005500000042957254,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": null,
+        "specificity": null,
+        "exact_match": 1.0
+      },
+      "expected": [],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c15",
+      "repeat": 1,
+      "latency_ms": 0.005416999556473456,
+      "error": null,
+      "counts": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 7
+      },
+      "metrics": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 1,
+        "tn": 7,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "accuracy": 0.875,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ],
+      "returned": []
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c15",
+      "repeat": 1,
+      "latency_ms": 0.07662500047445064,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "tn": 7,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ],
+      "returned": [
+        [
+          "rain",
+          "similar_effect"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "name_only",
+      "case_id": "c16",
+      "repeat": 1,
+      "latency_ms": 0.00691700006427709,
+      "error": null,
+      "counts": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 1,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accuracy": 0.75,
+        "specificity": 1.0,
+        "exact_match": 0.0
+      },
+      "expected": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "truth",
+          "name_collision"
+        ]
+      ]
+    },
+    {
+      "task": "conflict_rules",
+      "variant": "rules",
+      "case_id": "c16",
+      "repeat": 1,
+      "latency_ms": 0.06508299975394038,
+      "error": null,
+      "counts": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2
+      },
+      "metrics": {
+        "tp": 2,
+        "fp": 0,
+        "fn": 0,
+        "tn": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accuracy": 1.0,
+        "specificity": 1.0,
+        "exact_match": 1.0
+      },
+      "expected": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ],
+      "returned": [
+        [
+          "truth",
+          "incantation_collision"
+        ],
+        [
+          "truth",
+          "name_collision"
+        ]
+      ]
+    }
+  ]
+}

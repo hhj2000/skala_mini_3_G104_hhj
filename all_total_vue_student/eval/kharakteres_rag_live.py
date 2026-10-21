@@ -1,5 +1,8 @@
 """Real cached ONNX semantic retrieval and real configured guard-model checks.
 Uses an isolated store. Does not modify the user's spell dictionary.
+
+This is a single smoke request, not the fixed-dataset quality benchmark.
+Use kharakteres_benchmark.py for paired metrics and documented limitations.
 """
 
 import asyncio

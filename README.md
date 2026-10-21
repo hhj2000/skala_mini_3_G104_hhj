@@ -40,7 +40,8 @@ Docker Compose 배포는 `.env`의 모델 키와 `KHARAKTERES_SESSION_SECRET`을
 - 콘텐츠 필터: 욕설·혐오·현실 정치 관련 입력을 규칙과 LLM으로 검사
 - 생성 과정 체계화: LangGraph로 검색·작성·출처 확인·충돌 검토 순차 구성
 - 실행 추적: LangSmith로 모델·검색·필터·음성 처리 과정 관측. 시크릿 모드에서는 추적 제외
-- 사용성·검증: 반응형 서고 UI, 단계별 SSE 진행·토큰 표시, 기능·안전 필터·의미 검색 회귀 시나리오
+- 사용성: 반응형 서고 UI와 단계별 SSE 진행·생성 토큰 표시
+- 정량 평가: 고정 데이터셋의 검색 P/R·nDCG, 충돌 F1, 블라인드 생성 채점, 반복 비교·95% 구간·원본 결과 재계산
 - 배포·기록 보호: Docker Compose, 계정별 영구 저장 볼륨, 로그인 세션 및 임시 시크릿 저장소
 
 ## 현재 기술 구조와 도입 판단
@@ -67,14 +68,29 @@ FastAPI + Vue 3 + LangGraph + SQLite 기반입니다. 가입 계정과 salted PB
 
 ## 검증과 문서
 
+미니 프로젝트에서 개선 효과와 한계를 설명할 수준의 정량 평가 체계를 갖췄습니다. 평가 체계를 갖춘 것과 서비스 성능이 충분히 높다는 판단은 구분합니다. 고정 데이터·정답표·동일 모델·2회 반복·블라인드 LLM 채점·95% 대응 구간을 사용하며, [정량 평가 방법](all_total_vue_student/doc/EVALUATION.md)과 [과제 기준 대조](all_total_vue_student/doc/ASSIGNMENT_REVIEW.md)에 범위를 기록했습니다.
+
+2026-10-21 기준 pytest 105개와 SSE 클라이언트 테스트 4개, Docker 빌드·격리 컨테이너 스모크를 통과했습니다. 실제 OpenAI 핵심 함수 평가는 208개 결과를 기록했고 원본 행 재계산을 통과했습니다. 브라우저 전체·실제 음성 장치·전문 언어 정확도를 모두 검증한 것은 아닙니다.
+
+| 대표 지표 | 고정 test 데이터의 결과 |
+|---|---|
+| 검색 Recall@3 / Precision@3 | AND 키워드 0% / 0% → 벡터 70.6% / 24.1% |
+| 규칙 충돌 micro F1 | 이름만 검사 0.476 → 현재 규칙 1.000 |
+| AI 의미 충돌 P/R/F1 | 0.625 / 1.000 / 0.769 — 오탐 존재 |
+| 생성 LLM judge 평균(4점) | 문맥 없음 3.875 → RAG 3.854 — 향상 확인 안 됨 |
+
+위 수치는 Kharakteres 내부의 기능 유무 대조이며 장애 진단 BASE와 직접 비교한 점수가 아닙니다. 작은 합성 세트·의역 위주 질의·무정답 1개라는 한계가 있으며, 벡터 검색은 그 무정답 사례에서 관련 없는 결과를 반환했습니다. [원본 실측 보고서](all_total_vue_student/eval/results/kharakteres-benchmark-20261021/report.md)에서 실패와 채점 이유도 함께 확인할 수 있습니다.
+
 ```bash
 cd all_total_vue_student
 .venv/bin/python -m pytest -q
-.venv/bin/python eval/kharakteres_browser_smoke.py
-.venv/bin/python eval/kharakteres_audio_smoke.py
-.venv/bin/python eval/kharakteres_safety_rag_browser.py
-# 실제 모델·ONNX 검색 검증: 구성된 모델/API 사용
-LLM_BACKEND=openai .venv/bin/python eval/kharakteres_rag_live.py
+# 실제 로컬 임베딩 + 규칙 검토 비교 (LLM 호출 없음, 새 결과 폴더 사용)
+.venv/bin/python eval/kharakteres_benchmark.py --tasks retrieval conflicts --repeat 2 --output eval/results/my-evaluation
+# 실제 OpenAI 생성·AI 검토·블라인드 채점 포함 (API 사용료 발생)
+.venv/bin/python eval/kharakteres_benchmark.py --backend openai --tasks retrieval conflicts generation --judge --repeat 2 --max-model-calls 80 --output eval/results/my-model-evaluation
+# 모델 호출 없이 원본 행에서 지표·통계·완전성 재계산
+.venv/bin/python eval/audit_kharakteres_report.py eval/results/my-model-evaluation/report.json
+node --test tests/test_stream_client.cjs
 # Git 후보 파일 크기·큰 과거 객체·일부 키 패턴 검사 (읽기 전용)
 .venv/bin/python eval/git_upload_audit.py
 ```

@@ -1,5 +1,10 @@
 """Isolated conlang/audio UI regression. --live also runs real notebook-model TTS→STT.
 Microphone capture uses a deterministic fake recorder; it never opens the user's mic.
+
+
+Historical experiment: predates account-aware regression coverage. Review login
+handling before rerunning; old results do not certify the current full UI flow.
+For current fixed-data quantitative evaluation use kharakteres_benchmark.py.
 """
 
 import argparse

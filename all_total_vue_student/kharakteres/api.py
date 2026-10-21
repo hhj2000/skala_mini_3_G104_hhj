@@ -1,4 +1,9 @@
-"""Kharakteres HTTP API and local UI. No generated draft is automatically saved."""
+"""Kharakteres HTTP API와 통합 화면: 계정별 주문·생성·검색·음성·SSE.
+
+생성 초안은 사용자가 확인해 저장하며, 요청마다 계정/시크릿 저장소를 선택한다.
+핵심 함수 정량 평가와 전체 HTTP·UI·실제 음성 검증 범위는 구분한다.
+현재 검증 상태는 doc/EVALUATION.md와 doc/ASSIGNMENT_REVIEW.md를 참고한다.
+"""
 
 import asyncio
 import json

@@ -1,4 +1,8 @@
-"""Classification, search and explainable collision review within one fictional world."""
+"""같은 세계관의 주문 분류·AND 텍스트 검색·설명 가능한 규칙 충돌 검토.
+
+이름/주문문 중복·정의 차이·유사 효과를 검토 후보로 반환한다. 의미적 모순의
+확정 판정은 아니며 AI 의미 충돌 검토와 별도의 정답표/지표로 평가한다.
+"""
 
 import unicodedata
 from difflib import SequenceMatcher

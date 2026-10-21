@@ -1,0 +1,6 @@
+{
+  "integrity": "passed",
+  "rows": 136,
+  "dataset_sha256": "7ee87ae82607778145dc10764242e886a1d39ba35ec2783958ba6b59295bdc44",
+  "quality_target": "not asserted; inspect measured precision/recall and failures separately"
+}

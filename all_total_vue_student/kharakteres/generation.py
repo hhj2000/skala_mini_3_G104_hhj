@@ -1,7 +1,9 @@
-"""A small LangGraph workflow with retrieval, structured drafting and collision review.
+"""주문 검색 → 구조화 초안 작성 → 웹 어휘 출처 → 규칙 충돌 검토 LangGraph.
 
-The language model creates fictional wording. Web dictionary evidence is fetched
-in a separate node; lexical references do not certify whole-sentence translations.
+독립 Multi-Agent 협업이 아닌 순차 워크플로이며 AI 의미 충돌 검토는 별도 호출이다.
+모델/저장소/검색기를 주입해 고정 입력의 RAG 유무를 비교할 수 있다.
+외부 어휘 근거는 전체 문법·발음 인증이 아니며, 평가의 형식 통과와 LLM 채점도
+생성 품질 보증과 구분한다. 방법과 실측 한계는 doc/EVALUATION.md에 기록한다.
 """
 
 import asyncio

@@ -1,4 +1,8 @@
-"""Service entry point. Kharakteres is default; SERVICE_MODE=incident preserves the base."""
+"""통합 서비스 진입점: 기본 Kharakteres, SERVICE_MODE=incident는 보존된 BASE.
+
+주문 서비스의 정량 평가는 eval/kharakteres_benchmark.py를 사용한다.
+장애 진단 BASE의 과거 평가는 서로 다른 도메인의 현재 성능 근거로 사용하지 않는다.
+"""
 
 import os
 from pathlib import Path

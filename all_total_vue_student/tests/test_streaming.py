@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import httpx
 import pytest
 from fastapi.testclient import TestClient
+from auth_support import authenticated_client
 
 from kharakteres.api import app, lifespan, generate_stream
 from kharakteres.generation import GenerationError
@@ -34,7 +35,7 @@ def api(monkeypatch, tmp_path):
     monkeypatch.setenv("CONTENT_FILTER_MODE", "rules")
     monkeypatch.setenv("SPELL_VECTOR_ENABLED", "0")
     monkeypatch.setenv("SPELL_DB_PATH", str(tmp_path / "spells.sqlite"))
-    with TestClient(app) as client:
+    with authenticated_client(app) as client:
         yield client
 
 

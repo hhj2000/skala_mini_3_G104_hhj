@@ -5,6 +5,7 @@ import json
 
 import httpx
 from fastapi.testclient import TestClient
+from auth_support import authenticated_client
 
 from kharakteres.api import app
 from kharakteres.models import SpellInput
@@ -126,7 +127,7 @@ def test_api_persists_pronunciation_and_invalidates_changed_evidence(
 ):
     monkeypatch.setenv("LLM_BACKEND", "fake")
     monkeypatch.setenv("SPELL_DB_PATH", str(tmp_path / "spell.sqlite"))
-    with TestClient(app) as client:
+    with authenticated_client(app) as client:
         body = draft()
         body["verification"] = asyncio.run(verify_language(body, demo=True))
         record = client.post("/api/spells", json=body).json()["spell"]
@@ -161,7 +162,7 @@ def test_language_conversation_uses_selected_model_and_history(tmp_path, monkeyp
 
     monkeypatch.setenv("LLM_BACKEND", "fake")
     monkeypatch.setenv("SPELL_DB_PATH", str(tmp_path / "spell.sqlite"))
-    with TestClient(app) as client:
+    with authenticated_client(app) as client:
         model = Model()
         app.state.generator.backend = "openai"
         app.state.generator.model = model
@@ -196,7 +197,7 @@ def test_incomplete_real_pronunciation_response_is_not_saved(tmp_path, monkeypat
 
     monkeypatch.setenv("LLM_BACKEND", "fake")
     monkeypatch.setenv("SPELL_DB_PATH", str(tmp_path / "test.sqlite"))
-    with TestClient(app) as client:
+    with authenticated_client(app) as client:
         app.state.generator.backend = "openai"
         app.state.generator.model = MissingPronunciation()
         result = client.post(

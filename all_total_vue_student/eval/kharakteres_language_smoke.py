@@ -1,5 +1,10 @@
 """Real selected-LLM + live dictionary + browser smoke, isolated from the user's lexicon.
 Run: .venv/bin/python eval/kharakteres_language_smoke.py (LLM_BACKEND=openai/ollama)
+
+
+Historical experiment: predates account-aware regression coverage. Review login
+handling before rerunning; old results do not certify the current full UI flow.
+For current fixed-data quantitative evaluation use kharakteres_benchmark.py.
 """
 
 import json
