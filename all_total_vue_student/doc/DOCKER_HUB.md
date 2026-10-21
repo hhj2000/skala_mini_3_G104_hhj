@@ -69,6 +69,8 @@ ngrok http 8101
 
 Forwarding에 표시된 HTTPS 주소를 공유하고 해당 주소에서 가입/로그인합니다. Docker Desktop의 Containers에서도 이 컨테이너를 관리할 수 있습니다. Docker/앱/ngrok은 계속 실행돼 있어야 합니다.
 
+Docker Desktop **ngrok Extension**의 Endpoints를 사용할 때는 위 포트 옵션을 `-p 0.0.0.0:8101:8100`으로 바꾸고 같은 볼륨으로 컨테이너를 재생성합니다. Extension의 Target Port는 호스트 포트 **8101**입니다. [CLI와 Extension의 연결 차이](NGROK_SHARING.md#docker-desktop-ngrok-extension으로-연결)를 참고하세요. 이 변경만으로는 이미지 재빌드/push가 필요하지 않습니다.
+
 ## 기존 컨테이너 중지와 시작
 
 ```bash

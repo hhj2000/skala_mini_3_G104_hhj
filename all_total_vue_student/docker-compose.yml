@@ -1,5 +1,6 @@
 # Apply code/UI changes: docker compose up --build -d (existing named volumes stay).
-# For public HTTPS, host ngrok targets DOCKER_PORT (default 8100); loopback binding is enough.
+# Host ngrok works with loopback; Desktop ngrok Extension needs DOCKER_BIND_ADDRESS=0.0.0.0.
+# Extension v1.0.0 forwards through the Docker gateway; see doc/NGROK_SHARING.md.
 # This source-build profile does not pull/push joonsdocker/kharakteres:latest; see doc/DOCKER_HUB.md.
 services:
   kharakteres:
@@ -22,7 +23,7 @@ services:
       REQUIRE_SESSION_SECRET: "1"
       KHARAKTERES_SESSION_SECRET: ${KHARAKTERES_SESSION_SECRET:?Set KHARAKTERES_SESSION_SECRET in .env}
     ports:
-      - "127.0.0.1:${DOCKER_PORT:-8100}:8100"
+      - "${DOCKER_BIND_ADDRESS:-127.0.0.1}:${DOCKER_PORT:-8100}:8100"
     volumes:
       - kharakteres_data:/app/data
       - fastembed_models:/models/fastembed

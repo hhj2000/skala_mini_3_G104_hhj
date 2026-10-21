@@ -65,6 +65,28 @@ https://ngrok이-표시한-호스트 → http://localhost:8100
 
 Hub 이미지를 호스트 8101로 실행했다면 `curl http://127.0.0.1:8101/health`와 `ngrok http 8101`을 사용합니다. 상세 pull·실행·볼륨·환경 설정은 [Docker Hub 안내](DOCKER_HUB.md)에 있습니다.
 
+## Docker Desktop ngrok Extension으로 연결
+
+호스트 터미널의 `ngrok http`와 Docker Desktop **Extensions → ngrok → Endpoints**는 연결 경로가 다릅니다. Extension v1.0.0은 Docker VM의 `172.17.0.1:<게시한 포트>`로 전달합니다([공식 구현](https://github.com/ngrok/ngrok-docker-extension/blob/main/backend/internal/manager/converge_endpoints.go)). 현재 환경에서 `127.0.0.1:8100`만 게시하면 CLI는 정상이어도 Extension 업스트림은 연결 거부됩니다.
+
+소스 Compose에서는 실제 `.env`에 다음을 설정합니다.
+
+```dotenv
+DOCKER_BIND_ADDRESS=0.0.0.0
+```
+
+```bash
+docker compose up -d --no-build kharakteres
+```
+
+이 설정은 게시한 포트에 LAN에서도 접근할 수 있도록 합니다(호스트 방화벽 설정에 따름). 호스트 CLI만 사용할 경우 기본값 `127.0.0.1`을 유지해도 됩니다. 바인딩 변경은 실행 설정이므로 이 문제 해결만을 위해 이미지를 재빌드하거나 Hub에 push할 필요는 없습니다.
+
+Extension에서 ngrok 인증을 별도로 설정하고, **현재 실행 중인 Kharakteres 컨테이너**와 **게시한 호스트 포트**를 선택해 Public Endpoint를 시작합니다. Compose 재생성 후 컨테이너 ID가 바뀌므로 이전 ID의 Endpoint는 제거하고 새 컨테이너로 등록합니다. 호스트 포트를 8101로 바꿨다면 Target Port도 8101입니다. CLI 터널이 같은 URL을 점유 중이면 먼저 해당 CLI 터널을 종료하고 Extension을 시작합니다. 단일 앱 공유에는 Endpoint Pooling이 필요하지 않습니다.
+
+Hub 이미지의 `docker run` 예시를 Extension과 함께 쓸 때는 `-p 127.0.0.1:8101:8100` 대신 `-p 0.0.0.0:8101:8100`을 사용해 **같은 데이터 볼륨으로 컨테이너를 재생성**합니다. `.env`의 `DOCKER_BIND_ADDRESS`만 바꿔도 수동 `docker run`의 `-p` 옵션은 자동 변경되지 않습니다. Desktop의 Run 화면에서는 Host port를 동일하게 지정합니다.
+
+Endpoint의 Online 표시는 ngrok 클라우드 연결 상태입니다. 실제 서비스까지 확인하려면 공용 HTTPS 주소의 `/health`와 첫 화면에 접속합니다. 중지된 Endpoint의 URL은 `ERR_NGROK_3200`이 나올 수 있고, Online 상태에서 업스트림 연결 거부가 나오면 포트 바인딩부터 확인합니다.
+
 ## 접속과 유지
 
 - 접속자는 공유한 HTTPS 주소에서 가입/로그인합니다. 계정별 주문 DB와 새 로그인 우선의 단일 세션 정책은 동일합니다. 여러 방문자가 하나의 서버/DB를 사용하는 구조이며, 각자 독립 서버를 실행한 경우 데이터는 공유되지 않습니다.
@@ -78,6 +100,7 @@ Hub 이미지를 호스트 8101로 실행했다면 `curl http://127.0.0.1:8101/h
 | 증상 | 확인 |
 |---|---|
 | ngrok 업스트림 연결 오류 | 같은 컴퓨터에서 해당 포트의 `/health`부터 확인. Docker 매핑 8101:8100이면 ngrok도 8101 |
+| CLI는 되지만 Desktop Extension은 실패 | [Extension 연결](#docker-desktop-ngrok-extension으로-연결)의 바인딩·게시 포트·현재 컨테이너 ID 확인 |
 | 로컬 주소는 되지만 공개 URL 실패 | ngrok 실행/인증 상태, Forwarding 주소, 네트워크 정책 확인 |
 | 화면은 열리지만 생성 실패 | `docker logs --tail=100 kharakteres-hub` 또는 로컬 서버 로그, 모델 키·할당량·Ollama 연결 확인 |
 | 로그인 반복/유지 실패 | HTTPS에서 로그인, Secure 쿠키 설정·접속 호스트·서명 키·데이터 볼륨·다른 기기의 새 로그인 확인 |
@@ -85,6 +108,8 @@ Hub 이미지를 호스트 8101로 실행했다면 `curl http://127.0.0.1:8101/h
 | SSE 단계가 늦게 나타남 | 모델 시작 지연과 터널/중간 프록시 버퍼링·제한을 구분. 실제 `/api/generate/stream` 수신 확인 |
 
 ## 확인한 범위
+
+2026-10-21 Extension 문제 점검: 바인딩 변경 전 호스트 `127.0.0.1:8100/health` 및 일반 bridge 컨테이너의 `host.docker.internal:8100/health`는 HTTP 200이었지만, Extension과 같은 host 네트워크에서 `172.17.0.1:8100/health`는 연결 거부였습니다. `DOCKER_BIND_ADDRESS=0.0.0.0` 적용과 앱 컨테이너 재생성 후 게이트웨이 경로도 HTTP 200으로 복구했습니다. 새 컨테이너 ID로 Extension Endpoint를 등록하고 오래된 Offline 항목을 제거했으며, Extension 공용 HTTPS 주소의 `/health`, `/`, `/api/auth/session` HTTP 200과 첫 화면 HTML을 직접 확인했습니다. 기존 named volume을 유지했고 실제 사용자 로그인·주문 생성·음성·SSE는 이 네트워크 점검에서 다시 실행하지 않았습니다. 이미지 재빌드나 Hub push는 하지 않았습니다.
 
 2026-10-21 사용자 보고: macOS 로컬호스트·Docker/Docker Desktop 실행과 ngrok 공용 URL 접속, 서비스 기능 정상 사용을 확인했습니다. 이는 사용자가 실행해 확인한 결과입니다. 이번 문서 갱신에서 에이전트가 그 URL을 직접 재접속하거나 SSE·실제 마이크·전 언어를 항목별로 독립 재측정한 것은 아닙니다. 공개 URL·인증 토큰·개인 계정 데이터는 문서에 기록하지 않습니다.
 
